@@ -3,15 +3,18 @@ name: Uji build MEX-NEX
 on:
   push:
     branches:
-      - import/core-app-20261030
+      - main
     paths:
-      - .github/workflows/uji-build.yml
-      - package.json
-      - package-lock.json
-      - src/**
-      - server/**
-      - next.config.ts
-      - public/office-assets/**
+      - 'app/**'
+      - 'scripts/**'
+      - 'package.json'
+      - 'package-lock.json'
+      - 'next.config.*'
+      - '.github/workflows/uji-build.yml'
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
 
 permissions:
   contents: read
@@ -21,11 +24,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-        with:
-          ref: import/core-app-20261030
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
           cache: npm
-      - run: npm ci
+      - run: npm install
       - run: npm run build

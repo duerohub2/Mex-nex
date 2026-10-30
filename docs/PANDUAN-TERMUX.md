@@ -1,12 +1,10 @@
 # Panduan Android / Termux
 
-## Status source aplikasi
+Panduan ini menjalankan MEX-NEX secara lokal di HP Android. Tidak diperlukan akun, registrasi, Vercel, atau layanan hosting.
 
-Repositori ini masih berupa kerangka awal. Source aplikasi utama (folder `app`, `server`, komponen kantor, aset, dan konfigurasi build) belum seluruhnya dipindahkan dari repositori asal. Karena itu, perintah menjalankan aplikasi di bawah baru bisa dipakai setelah proses pemindahan source selesai.
+## 1. Pasang Termux dan paket dasar
 
-## 1. Siapkan Termux
-
-Gunakan Termux dari F-Droid atau repositori GitHub resmi Termux. Jalankan:
+Gunakan Termux dari sumber resminya (F-Droid atau GitHub Termux), lalu jalankan:
 
 ```bash
 pkg update && pkg upgrade -y
@@ -17,43 +15,60 @@ npm -v
 
 Pastikan Node.js versi 20 atau lebih baru.
 
-## 2. Unduh MEX-NEX
+## 2. Unduh repository
 
 ```bash
 git clone https://github.com/duerohub2/mex-nex.git
 cd mex-nex
 ```
 
-## 3. Pasang dependency
+Jika folder repository sudah ada, masuk ke folder tersebut dan jalankan `git pull`.
 
-Setelah source aplikasi inti tersedia:
+## 3. Pasang dependency
 
 ```bash
 npm install
 ```
 
-## 4. Jalankan demo lokal
+Proses pertama dapat memerlukan waktu dan koneksi internet.
+
+## 4. Jalankan kantor
 
 ```bash
-npm run local:demo
+npm run local
 ```
 
-Buka browser Android: `http://127.0.0.1:3000`
+Tunggu sampai Next.js menampilkan pesan server siap. Buka browser Android:
 
-Gateway demo: `ws://127.0.0.1:18789`
+`http://127.0.0.1:3000`
 
-## 5. Hentikan aplikasi
+Biarkan Termux tetap berjalan selama aplikasi digunakan.
 
-Kembali ke Termux lalu tekan `Ctrl+C`.
+## 5. Menghentikan aplikasi
 
-## Batasan mode demo
+Kembali ke Termux dan tekan `Ctrl+C`.
 
-Mode demo hanya untuk memeriksa tampilan kantor, daftar agent, dan alur chat simulasi. Ini bukan AI lokal sungguhan, tidak menjalankan tool eksternal, dan data yang hanya disimpan di memori dapat hilang saat proses dihentikan.
+## 6. Data dan backup
 
-## Tahap pengembangan berikutnya
+Data kantor disimpan di:
 
-1. Pindahkan source kantor virtual dan dependensi yang benar-benar dibutuhkan.
-2. Audit alur chat dan gateway agar dapat berjalan lokal.
-3. Tambahkan penyimpanan permanen untuk konfigurasi dan riwayat chat.
-4. Uji build dan jalankan pada Termux Android.
-5. Integrasikan runtime/model AI lokal sebagai fitur terpisah.
+` .data/office.json `
+
+Folder `.data` tidak diunggah ke Git. Salin file tersebut secara berkala ke lokasi backup pribadi. Jangan membagikan file yang berisi percakapan atau data privat.
+
+## 7. Jika port 3000 sudah digunakan
+
+Jalankan dengan port alternatif:
+
+```bash
+PORT=3001 npm run local
+```
+
+Kemudian buka `http://127.0.0.1:3001`.
+
+## Catatan tahap awal
+
+- Tahap 1 menyediakan UI, API, dan penyimpanan lokal.
+- Instruksi yang dikirim lewat Command Center baru dicatat; belum diproses model AI.
+- Profil Agent dan departemen adalah data awal.
+- Runtime AI, delegasi otomatis, meeting, QA, dan kantor 2D/3D akan dibangun pada tahap berikutnya.

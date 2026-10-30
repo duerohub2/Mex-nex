@@ -1,54 +1,42 @@
 #!/usr/bin/env node
 import { spawn } from "node:child_process";
+import { createServer } from "node:net";
 
-const children = [];
-let stopping = false;
+const host = process.env.HOST || "127.0.0.1";
+const port = Number(process.env.PORT || 3000);
 
-function launch(label, args) {
-  const child = spawn(process.execPath, args, {
-    stdio: "inherit",
-    env: {
-      ...process.env,
-      HOST: process.env.HOST || "127.0.0.1",
-      PORT: process.env.PORT || "3000",
-      DEMO_ADAPTER_PORT: process.env.DEMO_ADAPTER_PORT || "18789"
-    }
-  });
-  children.push(child);
-  child.on("error", (error) => {
-    console.error(`[${label}] Não foi possível iniciar: ${error.message}`);
-    shutdown(1);
-  });
-  child.on("exit", (code) => {
-    if (!stopping && code !== 0) {
-      console.error(`[${label}] Encerrou com código ${code ?? "desconhecido"}.`);
-      shutdown(code || 1);
-    }
+function checkPort() {
+  return new Promise((resolve, reject) => {
+    const server = createServer();
+    server.once("error", reject);
+    server.listen(port, host, () => server.close(resolve));
   });
 }
 
-function shutdown(code = 0) {
-  if (stopping) return;
-  stopping = true;
-  for (const child of children) {
-    if (child.exitCode === null && !child.killed) child.kill("SIGTERM");
-  }
-  const forceStop = setTimeout(() => {
-    for (const child of children) {
-      if (child.exitCode === null) child.kill("SIGKILL");
-    }
-    process.exit(code);
-  }, 1500);
-  forceStop.unref();
+try {
+  await checkPort();
+} catch {
+  console.error("Port " + port + " sedang digunakan. Ubah PORT atau hentikan proses yang memakainya.");
+  process.exit(1);
 }
 
-process.on("SIGINT", () => shutdown(0));
-process.on("SIGTERM", () => shutdown(0));
+console.log("\nMEX-NEX — KANTOR AI LOKAL");
+console.log("Buka browser: http://" + host + ":" + port);
+console.log("Data lokal  : " + (process.env.MEX_NEX_DATA_DIR || ".data"));
+console.log("Hentikan    : Ctrl+C\n");
 
-console.log("\nMEX-NEX — MODE DEMO LOKAL");
-console.log("Gateway demo : ws://127.0.0.1:18789");
-console.log("Aplikasi web : http://127.0.0.1:3000");
-console.log("Hentikan dengan Ctrl+C.\n");
+const child = spawn("npm", ["run", "dev"], {
+  stdio: "inherit",
+  env: { ...process.env, HOST: host, PORT: String(port) }
+});
 
-launch("Gateway Demo", ["server/demo-gateway-adapter.js"]);
-launch("Aplikasi Web", ["server/index.js", "--dev"]);
+const stop = () => {
+  if (!child.killed) child.kill("SIGTERM");
+};
+process.on("SIGINT", stop);
+process.on("SIGTERM", stop);
+child.on("exit", code => process.exit(code ?? 0));
+child.on("error", error => {
+  console.error("Gagal menjalankan Next.js:", error.message);
+  process.exit(1);
+});

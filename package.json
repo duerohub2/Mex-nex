@@ -1,15 +1,17 @@
 {
-  "name": "mex-nex-local",
-  "version": "0.1.0",
+  "name": "mex-nex",
+  "version": "0.2.0",
   "private": true,
-  "description": "Kantor virtual AI agent lokal untuk Android dan Termux",
+  "description": "Kantor virtual AI Agent lokal untuk Android dan Termux",
   "license": "MIT",
+  "engines": {
+    "node": ">=20"
+  },
   "scripts": {
-    "dev": "node server/index.js --dev",
+    "dev": "next dev --hostname 127.0.0.1",
     "build": "next build",
-    "start": "node server/index.js",
-    "demo-gateway": "node server/demo-gateway-adapter.js",
-    "local:demo": "node scripts/start-local.mjs"
+    "start": "next start --hostname 127.0.0.1",
+    "local": "node scripts/start-local.mjs"
   },
   "dependencies": {
     "@noble/ed25519": "^3.0.0",
@@ -42,6 +44,5 @@
     "eslint-config-next": "16.1.6",
     "tailwindcss": "^4",
     "typescript": "^5"
-  },
-  "engines": { "node": ">=20" }
+  }
 }
