@@ -7,7 +7,8 @@ const navItems = [
   ["agents", "AI Agents", "◉"],
   ["tasks", "Tugas", "✓"],
   ["chat", "Chat", "▤"],
-  ["departments", "Departemen", "⌂"],\n  ["runtime", "AI Runtime", "✧"],
+  ["departments", "Departemen", "⌂"],
+  ["runtime", "AI Runtime", "✧"],
   ["execution", "Eksekusi Agent", "⚙"],
 ];
 
@@ -25,7 +26,14 @@ export default function Home() {
   const [showDepartmentForm, setShowDepartmentForm] = useState(false);
   const [busy, setBusy] = useState(false);
   const [notice, setNotice] = useState("");
-  const [error, setError] = useState("");\n  const [runtimeInfo, setRuntimeInfo] = useState(null);\n  const [runtimeAgent, setRuntimeAgent] = useState("");\n  const [runtimeMessage, setRuntimeMessage] = useState("");\n  const [runtimeMode, setRuntimeMode] = useState("chat");\n  const [conversationId, setConversationId] = useState("");\n  const [runtimeMessages, setRuntimeMessages] = useState([]);\n  const [dispatchRun, setDispatchRun] = useState(null);
+  const [error, setError] = useState("");
+  const [runtimeInfo, setRuntimeInfo] = useState(null);
+  const [runtimeAgent, setRuntimeAgent] = useState("");
+  const [runtimeMessage, setRuntimeMessage] = useState("");
+  const [runtimeMode, setRuntimeMode] = useState("chat");
+  const [conversationId, setConversationId] = useState("");
+  const [runtimeMessages, setRuntimeMessages] = useState([]);
+  const [dispatchRun, setDispatchRun] = useState(null);
   const [executionInfo, setExecutionInfo] = useState({tools:[],jobs:[],audit:[]});
   const [executionTool, setExecutionTool] = useState("workspace.list");
   const [executionPath, setExecutionPath] = useState(".");
