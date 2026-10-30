@@ -10,8 +10,12 @@ on:
       - package-lock.json
       - src/**
       - server/**
+      - assets/**
+      - plugins/**
+      - tests/**
       - next.config.ts
       - public/office-assets/**
+  workflow_dispatch:
 
 permissions:
   contents: read
