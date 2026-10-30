@@ -1,0 +1,47 @@
+{
+  "name": "mex-nex-local",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Kantor virtual AI agent lokal untuk Android dan Termux",
+  "license": "MIT",
+  "scripts": {
+    "dev": "node server/index.js --dev",
+    "build": "next build",
+    "start": "node server/index.js",
+    "demo-gateway": "node server/demo-gateway-adapter.js",
+    "local:demo": "node scripts/start-local.mjs"
+  },
+  "dependencies": {
+    "@noble/ed25519": "^3.0.0",
+    "@react-three/drei": "^10.7.8",
+    "@react-three/fiber": "^9.7.0",
+    "@react-three/postprocessing": "^3.0.5",
+    "canvas-confetti": "^1.9.4",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "lucide-react": "^0.563.0",
+    "next": "16.1.7",
+    "phaser": "^3.90.0",
+    "react": "19.2.3",
+    "react-dom": "19.2.3",
+    "react-markdown": "^10.1.0",
+    "react-mentions-ts": "^5.4.7",
+    "remark-gfm": "^4.0.1",
+    "tailwind-merge": "^3.4.0",
+    "three": "^0.185.1",
+    "ws": "^8.18.3"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "@types/three": "^0.185.0",
+    "@types/ws": "^8.18.1",
+    "eslint": "^9",
+    "eslint-config-next": "16.1.6",
+    "tailwindcss": "^4",
+    "typescript": "^5"
+  },
+  "engines": { "node": ">=20" }
+}
