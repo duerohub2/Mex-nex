@@ -136,10 +136,10 @@ export async function POST(request) {
       const system = [
         agentPrompt(agent),
         "Kamu bekerja dalam workspace terbatas MEX-NEX. Kamu boleh memakai tool berikut untuk menyelesaikan tugas.",
-        "Panggil maksimal 5 tool secara berurutan. Balas dengan HANYA JSON: {\\"tool\\":\\"nama.tool\\",\\"arguments\\":{...}} untuk pemanggilan tool, atau {\\"final\\":\\"jawaban akhir\\"} jika selesai.",
+        "Panggil maksimal 5 tool secara berurutan. Balas dengan HANYA JSON: {\"tool\":\"nama.tool\",\"arguments\":{...}} untuk pemanggilan tool, atau {\"final\":\"jawaban akhir\"} jika selesai.",
         "Tool yang tersedia: " + JSON.stringify(allowedTools),
         "Jangan mengarang hasil tool. Jangan mencoba akses path di luar workspace."
-      ].join("\\n");
+      ].join("\n");
       const transcript = [{ role: "system", content: system }, { role: "user", content: userText }];
       const toolResults = [];
       let answer = "";
@@ -147,14 +147,14 @@ export async function POST(request) {
         const output = await callModel(transcript, config);
         let instruction;
         try {
-          const raw=output.replace(/^\\s*```(?:json)?/i,"").replace(/```\\s*$/i,"").trim();
+          const raw=output.replace(/^\s*```(?:json)?/i,"").replace(/```\s*$/i,"").trim();
           instruction=JSON.parse(raw.slice(raw.indexOf("{"),raw.lastIndexOf("}")+1));
         } catch { answer=output; break; }
         if (typeof instruction.final === "string") { answer=instruction.final; break; }
         if (typeof instruction.tool !== "string" || !allowedTools.some(tool=>tool.name===instruction.tool)) throw new Error("Agent meminta tool yang tidak tersedia. Eksekusi dihentikan.");
         const result=await executeTool(instruction.tool,instruction.arguments||{});
         toolResults.push({tool:instruction.tool,result});
-        transcript.push({role:"assistant",content:output},{role:"user",content:"Hasil tool "+instruction.tool+": "+JSON.stringify(result)+"\\nLanjutkan pekerjaan. Jika sudah selesai, berikan JSON {\\"final\\":\\"...\\"}."});
+        transcript.push({role:"assistant",content:output},{role:"user",content:"Hasil tool "+instruction.tool+": "+JSON.stringify(result)+"\nLanjutkan pekerjaan. Jika sudah selesai, berikan JSON {\"final\":\"...\"}."});
         if(step===5) answer="Batas lima pemanggilan tool tercapai. Hasil tool: "+JSON.stringify(toolResults);
       }
       if(!answer) answer="Agent menyelesaikan pemanggilan tool.";
