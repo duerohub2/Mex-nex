@@ -22,10 +22,11 @@ jobs:
       - name: Ambil source aplikasi asal
         run: |
           git clone --depth 1 https://github.com/duerohub2/Nex-Mex.git /tmp/nex-mex-asal
-          cp -a /tmp/nex-mex-asal/src ./src
-          cp -a /tmp/nex-mex-asal/server ./server
-          mkdir -p public
-          cp -a /tmp/nex-mex-asal/public/office-assets ./public/office-assets
+          rm -rf src server public/office-assets
+          mkdir -p src server public
+          cp -a /tmp/nex-mex-asal/src/. ./src/
+          cp -a /tmp/nex-mex-asal/server/. ./server/
+          cp -a /tmp/nex-mex-asal/public/office-assets/. ./public/office-assets/
           cp /tmp/nex-mex-asal/next.config.ts ./next.config.ts
           cp /tmp/nex-mex-asal/postcss.config.mjs ./postcss.config.mjs
           cp /tmp/nex-mex-asal/tsconfig.json ./tsconfig.json
@@ -33,18 +34,15 @@ jobs:
           cp /tmp/nex-mex-asal/eslint.config.mjs ./eslint.config.mjs
           cp /tmp/nex-mex-asal/package.json ./package.json
           cp /tmp/nex-mex-asal/package-lock.json ./package-lock.json
+          mkdir -p scripts
           cp /tmp/nex-mex-asal/scripts/start-local.mjs ./scripts/start-local.mjs
-          node -e "const fs=require('fs'); const p=JSON.parse(fs.readFileSync('package.json','utf8')); p.name='mex-nex-local'; p.description='Kantor virtual AI agent lokal untuk Android dan Termux'; p.scripts={...p.scripts,'local:demo':'node scripts/start-local.mjs'}; fs.writeFileSync('package.json',JSON.stringify(p,null,2)+'\n')"
+          node -e "const fs=require('fs'); const p=JSON.parse(fs.readFileSync('package.json','utf8')); p.name='mex-nex-local'; p.description='Kantor virtual AI agent lokal untuk Android dan Termux'; p.scripts={...p.scripts,'local:demo':'node scripts/start-local.mjs'}; fs.writeFileSync('package.json',JSON.stringify(p,null,2)+'\\n')"
           npm install --package-lock-only --ignore-scripts
 
       - name: Simpan source hasil impor
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add src server public/office-assets next.config.ts postcss.config.mjs tsconfig.json components.json eslint.config.mjs package.json package-lock.json scripts/start-local.mjs
-          git commit -m "Impor source kantor virtual dan gateway lokal" || echo "Tidak ada perubahan untuk disimpan"
+          git add -A src server public/office-assets next.config.ts postcss.config.mjs tsconfig.json components.json eslint.config.mjs package.json package-lock.json scripts/start-local.mjs
+          git commit -m "Rapikan impor source aplikasi MEX-NEX" || echo "Tidak ada perubahan untuk disimpan"
           git push origin HEAD:import/core-app-20261030
-
-# Pemicu impor source aplikasi inti.
-
-# Percobaan impor ulang setelah sinkronisasi branch.
