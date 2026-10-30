@@ -1,12 +1,10 @@
-# Panduan Android / Termux
+# Panduan menjalankan MEX-NEX di Android / Termux
 
-## Status source aplikasi
-
-Repositori ini masih berupa kerangka awal. Source aplikasi utama (folder `app`, `server`, komponen kantor, aset, dan konfigurasi build) belum seluruhnya dipindahkan dari repositori asal. Karena itu, perintah menjalankan aplikasi di bawah baru bisa dipakai setelah proses pemindahan source selesai.
+> Panduan ini disiapkan untuk Android. Build CI dapat memeriksa source, tetapi belum berarti aplikasi telah diuji langsung di perangkat Termux.
 
 ## 1. Siapkan Termux
 
-Gunakan Termux dari F-Droid atau repositori GitHub resmi Termux. Jalankan:
+Gunakan Termux versi terbaru dari sumber resminya. Jalankan:
 
 ```bash
 pkg update && pkg upgrade -y
@@ -15,45 +13,55 @@ node -v
 npm -v
 ```
 
-Pastikan Node.js versi 20 atau lebih baru.
+Pastikan Node.js **22 atau lebih baru**. Jika paket `nodejs-lts` di repositori Termux belum menyediakan versi 22, gunakan distribusi Node.js 22 yang kompatibel dengan perangkat sebelum melanjutkan.
 
-## 2. Unduh MEX-NEX
+## 2. Clone repositori
 
 ```bash
-git clone https://github.com/duerohub2/mex-nex.git
-cd mex-nex
+git clone https://github.com/duerohub2/Mex-nex.git
+cd Mex-nex
 ```
 
 ## 3. Pasang dependency
 
-Setelah source aplikasi inti tersedia:
-
 ```bash
-npm install
+npm ci
 ```
 
-## 4. Jalankan demo lokal
+Instalasi dependency dan proses build dapat memerlukan ruang penyimpanan serta RAM yang cukup. Jika proses dihentikan Android karena keterbatasan memori, tutup aplikasi lain dan coba kembali.
+
+## 4. Jalankan aplikasi
+
+Mode pengembangan web:
+
+```bash
+npm run dev
+```
+
+Atau jalankan web bersama gateway demo:
 
 ```bash
 npm run local:demo
 ```
 
-Buka browser Android: `http://127.0.0.1:3000`
+Buka browser Android dan kunjungi:
 
-Gateway demo: `ws://127.0.0.1:18789`
+- Web: http://127.0.0.1:3000
+- Gateway demo: ws://127.0.0.1:18789
 
-## 5. Hentikan aplikasi
+Untuk menghentikan proses, kembali ke Termux lalu tekan `Ctrl+C`.
 
-Kembali ke Termux lalu tekan `Ctrl+C`.
+## 5. Batasan mode demo
 
-## Batasan mode demo
+Gateway demo hanya mensimulasikan agent, status, dan percakapan. Mode ini tidak menjalankan model bahasa lokal, bukan runtime Hermes Agent, dan tidak mengeksekusi tool eksternal sungguhan. Jangan memasukkan API key atau data rahasia ke mode demo.
 
-Mode demo hanya untuk memeriksa tampilan kantor, daftar agent, dan alur chat simulasi. Ini bukan AI lokal sungguhan, tidak menjalankan tool eksternal, dan data yang hanya disimpan di memori dapat hilang saat proses dihentikan.
+## 6. Troubleshooting singkat
 
-## Tahap pengembangan berikutnya
+- Periksa versi: `node -v` harus menunjukkan v22 atau lebih baru.
+- Jika dependency gagal dipasang, jalankan `pkg update && pkg upgrade -y`, pastikan ruang kosong cukup, lalu ulangi `npm ci`.
+- Jika port 3000 atau 18789 sudah dipakai, hentikan proses lama sebelum menjalankan ulang.
+- Jika browser tidak dapat membuka halaman, pastikan proses server masih berjalan di Termux dan gunakan alamat loopback di atas.
 
-1. Pindahkan source kantor virtual dan dependensi yang benar-benar dibutuhkan.
-2. Audit alur chat dan gateway agar dapat berjalan lokal.
-3. Tambahkan penyimpanan permanen untuk konfigurasi dan riwayat chat.
-4. Uji build dan jalankan pada Termux Android.
-5. Integrasikan runtime/model AI lokal sebagai fitur terpisah.
+## 7. Yang belum diverifikasi
+
+Pengujian pada Android/Termux fisik belum dilakukan. Performa rendering 3D, dukungan WebGL browser, kompatibilitas paket native, dan kestabilan saat aplikasi berjalan di latar belakang masih perlu diuji di perangkat nyata.
