@@ -22,11 +22,18 @@ jobs:
       - name: Ambil source aplikasi asal
         run: |
           git clone --depth 1 https://github.com/duerohub2/Nex-Mex.git /tmp/nex-mex-asal
-          rm -rf src server public/office-assets
-          mkdir -p src server public
+          rm -rf src server public/office-assets assets plugins tests docs/upstream
+          mkdir -p src server public/office-assets assets plugins tests docs/upstream
           cp -a /tmp/nex-mex-asal/src/. ./src/
           cp -a /tmp/nex-mex-asal/server/. ./server/
           cp -a /tmp/nex-mex-asal/public/office-assets/. ./public/office-assets/
+          cp -a /tmp/nex-mex-asal/assets/. ./assets/
+          cp -a /tmp/nex-mex-asal/plugins/. ./plugins/
+          cp -a /tmp/nex-mex-asal/tests/. ./tests/
+          cp -a /tmp/nex-mex-asal/docs/. ./docs/upstream/
+          for file in .dockerignore .env.example .gitignore AGENTS.md ARCHITECTURE.md CHANGELOG.md CODE_DOCUMENTATION.md CODE_OF_CONDUCT.MD CONTRIBUTING.md CREATING_SKILLS.md Dockerfile LICENSE MULTI_AGENT_BETA.md ROADMAP.md SECURITY.md SECURITY_HARDENING.md SUPPORT.md TUTORIAL.md VISION.md skills-overview.md playwright.config.ts playwright.kanban.config.ts vitest.config.ts; do
+            if [ -f "/tmp/nex-mex-asal/$file" ]; then cp "/tmp/nex-mex-asal/$file" "./$file"; fi
+          done
           cp /tmp/nex-mex-asal/next.config.ts ./next.config.ts
           cp /tmp/nex-mex-asal/postcss.config.mjs ./postcss.config.mjs
           cp /tmp/nex-mex-asal/tsconfig.json ./tsconfig.json
@@ -43,6 +50,6 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add -A src server public/office-assets next.config.ts postcss.config.mjs tsconfig.json components.json eslint.config.mjs package.json package-lock.json scripts/start-local.mjs
-          git commit -m "Rapikan impor source aplikasi MEX-NEX" || echo "Tidak ada perubahan untuk disimpan"
+          git add -A
+          git commit -m "Impor seluruh source, aset, plugin, dan pengujian NEX-MEX" || echo "Tidak ada perubahan untuk disimpan"
           git push origin HEAD:import/core-app-20261030
