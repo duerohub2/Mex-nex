@@ -95,3 +95,12 @@ button{cursor:pointer}
 .footer{display:flex;justify-content:space-between;color:#9aa3b1;font:9px "DM Mono",monospace;padding:20px 3px 0}
 @media(max-width:1050px){.shell{grid-template-columns:210px 1fr}.stats-grid{grid-template-columns:repeat(2,1fr)}.department-grid{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:760px){.shell{display:block}.sidebar{min-height:auto;padding:14px 14px 10px}.brand{padding:0 4px 14px}.sidebar nav{display:flex;overflow-x:auto;gap:5px}.nav-item{height:39px;padding:0 10px;white-space:nowrap;font-size:11px}.nav-icon{display:none}.sidebar-bottom{display:none}.workspace-label{display:none}.main-area{padding:20px 14px}.topbar{margin-bottom:17px}.topbar h1{font-size:21px}.top-status{font-size:9px;padding:8px}.welcome{padding:24px 22px;min-height:205px}.welcome-art{width:110px;opacity:.65}.art-window{right:0;width:95px;height:125px}.art-window b{font-size:20px;margin-top:28px}.orb-one{right:35px}.orb-two{right:-20px}.content-grid{grid-template-columns:1fr}.stats-grid{gap:9px}.stat-card{padding:14px}.stat-card strong{font-size:23px}.panel{padding:17px}.agent-grid,.department-grid{grid-template-columns:1fr}.footer{font-size:8px;gap:12px}.task-form,.chat-form{flex-direction:column}.task-form button,.chat-form button{height:42px}}
+
+.primary-button,.entity-form button{border:0;border-radius:9px;background:#5368e8;color:#fff;padding:10px 14px;font-size:11px;font-weight:700}
+.entity-form{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:16px;background:#f7f8fc;border:1px solid var(--line);border-radius:12px;margin-bottom:18px}
+.entity-form input,.entity-form select,.entity-form textarea,.task-form select{min-width:0;border:1px solid var(--line);border-radius:9px;background:#fff;padding:11px 12px;font:11px Manrope,Arial,sans-serif;color:var(--ink)}
+.entity-form textarea{grid-column:1/-1;min-height:65px;resize:vertical}
+.entity-form button{justify-self:start}
+.task-form select{max-width:230px}
+.status-select{margin-left:auto;border:1px solid var(--line);border-radius:8px;padding:7px 8px;background:#fff;color:#58647a;font-size:10px}
+@media(max-width:760px){.entity-form{grid-template-columns:1fr}.entity-form textarea{grid-column:auto}.task-form select{max-width:none}}

@@ -4,7 +4,7 @@ MEX-NEX adalah fondasi kantor virtual AI Agent yang dijalankan secara lokal mela
 
 ## Status pembangunan
 
-**Tahap 1 — Fondasi aplikasi**
+**Tahap 1 — Fondasi aplikasi (selesai)**
 
 - [x] Aplikasi web lokal tanpa login.
 - [x] Backend API lokal.
@@ -14,7 +14,7 @@ MEX-NEX adalah fondasi kantor virtual AI Agent yang dijalankan secara lokal mela
 - [x] Task Manager dasar.
 - [x] Launcher terminal untuk Termux.
 - [ ] Integrasi runtime AI (tahap berikutnya).
-- [ ] Orkestrasi dan delegasi Agent.
+- [x] Struktur organisasi, pembuatan Agent, dan delegasi tugas dasar (Tahap 2).
 - [ ] Visualisasi kantor 2D/3D.
 
 ## Menjalankan di Android / Termux
