@@ -11,20 +11,21 @@ function launch(label, args) {
       ...process.env,
       HOST: process.env.HOST || "127.0.0.1",
       PORT: process.env.PORT || "3000",
-      DEMO_ADAPTER_PORT: process.env.DEMO_ADAPTER_PORT || "18789"
-    }
+      DEMO_ADAPTER_PORT: process.env.DEMO_ADAPTER_PORT || "18789",
+    },
   });
   children.push(child);
   child.on("error", (error) => {
-    console.error(`[${label}] Não foi possível iniciar: ${error.message}`);
+    console.error(`[${label}] Gagal dijalankan:`, error.message);
     shutdown(1);
   });
   child.on("exit", (code) => {
     if (!stopping && code !== 0) {
-      console.error(`[${label}] Encerrou com código ${code ?? "desconhecido"}.`);
+      console.error(`[${label}] Berhenti dengan kode ${code ?? "tidak diketahui"}.`);
       shutdown(code || 1);
     }
   });
+  return child;
 }
 
 function shutdown(code = 0) {
@@ -45,10 +46,10 @@ function shutdown(code = 0) {
 process.on("SIGINT", () => shutdown(0));
 process.on("SIGTERM", () => shutdown(0));
 
-console.log("\nMEX-NEX — MODE DEMO LOKAL");
+console.log("\nNEX-MEX LOCAL — MODE DEMO");
 console.log("Gateway demo : ws://127.0.0.1:18789");
-console.log("Aplikasi web : http://127.0.0.1:3000");
-console.log("Hentikan dengan Ctrl+C.\n");
+console.log("Kantor       : http://127.0.0.1:3000");
+console.log("Tekan Ctrl+C untuk menghentikan kedua proses.\n");
 
-launch("Gateway Demo", ["server/demo-gateway-adapter.js"]);
-launch("Aplikasi Web", ["server/index.js", "--dev"]);
+launch("Demo Gateway", ["server/demo-gateway-adapter.js"]);
+launch("NEX-MEX Web", ["server/index.js", "--dev"]);
