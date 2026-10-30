@@ -13,7 +13,7 @@ MEX-NEX adalah fondasi kantor virtual AI Agent yang dijalankan secara lokal mela
 - [x] Pencatatan instruksi melalui Command Center (belum menjalankan AI).
 - [x] Task Manager dasar.
 - [x] Launcher terminal untuk Termux.
-- [ ] Integrasi runtime AI (tahap berikutnya).
+- [x] Lapisan runtime AI multi-provider dan chat Agent (Tahap 3).\n- [x] AI Manager membuat rencana dan mendelegasikan respons ke Agent (Tahap 3).
 - [x] Struktur organisasi, pembuatan Agent, dan delegasi tugas dasar (Tahap 2).
 - [ ] Visualisasi kantor 2D/3D.
 
@@ -55,12 +55,12 @@ Salin `.env.example` menjadi `.env.local` jika ingin mengubah konfigurasi. Janga
 
 ## Status AI
 
-Pada Tahap 1, Command Center menyimpan instruksi secara lokal. Belum ada model AI yang dipanggil dan belum ada Agent yang benar-benar mengeksekusi pekerjaan. Integrasi Hermes, model lokal, dan provider eksternal akan dikerjakan melalui lapisan runtime tersendiri.
+Tahap 3 menyediakan chat model melalui Hermes-compatible, model lokal, atau provider eksternal yang mendukung endpoint OpenAI-compatible. AI Manager dapat membagi instruksi menjadi pekerjaan Agent dan mengumpulkan respons. Untuk mengaktifkannya, salin `.env.example` ke `.env.local`, isi provider, endpoint, model, dan API key yang sesuai. Agent belum diberi akses shell/browser/file atau tindakan eksternal.
 
 ## Dokumentasi
 
 - [Panduan Termux](docs/PANDUAN-TERMUX.md)
-- [Arsitektur Tahap 1](docs/ARSITEKTUR-TAHAP-1.md)
+- [Arsitektur Tahap 1](docs/ARSITEKTUR-TAHAP-1.md)\n- [Panduan AI Runtime Tahap 3](docs/TAHAP-3-AI-RUNTIME.md)
 
 ## Referensi fitur
 

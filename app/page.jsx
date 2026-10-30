@@ -7,7 +7,7 @@ const navItems = [
   ["agents", "AI Agents", "◉"],
   ["tasks", "Tugas", "✓"],
   ["chat", "Chat", "▤"],
-  ["departments", "Departemen", "⌂"],
+  ["departments", "Departemen", "⌂"],\n  ["runtime", "AI Runtime", "✧"],
 ];
 
 const emptyAgent = { name: "", role: "", departmentId: "", managerId: "", description: "" };
@@ -24,7 +24,7 @@ export default function Home() {
   const [showDepartmentForm, setShowDepartmentForm] = useState(false);
   const [busy, setBusy] = useState(false);
   const [notice, setNotice] = useState("");
-  const [error, setError] = useState("");
+  const [error, setError] = useState("");\n  const [runtimeInfo, setRuntimeInfo] = useState(null);\n  const [runtimeAgent, setRuntimeAgent] = useState("");\n  const [runtimeMessage, setRuntimeMessage] = useState("");\n  const [runtimeMode, setRuntimeMode] = useState("chat");\n  const [conversationId, setConversationId] = useState("");\n  const [runtimeMessages, setRuntimeMessages] = useState([]);\n  const [dispatchRun, setDispatchRun] = useState(null);
 
   const refresh = useCallback(async () => {
     try {
@@ -35,7 +35,7 @@ export default function Home() {
     } catch (err) { setError(err.message || "Koneksi ke server lokal gagal."); }
   }, []);
 
-  useEffect(() => { refresh(); }, [refresh]);
+  useEffect(() => { refresh(); fetch("/api/ai").then(r=>r.json()).then(data=>{setRuntimeInfo(data.runtime);if(data.agents?.length)setRuntimeAgent(data.agents[0].id);}).catch(()=>{}); }, [refresh]);
 
   async function submit(action, value) {
     setBusy(true); setNotice(""); setError("");
@@ -48,7 +48,7 @@ export default function Home() {
       if (!response.ok) throw new Error(result.error || "Permintaan gagal.");
       setOffice(result);
       const labels = {
-        message: "Instruksi tersimpan. Runtime AI akan dihubungkan pada tahap integrasi AI.",
+        message: "Instruksi tersimpan. Runtime AI tersedia di menu AI Runtime.",
         "add-task": "Tugas berhasil dibuat.",
         "create-agent": "AI Agent berhasil ditambahkan ke organisasi.",
         "create-department": "Departemen berhasil dibuat.",
@@ -76,7 +76,7 @@ export default function Home() {
         <div className="brand"><div className="brand-mark">M</div><div><strong>MEX-NEX</strong><span>AI VIRTUAL OFFICE</span></div></div>
         <div className="workspace-label">WORKSPACE</div>
         <nav>{navItems.map(([id, label, icon]) => <button key={id} className={active === id ? "nav-item selected" : "nav-item"} onClick={() => setActive(id)}><span className="nav-icon">{icon}</span>{label}{id === "tasks" && tasks.length > 0 && <small>{tasks.length}</small>}</button>)}</nav>
-        <div className="sidebar-bottom"><div className="local-indicator"><i /> SERVER LOKAL AKTIF</div><p>Mode pribadi · Tanpa login</p><p className="version">MEX-NEX · Tahap 2</p></div>
+        <div className="sidebar-bottom"><div className="local-indicator"><i /> SERVER LOKAL AKTIF</div><p>Mode pribadi · Tanpa login</p><p className="version">MEX-NEX · Tahap 3</p></div>
       </aside>
       <section className="main-area">
         <header className="topbar"><div><span className="eyebrow">RUANG KERJA PRIBADI</span><h1>{navItems.find(x => x[0] === active)?.[1] || "Ikhtisar"}</h1></div><div className="top-status"><span className="status-dot" /> Lokal · 127.0.0.1</div></header>
@@ -102,7 +102,7 @@ export default function Home() {
           {showDepartmentForm && <form className="entity-form" onSubmit={e=>{e.preventDefault();submit("create-department",departmentForm);}}><input required placeholder="Nama departemen" value={departmentForm.name} onChange={e=>setDepartmentForm({...departmentForm,name:e.target.value})}/><textarea placeholder="Fungsi dan tanggung jawab departemen" value={departmentForm.description} onChange={e=>setDepartmentForm({...departmentForm,description:e.target.value})}/><button disabled={busy}>Simpan Departemen</button></form>}
           <div className="department-grid">{departments.map(dep=><div className="department-card" key={dep.id}><div className="department-icon">{dep.icon}</div><h4>{dep.name}</h4><p>{dep.description}</p><span>{agents.filter(a=>a.departmentId===dep.id).length} Agent</span></div>)}</div>
         </section>}
-        <footer className="footer"><span>MEX-NEX · Kantor AI lokal</span><span>Data disimpan di perangkat ini</span></footer>
+        {active === "runtime" && <section className="panel page-panel"><div className="panel-heading"><div><span className="eyebrow">MESIN KECERDASAN</span><h3>AI Runtime & Agent Console</h3></div><span className={runtimeInfo?.configured ? "runtime-pill ready" : "runtime-pill"}>{runtimeInfo?.configured ? "Runtime siap" : "Belum dikonfigurasi"}</span></div><div className="runtime-config"><div><small>PROVIDER AKTIF</small><strong>{runtimeInfo?.label || "Memeriksa..."}</strong><p>{runtimeInfo?.message || "Memeriksa konfigurasi runtime."}</p></div><button className="text-button" onClick={()=>fetch("/api/ai").then(r=>r.json()).then(d=>setRuntimeInfo(d.runtime))}>Periksa koneksi ↻</button></div><div className="runtime-setup"><b>Konfigurasi melalui .env.local</b><p>Atur AI_PROVIDER dan endpoint OpenAI-compatible di terminal. API key hanya disimpan di server lokal, tidak di browser.</p><code>AI_PROVIDER=hermes</code><code>HERMES_BASE_URL=http://127.0.0.1:PORT</code><code>HERMES_MODEL=nama-model</code><p>Endpoint yang dipakai: <code>/v1/chat/completions</code>. Model lokal (mis. Ollama dengan endpoint kompatibel) dan provider eksternal juga didukung.</p></div><div className="runtime-controls"><label>MODE KERJA<select value={runtimeMode} onChange={e=>setRuntimeMode(e.target.value)}><option value="chat">Chat pribadi dengan Agent</option><option value="dispatch">AI Manager — delegasi otomatis</option></select></label>{runtimeMode==="chat"&&<label>PILIH AGENT<select value={runtimeAgent} onChange={e=>setRuntimeAgent(e.target.value)}>{agents.map(a=><option key={a.id} value={a.id}>{a.name} · {a.role}</option>)}</select></label>}</div>{runtimeMode==="chat"&&<div className="runtime-chat-log">{runtimeMessages.length===0?<div className="empty-state">Pilih Agent dan kirim pesan untuk memulai percakapan.</div>:runtimeMessages.map((m,i)=><div className={m.role==="user"?"runtime-bubble user":"runtime-bubble"} key={i}><b>{m.role==="user"?"Kamu":m.agentName||"AI Agent"}</b><p>{m.content}</p></div>)}</div>}{dispatchRun&&runtimeMode==="dispatch"&&<div className="dispatch-results"><h4>{dispatchRun.summary}</h4>{dispatchRun.tasks.map(task=><div className="dispatch-task" key={task.id}><b>{task.agentName} — {task.title}</b><p>{task.answer}</p></div>)}</div>}<form className="runtime-send" onSubmit={async e=>{e.preventDefault();if(!runtimeMessage.trim())return;const text=runtimeMessage.trim();setRuntimeMessage("");setBusy(true);setError("");try{const response=await fetch("/api/ai",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({action:runtimeMode,agentId:runtimeAgent,conversationId,message:text})});const data=await response.json();if(!response.ok)throw new Error(data.error||"Runtime gagal.");if(runtimeMode==="chat"){setConversationId(data.conversationId);setRuntimeMessages(old=>[...old,{role:"user",content:text},{role:"assistant",content:data.answer,agentName:data.agent.name}]);}else{setDispatchRun(data.run);setRuntimeMessages([]);}}catch(err){setError(err.message);setRuntimeMessage(text);}finally{setBusy(false);}}}><textarea value={runtimeMessage} onChange={e=>setRuntimeMessage(e.target.value)} placeholder={runtimeMode==="dispatch"?"Berikan instruksi kepada AI Manager untuk dibagi ke tim...":"Kirim pesan langsung kepada Agent..."} required/><button disabled={busy||!runtimeMessage.trim()||!runtimeInfo?.configured}>{busy?"Sedang diproses...":runtimeMode==="dispatch"?"Rencanakan & delegasikan":"Kirim ke Agent"}</button></form><p className="runtime-disclaimer">Mode otonom Tahap 3 menjalankan perencanaan dan respons model AI. Agent belum diberi akses terminal, browser, pengiriman pesan eksternal, atau eksekusi file. Hasil tetap perlu ditinjau sebelum tindakan nyata.</p></section>}\n        <footer className="footer"><span>MEX-NEX · Kantor AI lokal</span><span>Data disimpan di perangkat ini</span></footer>
       </section>
     </main>
   );
