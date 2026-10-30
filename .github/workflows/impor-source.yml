@@ -44,3 +44,5 @@ jobs:
           git add src server public/office-assets next.config.ts postcss.config.mjs tsconfig.json components.json eslint.config.mjs package.json package-lock.json scripts/start-local.mjs
           git commit -m "Impor source kantor virtual dan gateway lokal" || echo "Tidak ada perubahan untuk disimpan"
           git push origin HEAD:import/core-app-20261030
+
+# Pemicu impor source aplikasi inti.
