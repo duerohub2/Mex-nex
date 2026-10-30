@@ -1,6 +1,7 @@
 import { randomUUID } from "node:crypto";
 import { mkdir, readFile, rename, writeFile } from "node:fs/promises";
 import path from "node:path";
+import { executeTool, TOOL_DEFINITIONS } from "../../../lib/agent-tools.js";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -61,7 +62,7 @@ function agentPrompt(agent) {
     "Jabatan: " + agent.role + ". Departemen: " + agent.departmentName + ".",
     "Tanggung jawab: " + (agent.description || agent.role) + ".",
     "Jawab dalam bahasa yang digunakan pengguna. Berikan hasil yang konkret, jujur, dan terstruktur.",
-    "Kamu tidak memiliki akses terminal, browser, file, atau sistem eksternal kecuali tool secara eksplisit disediakan. Jangan mengaku telah melakukan tindakan di luar percakapan."
+    "Kamu dapat menggunakan tool MEX-NEX yang disediakan secara eksplisit. Jangan mengaku melakukan tindakan yang belum dikonfirmasi tool."
   ].join("\n");
 }
 async function callModel(messages, config) {
@@ -126,6 +127,38 @@ export async function POST(request) {
       sessions.conversations = sessions.conversations.slice(0, 100);
       await saveJson(sessionsFile, sessions);
       return Response.json({ conversationId, agent: { id: agent.id, name: agent.name }, answer, runtime: safeStatus(config) });
+    }
+
+    if (payload.action === "agent-run") {
+      const agent = agents.find(item => item.id === payload.agentId);
+      if (!agent) throw new Error("Agent yang dipilih tidak ditemukan.");
+      const allowedTools = TOOL_DEFINITIONS;
+      const system = [
+        agentPrompt(agent),
+        "Kamu bekerja dalam workspace terbatas MEX-NEX. Kamu boleh memakai tool berikut untuk menyelesaikan tugas.",
+        "Panggil maksimal 5 tool secara berurutan. Balas dengan HANYA JSON: {\\"tool\\":\\"nama.tool\\",\\"arguments\\":{...}} untuk pemanggilan tool, atau {\\"final\\":\\"jawaban akhir\\"} jika selesai.",
+        "Tool yang tersedia: " + JSON.stringify(allowedTools),
+        "Jangan mengarang hasil tool. Jangan mencoba akses path di luar workspace."
+      ].join("\\n");
+      const transcript = [{ role: "system", content: system }, { role: "user", content: userText }];
+      const toolResults = [];
+      let answer = "";
+      for (let step=0; step<6; step++) {
+        const output = await callModel(transcript, config);
+        let instruction;
+        try {
+          const raw=output.replace(/^\\s*```(?:json)?/i,"").replace(/```\\s*$/i,"").trim();
+          instruction=JSON.parse(raw.slice(raw.indexOf("{"),raw.lastIndexOf("}")+1));
+        } catch { answer=output; break; }
+        if (typeof instruction.final === "string") { answer=instruction.final; break; }
+        if (typeof instruction.tool !== "string" || !allowedTools.some(tool=>tool.name===instruction.tool)) throw new Error("Agent meminta tool yang tidak tersedia. Eksekusi dihentikan.");
+        const result=await executeTool(instruction.tool,instruction.arguments||{});
+        toolResults.push({tool:instruction.tool,result});
+        transcript.push({role:"assistant",content:output},{role:"user",content:"Hasil tool "+instruction.tool+": "+JSON.stringify(result)+"\\nLanjutkan pekerjaan. Jika sudah selesai, berikan JSON {\\"final\\":\\"...\\"}."});
+        if(step===5) answer="Batas lima pemanggilan tool tercapai. Hasil tool: "+JSON.stringify(toolResults);
+      }
+      if(!answer) answer="Agent menyelesaikan pemanggilan tool.";
+      return Response.json({agent:{id:agent.id,name:agent.name},answer,toolResults,runtime:safeStatus(config)});
     }
 
     if (payload.action === "dispatch") {
