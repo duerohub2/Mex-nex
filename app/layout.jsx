@@ -1,5 +1,6 @@
 import "./globals.css";
 import "../src/app/globals.css";
+import "./dashboard-scroll.css";
 
 export const metadata = {
   title: "MEX-NEX — AI Virtual Office",
