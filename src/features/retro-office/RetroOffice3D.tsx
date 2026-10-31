@@ -7649,7 +7649,7 @@ export function RetroOffice3D({
             <>
               {drag.kind === "placing" && (
                 <span className="text-[10px] text-amber-400/70">
-                  {drag.itemType === "wall"
+                  {(drag as { kind: "placing"; itemType: string }).itemType === "wall"
                     ? wallDrawStart
                       ? "Pilih titik akhir untuk menyelesaikan dinding."
                       : "Pilih titik awal, lalu titik akhir dinding."
