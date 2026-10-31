@@ -11,7 +11,7 @@ export const QA_STATUSES = [
 export const QA_SEVERITIES = ["low", "medium", "high", "critical"];
 
 export function normalizeQaReview(item = {}) {
-  const legacyStatus = item.status === "open" ? "queued" : item.status;
+  const legacyStatus = item.status === "open" ? "queued" : item.status === "passed" ? "verified" : item.status;
   const status = QA_STATUSES.includes(legacyStatus) ? legacyStatus : "queued";
   const legacyPriority = QA_SEVERITIES.includes(item.priority) ? item.priority : "medium";
 
