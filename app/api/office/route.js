@@ -2,6 +2,7 @@ import { randomUUID } from "node:crypto";
 import { mkdir, readFile, rename, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { getQaReadiness, normalizeQaReview, QA_STATUSES, QA_SEVERITIES } from "../../lib/qa.js";
+import { normalizeMeeting, normalizeWhiteboard, MEETING_TYPES, MEETING_STATUSES } from "../../lib/office-workflows.js";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -48,6 +49,8 @@ function normalize(state) {
     assigneeId: task.assigneeId || null,
     assigneeName: merged.agents.find(a => a.id === task.assigneeId)?.name || task.assignee || null
   }));
+  merged.meetings = merged.meetings.map(normalizeMeeting);
+  merged.whiteboards = merged.whiteboards.map(normalizeWhiteboard);
   merged.qaReviews = merged.qaReviews.map(normalizeQaReview);
   merged.qaReadiness = getQaReadiness(merged.qaReviews);
   merged.version = 2;
@@ -74,6 +77,51 @@ async function persist(state) {
 function record(state, type, description, now) {
   state.activity.unshift({ id: randomUUID(), type, description, createdAt: now });
   state.activity = state.activity.slice(0, 200);
+}
+
+function syncMeetingOutputs(state, meeting, now) {
+  const notes = clean(meeting.notes, 5000, "Catatan meeting", false);
+  const actions = meeting.actionItems.map(item => item.text);
+  const content = [
+    "Agenda",
+    meeting.agenda || "Tidak ada agenda",
+    "",
+    "Catatan dan keputusan",
+    notes || "Belum ada catatan",
+    "",
+    "Tindak lanjut",
+    actions.length ? actions.map(item => "- " + item).join("\n") : "Belum ada tindak lanjut",
+  ].join("\n");
+
+  let board = state.whiteboards.find(item => item.sourceMeetingId === meeting.id);
+  if (!board) {
+    board = {
+      id: randomUUID(),
+      sourceMeetingId: meeting.id,
+      title: "Hasil Meeting · " + meeting.title,
+      mode: "meeting",
+      content,
+      blocks: [
+        { id: randomUUID(), type: "heading", title: "Agenda", body: meeting.agenda || "", createdAt: now, updatedAt: now, authorType: "system" },
+        { id: randomUUID(), type: "note", title: "Catatan dan keputusan", body: notes, createdAt: now, updatedAt: now, authorType: "system" },
+        ...meeting.actionItems.map(item => ({ id: randomUUID(), type: "action", title: item.text, body: "", linkedTaskId: item.linkedTaskId || null, createdAt: now, updatedAt: now, authorType: "system" })),
+      ],
+      createdAt: now,
+      updatedAt: now,
+      archived: false,
+    };
+    state.whiteboards.unshift(board);
+  }
+
+  const cardBody = [meeting.agenda, notes, actions.length ? "Tindak lanjut:\n" + actions.map(item => "- " + item).join("\n") : ""].filter(Boolean).join("\n\n");
+  const card = state.bulletins.find(item => item.sourceMeetingId === meeting.id);
+  if (card) {
+    card.body = cardBody;
+    card.updatedAt = now;
+    card.archived = false;
+  } else {
+    state.bulletins.unshift({ id: randomUUID(), sourceMeetingId: meeting.id, title: "Hasil meeting: " + meeting.title, body: cardBody, category: "Meeting", createdAt: now, updatedAt: now, archived: false });
+  }
 }
 
 function syncQaBulletin(state, review, now) {
@@ -177,15 +225,31 @@ export async function POST(request) {
         const title = clean(payload.title, 120, "Judul meeting");
         const agenda = clean(payload.agenda, 3000, "Agenda", false);
         const scheduledAt = clean(payload.scheduledAt, 40, "Waktu meeting", false);
-        state.meetings.unshift({ id: randomUUID(), title, agenda, scheduledAt, notes: "", status: "scheduled", createdAt: now, updatedAt: now });
-        record(state, "meeting", "Meeting dibuat: " + title, now); break;
+        const type = MEETING_TYPES.includes(payload.type) ? payload.type : "sync";
+        const participantAgentIds = Array.isArray(payload.participantAgentIds) ? [...new Set(payload.participantAgentIds)] : [];
+        if (participantAgentIds.some(id => !state.agents.some(agent => agent.id === id))) throw new Error("Daftar peserta meeting berisi Agent yang tidak ditemukan.");
+        state.meetings.unshift(normalizeMeeting({ id: randomUUID(), title, type, agenda, scheduledAt, notes: "", status: "scheduled", participantAgentIds, arrivedAgentIds: [], blockers: [], decisions: [], actionItems: [], createdAt: now, updatedAt: now }));
+        record(state, "meeting", "Meeting dibuat: " + title, now);
+        break;
       }
       case "meeting-update": {
         const item = state.meetings.find(x => x.id === payload.meetingId);
         if (!item) throw new Error("Meeting tidak ditemukan.");
         if (payload.notes !== undefined) item.notes = clean(payload.notes, 5000, "Catatan meeting", false);
-        if (payload.status !== undefined) { if (!["scheduled", "completed", "cancelled"].includes(payload.status)) throw new Error("Status meeting tidak valid."); item.status = payload.status; }
-        item.updatedAt = now; record(state, "meeting-update", "Meeting diperbarui: " + item.title, now); break;
+        if (payload.summary !== undefined) item.summary = clean(payload.summary, 4000, "Ringkasan meeting", false);
+        if (payload.actionItems !== undefined) {
+          if (!Array.isArray(payload.actionItems) || payload.actionItems.length > 30) throw new Error("Daftar tindak lanjut meeting tidak valid.");
+          item.actionItems = payload.actionItems.map(text => ({ id: randomUUID(), text: clean(text, 240, "Tindak lanjut"), status: "open", linkedTaskId: null }));
+        }
+        if (payload.status !== undefined) {
+          if (!MEETING_STATUSES.includes(payload.status)) throw new Error("Status meeting tidak valid.");
+          item.status = payload.status;
+          item.phase = payload.status === "completed" ? "complete" : payload.status;
+        }
+        item.updatedAt = now;
+        if (item.status === "completed") syncMeetingOutputs(state, item, now);
+        record(state, "meeting-update", "Meeting diperbarui: " + item.title, now);
+        break;
       }
       case "whiteboard-create": {
         const title = clean(payload.title, 120, "Judul whiteboard");
