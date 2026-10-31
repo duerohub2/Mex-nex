@@ -111,6 +111,13 @@ function syncMeetingOutputs(state, meeting, now) {
       archived: false,
     };
     state.whiteboards.unshift(board);
+  } else {
+    board.content = content;
+    board.updatedAt = now;
+    const systemNotes = board.blocks.find(block => block.title === "Catatan dan keputusan" && block.authorType === "system");
+    if (systemNotes) { systemNotes.body = notes; systemNotes.updatedAt = now; }
+    board.blocks = board.blocks.filter(block => !(block.type === "action" && block.authorType === "system"));
+    board.blocks.push(...meeting.actionItems.map(item => ({ id: randomUUID(), type: "action", title: item.text, body: "", linkedTaskId: item.linkedTaskId || null, createdAt: now, updatedAt: now, authorType: "system" })));
   }
 
   const cardBody = [meeting.agenda, notes, actions.length ? "Tindak lanjut:\n" + actions.map(item => "- " + item).join("\n") : ""].filter(Boolean).join("\n\n");
