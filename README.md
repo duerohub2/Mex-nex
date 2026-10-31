@@ -18,6 +18,14 @@ MEX-NEX adalah fondasi kantor virtual AI Agent yang dijalankan secara lokal mela
 - [x] Struktur organisasi, pembuatan Agent, dan delegasi tugas dasar (Tahap 2).
 - [ ] Visualisasi kantor 2D/3D.
 - [x] Agent Execution Engine dengan tool workspace terbatas (Tahap 4).
+- [x] Meeting Room: jadwal, agenda, catatan, dan status meeting (Tahap 5).
+- [x] Whiteboard teks yang tersimpan dan dapat diperbarui (Tahap 5).
+- [x] Bulletin Board dengan kategori pengumuman (Tahap 5).
+- [x] QA Department: pencatatan pemeriksaan, prioritas, dan status QA (Tahap 5).
+- [x] Dashboard analitik dari data tugas, Agent, QA, dan aktivitas kantor (Tahap 5).
+- [ ] Meeting realtime audio/video dan whiteboard visual realtime (pengembangan lanjutan).
+- [ ] Visualisasi kantor 2D/3D (Tahap 6).
+- [ ] Pengujian integrasi menyeluruh (Tahap 7).
 
 ## Menjalankan di Android / Termux
 
@@ -65,6 +73,7 @@ Tahap 3 menyediakan chat model melalui Hermes-compatible, model lokal, atau prov
 - [Arsitektur Tahap 1](docs/ARSITEKTUR-TAHAP-1.md)
 - [Panduan AI Runtime Tahap 3](docs/TAHAP-3-AI-RUNTIME.md)
 - [Panduan Agent Execution Tahap 4](docs/TAHAP-4-AGENT-EXECUTION.md)
+- [Fitur Kantor Tahap 5](docs/TAHAP-5-FITUR-KANTOR.md)
 
 ## Referensi fitur
 
