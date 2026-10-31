@@ -292,7 +292,7 @@ describe("hermes3doctor core", () => {
           label: "Gateway token",
           message: "Missing.",
         },
-      ] as Array<{ status: string; label: string; message: string }>,
+      ] as Array<{ status: string; label: string; message: string }>),
     });
 
     expect(report).toMatchObject({
@@ -329,7 +329,7 @@ describe("hermes3doctor core", () => {
           label: "Profile collision",
           message: "Multiple runtime profiles share the same endpoint.",
         },
-      ] as Array<{ category: string; status: string; label: string; message: string }>,
+      ] as Array<{ category: string; status: string; label: string; message: string }>),
     });
 
     expect(report).toContain("Hermes3Doctor");
