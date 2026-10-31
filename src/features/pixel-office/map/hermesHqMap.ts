@@ -1,5 +1,5 @@
 // The default Hermes HQ pixel map: a hand-authored Gather-style office.
-// All coordinates are in tiles (16px each). The layout mirrors the immersive
+// All coordinates are in tiles (32px each, matching PIXEL_TILE_SIZE). The layout mirrors the immersive
 // office's rooms: meeting room, kitchen, team pods, lounge, game corner,
 // phone/SMS booths, gym, reading nook, ops corner, and a server room.
 
