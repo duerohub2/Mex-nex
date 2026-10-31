@@ -6437,8 +6437,9 @@ export function RetroOffice3D({
       </div>
 
       {/* Camera presets are available from the global office hamburger menu. */}
-      {!readOnly && !immersiveOverlayActive && standupMeeting ? (
-
+      {!readOnly && !immersiveOverlayActive ? (
+        <div className="absolute left-2 top-2 z-20 flex flex-col items-start gap-2 sm:left-3 sm:top-3">
+          {standupMeeting ? (
             <button
               type="button"
               onClick={() => setStandupBoardOpen(true)}
