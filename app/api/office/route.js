@@ -331,8 +331,45 @@ export async function POST(request) {
         const title = clean(payload.title, 120, "Judul pengumuman");
         const body = clean(payload.body, 4000, "Isi pengumuman");
         const category = clean(payload.category, 40, "Kategori", false) || "Umum";
-        state.bulletins.unshift({ id: randomUUID(), title, body, category, createdAt: now });
-        record(state, "bulletin", "Pengumuman diterbitkan: " + title, now); break;
+        const type = ["goal", "announcement", "blocker", "handoff", "meeting_note"].includes(payload.type) ? payload.type : "announcement";
+        const priority = ["low", "normal", "high"].includes(payload.priority) ? payload.priority : "normal";
+        const taskId = payload.taskId || null;
+        const agentId = payload.agentId || null;
+        if (taskId && !state.tasks.some(task => task.id === taskId)) throw new Error("Tugas yang ditautkan tidak ditemukan.");
+        if (agentId && !state.agents.some(agent => agent.id === agentId)) throw new Error("Agent yang ditautkan tidak ditemukan.");
+        state.bulletins.unshift({ id: randomUUID(), title, body, category, type, priority, taskId, agentId, authorType: "human", pinned: false, archived: false, createdAt: now, updatedAt: now });
+        record(state, "bulletin", "Pengumuman diterbitkan: " + title, now);
+        break;
+      }
+      case "bulletin-update": {
+        const item = state.bulletins.find(x => x.id === payload.cardId);
+        if (!item) throw new Error("Kartu bulletin tidak ditemukan.");
+        if (payload.title !== undefined) item.title = clean(payload.title, 120, "Judul kartu");
+        if (payload.body !== undefined) item.body = clean(payload.body, 4000, "Isi kartu");
+        if (payload.category !== undefined) item.category = clean(payload.category, 40, "Kategori", false) || "Umum";
+        if (payload.priority !== undefined) {
+          if (!["low", "normal", "high"].includes(payload.priority)) throw new Error("Prioritas bulletin tidak valid.");
+          item.priority = payload.priority;
+        }
+        item.updatedAt = now;
+        record(state, "bulletin-update", "Kartu bulletin diperbarui: " + item.title, now);
+        break;
+      }
+      case "bulletin-pin": {
+        const item = state.bulletins.find(x => x.id === payload.cardId);
+        if (!item) throw new Error("Kartu bulletin tidak ditemukan.");
+        item.pinned = payload.pinned !== false;
+        item.updatedAt = now;
+        record(state, "bulletin-pin", (item.pinned ? "Kartu dipasang: " : "Kartu dilepas: ") + item.title, now);
+        break;
+      }
+      case "bulletin-archive": {
+        const item = state.bulletins.find(x => x.id === payload.cardId);
+        if (!item) throw new Error("Kartu bulletin tidak ditemukan.");
+        item.archived = payload.archived !== false;
+        item.updatedAt = now;
+        record(state, "bulletin-archive", (item.archived ? "Kartu diarsipkan: " : "Kartu dipulihkan: ") + item.title, now);
+        break;
       }
       case "qa-create": {
         const title = clean(payload.title, 160, "Judul pemeriksaan");
