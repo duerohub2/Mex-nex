@@ -7592,7 +7592,7 @@ export function RetroOffice3D({
           ) : null}
           {onRenderModeChange ? (
             <button
-              onClick={() => onRenderModeChange("2d")}
+              onClick={() => onRenderModeChange?.("2d")}
               title="Beralih ke kantor piksel 2D"
               className="flex h-9 items-center justify-center gap-1 rounded-md border-2 border-black bg-[#00f5ff] px-2 text-[10px] font-black uppercase tracking-[0.08em] text-black shadow-[3px_3px_0_#000] transition-transform hover:-translate-y-0.5 sm:h-8"
             >
