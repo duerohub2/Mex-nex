@@ -241,13 +241,11 @@ describe("hermes3doctor core", () => {
     expect(
       shouldRunHermesChecks({
         runtimeContext: { adapterType: "hermes" },
-        env: process.env,
       }),
     ).toBe(true);
     expect(
       shouldRunDemoChecks({
         runtimeContext: { adapterType: "demo" },
-        env: process.env,
       }),
     ).toBe(true);
     expect(
@@ -288,13 +286,13 @@ describe("hermes3doctor core", () => {
         stateDir: "C:/tmp/.hermes",
         settingsPath: "C:/tmp/.hermes/hermes3d/settings.json",
       },
-      checks: [
+      checks: ([
         {
           status: DOCTOR_STATUSES.warn,
           label: "Gateway token",
           message: "Missing.",
         },
-      ],
+      ] as Array<{ status: string; label: string; message: string }>,
     });
 
     expect(report).toMatchObject({
@@ -324,14 +322,14 @@ describe("hermes3doctor core", () => {
         stateDir: "C:/tmp/.hermes",
         settingsPath: "C:/tmp/.hermes/hermes3d/settings.json",
       },
-      checks: [
+      checks: ([
         {
           category: "Runtime profiles",
           status: DOCTOR_STATUSES.warn,
           label: "Profile collision",
           message: "Multiple runtime profiles share the same endpoint.",
         },
-      ],
+      ] as Array<{ category: string; status: string; label: string; message: string }>,
     });
 
     expect(report).toContain("Hermes3Doctor");
