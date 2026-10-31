@@ -4463,7 +4463,7 @@ export function OfficeScreen({
     "Connected to the gateway, but no agents were loaded into the office.";
 
   return (
-    <main className="relative h-full w-full overflow-hidden bg-black">
+    <main className="relative h-[100dvh] min-h-screen w-full overflow-hidden bg-black">
       <div className="pointer-events-auto absolute right-3 top-3 z-[90] flex items-center gap-2">
         <button type="button" onClick={() => handleOfficeRenderModeChange("3d")} aria-label="Mode kantor 3D" className={`rounded-lg border border-white/20 px-4 py-2 text-xs font-bold shadow-lg backdrop-blur-md ${officeRenderMode === "3d" ? "bg-cyan-400 text-black" : "bg-black/70 text-white"}`}>3D</button>
         <button type="button" onClick={() => handleOfficeRenderModeChange("2d")} aria-label="Mode kantor 2D" className={`rounded-lg border border-white/20 px-4 py-2 text-xs font-bold shadow-lg backdrop-blur-md ${officeRenderMode === "2d" ? "bg-cyan-400 text-black" : "bg-black/70 text-white"}`}>2D</button>
