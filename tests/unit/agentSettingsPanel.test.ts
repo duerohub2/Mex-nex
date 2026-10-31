@@ -706,7 +706,7 @@ describe("AgentSettingsPanel", () => {
 
     expect(screen.getByRole("switch", { name: "Skill browser" })).toBeDisabled();
     expect(screen.getByText("2/2")).toBeInTheDocument();
-    expect(screen.getByText("Not supported")).toBeInTheDocument();
+    expect(screen.getByText("Tidak didukung")).toBeInTheDocument();
     expect(screen.queryByRole("button", { name: "Open System Setup" })).not.toBeInTheDocument();
   });
 
