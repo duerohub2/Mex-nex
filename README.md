@@ -1,57 +1,57 @@
 # MEX-NEX — Kantor Virtual AI
 
-MEX-NEX adalah pengembangan lokal dari NEX-MEX: antarmuka kantor virtual dengan lingkungan 3D/2D, karakter agent, panel agent, dan komunikasi melalui gateway. Repositori ini disiapkan agar dapat dikembangkan dan dijalankan dari lingkungan lokal, termasuk Android melalui Termux (dengan batasan perangkat).
+MEX-NEX adalah ekosistem kantor virtual AI Agent yang menggabungkan fondasi aplikasi lokal, backend kantor, dan antarmuka kantor virtual 2D/3D. Proyek dapat dikembangkan dari komputer maupun Android melalui Termux, dengan batasan performa perangkat.
 
 ## Isi repositori
 
-Source aplikasi utama berada di:
-- `src/` — aplikasi Next.js, halaman, komponen, fitur, dan API.
-- `server/` — server web dan gateway.
-- `public/office-assets/` — aset visual kantor virtual.
-- `assets/` — aset proyek upstream.
-- `plugins/` — plugin yang disertakan upstream.
-- `tests/` — pengujian proyek upstream.
-- `docs/upstream/` — dokumentasi upstream; panduan lokal tetap berada di `docs/PANDUAN-TERMUX.md`.
+- app/ — aplikasi dan fondasi kantor MEX-NEX.
+- src/ — antarmuka Next.js, fitur Agent, kantor virtual, dan komponen visual.
+- server/ — server aplikasi, gateway, dan adapter.
+- public/office-assets/ — aset visual kantor.
+- assets/, plugins/, dan tests/ — aset, plugin, serta pengujian yang diimpor.
+- docs/ — dokumentasi proyek dan panduan penggunaan.
+
+## Status pengembangan
+
+Fondasi Tahap 1–5 MEX-NEX mencakup aplikasi web lokal, backend API, penyimpanan persisten, organisasi dan departemen, profil Agent, chat, delegasi tugas, Agent Execution Engine dengan workspace terbatas, Meeting Room, Whiteboard teks, Bulletin Board, QA Department, dan dashboard analitik.
+
+Antarmuka kantor virtual 2D/3D dan integrasi gateway disertakan sebagai bagian dari pengembangan visual. Fitur realtime audio/video, whiteboard visual realtime, pengujian integrasi menyeluruh, serta verifikasi langsung di perangkat Android masih memerlukan pengujian dan pengembangan lanjutan.
 
 ## Persyaratan
 
 - Node.js 22 atau lebih baru.
-- npm yang sesuai dengan versi Node.js.
-- Git.
-- Untuk Android: Termux versi terbaru. Performa 3D bergantung pada kemampuan perangkat dan browser.
+- npm dan Git.
+- Android: Termux terbaru. Performa 3D bergantung pada kemampuan perangkat dan browser.
 
-## Menjalankan di komputer
+## Menjalankan MEX-NEX di komputer atau Android / Termux
 
-```bash
-git clone https://github.com/duerohub2/Mex-nex.git
-cd Mex-nex
-npm ci
-npm run dev
-```
+    git clone https://github.com/duerohub2/mex-nex.git
+    cd mex-nex
+    npm ci
+    npm run local
 
-Buka `http://127.0.0.1:3000`.
+Buka browser di http://127.0.0.1:3000. Biarkan terminal tetap berjalan selama aplikasi digunakan. Hentikan dengan Ctrl+C.
 
-## Menjalankan mode demo lokal
+Untuk menjalankan web bersama gateway demo:
 
-```bash
-npm ci
-npm run local:demo
-```
+    npm run local:demo
 
-Web: `http://127.0.0.1:3000`
-Gateway demo: `ws://127.0.0.1:18789`
+Gateway demo hanya mensimulasikan koneksi, status Agent, dan percakapan. Mode demo bukan model LLM dan tidak menjalankan tool eksternal sungguhan.
 
-## Catatan penting tentang AI
+Untuk menjalankan server pengembangan secara langsung:
 
-Mode `local:demo` menjalankan gateway simulasi untuk menguji antarmuka, daftar agent, status, dan percakapan. Mode ini **bukan** runtime Hermes Agent, tidak menjalankan model LLM lokal, dan tidak otomatis mengeksekusi tool sungguhan. Integrasi runtime AI lokal merupakan pekerjaan terpisah.
+    npm run dev
 
-## Status verifikasi
+## Penyimpanan dan konfigurasi
 
-- Source aplikasi, server, dan aset diimpor dari repositori asal.
-- Build otomatis diperiksa melalui GitHub Actions.
-- Pengujian langsung di perangkat Android/Termux belum dilakukan. Jangan menganggap kompatibilitas penuh Termux telah terverifikasi.
+Data kantor lokal disimpan di folder .data/ (jika fitur penyimpanan lokal digunakan). Folder ini tidak dimasukkan ke Git.
 
-## Asal proyek
+Salin .env.example menjadi .env.local bila perlu mengubah konfigurasi. Isi endpoint, model, dan API key hanya di file lokal. Jangan pernah memasukkan API key atau token asli ke source code maupun commit Git.
 
-Repositori sumber: [duerohub2/Nex-Mex](https://github.com/duerohub2/Nex-Mex).
-Basis upstream: [Hermes3D](https://github.com/iamlukethedev/Hermes3D). Periksa lisensi dan atribusi sebelum distribusi ulang.
+## Pengujian
+
+GitHub Actions menjalankan instalasi dependency dan build produksi menggunakan Node.js 22. Build yang berhasil tidak otomatis membuktikan kompatibilitas penuh pada perangkat Android/Termux. Pengujian langsung di perangkat fisik tetap diperlukan.
+
+## Asal source dan lisensi
+
+Sebagian antarmuka dan aset berasal dari repositori sumber [duerohub2/Nex-Mex](https://github.com/duerohub2/Nex-Mex) dan basis upstream [Hermes3D](https://github.com/iamlukethedev/Hermes3D). Periksa dan pertahankan ketentuan lisensi serta atribusi upstream sebelum distribusi.

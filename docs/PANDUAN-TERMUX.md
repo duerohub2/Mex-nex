@@ -1,67 +1,55 @@
 # Panduan menjalankan MEX-NEX di Android / Termux
 
-> Panduan ini disiapkan untuk Android. Build CI dapat memeriksa source, tetapi belum berarti aplikasi telah diuji langsung di perangkat Termux.
+Panduan ini untuk menjalankan MEX-NEX secara lokal di HP Android. Performa dan kompatibilitas fitur 2D/3D bergantung pada perangkat, versi Android, browser, dan dukungan WebGL.
 
 ## 1. Siapkan Termux
 
-Gunakan Termux versi terbaru dari sumber resminya. Jalankan:
+Gunakan Termux dari sumber resminya (F-Droid atau GitHub Termux), lalu jalankan:
 
-```bash
-pkg update && pkg upgrade -y
-pkg install git nodejs-lts -y
-node -v
-npm -v
-```
+    pkg update && pkg upgrade -y
+    pkg install git nodejs-lts -y
+    node -v
+    npm -v
 
-Pastikan Node.js **22 atau lebih baru**. Jika paket `nodejs-lts` di repositori Termux belum menyediakan versi 22, gunakan distribusi Node.js 22 yang kompatibel dengan perangkat sebelum melanjutkan.
+Gunakan Node.js 22 atau lebih baru agar sesuai dengan konfigurasi build proyek. Jika paket Termux belum menyediakan versi tersebut, perbarui repositori/paket atau gunakan distribusi Node.js 22 yang kompatibel.
 
-## 2. Clone repositori
+## 2. Unduh repository
 
-```bash
-git clone https://github.com/duerohub2/Mex-nex.git
-cd Mex-nex
-```
+    git clone https://github.com/duerohub2/mex-nex.git
+    cd mex-nex
+
+Jika repository sudah ada, masuk ke foldernya dan jalankan git pull.
 
 ## 3. Pasang dependency
 
-```bash
-npm ci
-```
+    npm ci
 
-Instalasi dependency dan proses build dapat memerlukan ruang penyimpanan serta RAM yang cukup. Jika proses dihentikan Android karena keterbatasan memori, tutup aplikasi lain dan coba kembali.
+Proses instalasi dan build dapat memerlukan ruang penyimpanan serta RAM yang cukup. Jika Android menghentikan proses karena memori, tutup aplikasi lain lalu coba kembali.
 
-## 4. Jalankan aplikasi
+## 4. Jalankan MEX-NEX
 
-Mode pengembangan web:
+    npm run local
 
-```bash
-npm run dev
-```
+Tunggu sampai server siap, lalu buka browser Android di http://127.0.0.1:3000. Biarkan Termux tetap berjalan selama aplikasi digunakan. Untuk menghentikan server, kembali ke Termux dan tekan Ctrl+C.
 
-Atau jalankan web bersama gateway demo:
+## 5. Jalankan mode gateway demo (opsional)
 
-```bash
-npm run local:demo
-```
+    npm run local:demo
 
-Buka browser Android dan kunjungi:
+Mode ini menjalankan web bersama gateway demo di ws://127.0.0.1:18789. Gateway demo hanya mensimulasikan status dan percakapan Agent; bukan runtime model AI sungguhan dan tidak mengeksekusi tool eksternal.
 
-- Web: http://127.0.0.1:3000
-- Gateway demo: ws://127.0.0.1:18789
+## 6. Data dan backup
 
-Untuk menghentikan proses, kembali ke Termux lalu tekan `Ctrl+C`.
+Simpan backup data kantor lokal secara berkala. Jangan membagikan file yang berisi percakapan atau data privat. Folder data lokal tidak diunggah ke Git.
 
-## 5. Batasan mode demo
+## 7. Troubleshooting
 
-Gateway demo hanya mensimulasikan agent, status, dan percakapan. Mode ini tidak menjalankan model bahasa lokal, bukan runtime Hermes Agent, dan tidak mengeksekusi tool eksternal sungguhan. Jangan memasukkan API key atau data rahasia ke mode demo.
+- Periksa versi Node.js dengan node -v; gunakan v22 atau lebih baru.
+- Jika dependency gagal dipasang, jalankan pkg update && pkg upgrade -y, pastikan ruang penyimpanan cukup, lalu ulangi npm ci.
+- Jika port 3000 atau 18789 sudah digunakan, hentikan proses lama atau atur variabel PORT / DEMO_ADAPTER_PORT.
+- Jika browser tidak dapat membuka halaman, pastikan server masih berjalan dan gunakan alamat loopback di atas.
+- Jika tampilan 3D lambat, tutup aplikasi lain atau gunakan renderer 2D bila tersedia.
 
-## 6. Troubleshooting singkat
+## 8. Batasan verifikasi
 
-- Periksa versi: `node -v` harus menunjukkan v22 atau lebih baru.
-- Jika dependency gagal dipasang, jalankan `pkg update && pkg upgrade -y`, pastikan ruang kosong cukup, lalu ulangi `npm ci`.
-- Jika port 3000 atau 18789 sudah dipakai, hentikan proses lama sebelum menjalankan ulang.
-- Jika browser tidak dapat membuka halaman, pastikan proses server masih berjalan di Termux dan gunakan alamat loopback di atas.
-
-## 7. Yang belum diverifikasi
-
-Pengujian pada Android/Termux fisik belum dilakukan. Performa rendering 3D, dukungan WebGL browser, kompatibilitas paket native, dan kestabilan saat aplikasi berjalan di latar belakang masih perlu diuji di perangkat nyata.
+Build CI memeriksa source di GitHub Actions, tetapi tidak sama dengan pengujian langsung di HP Android. Performa rendering 3D, dukungan WebGL, kompatibilitas paket native, dan kestabilan ketika aplikasi berjalan di latar belakang tetap perlu diuji di perangkat nyata.
