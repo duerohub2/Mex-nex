@@ -260,8 +260,6 @@ const createDemoMainAgentSeed = (): {
 const MAX_HERMES_LOG_ENTRIES = 200;
 const MAX_HERMES_AGENT_OUTPUT_LINES = 12;
 const OFFICE_DANCE_MS = 60_000;
-const GATEWAY_LOADING_OVERLAY_DELAY_MS = 1_200;
-const GATEWAY_CONNECT_OVERLAY_DELAY_MS = 1_500;
 
 const getLatestUserRequestForAgent = (
   agent: AgentState,
@@ -921,8 +919,6 @@ export function OfficeScreen({
     client,
     provider,
     status,
-    connectPromptReady,
-    shouldPromptForConnect,
     gatewayUrl,
     token,
     selectedAdapterType,
@@ -946,7 +942,6 @@ export function OfficeScreen({
   const { state, dispatch, hydrateAgents, setError, setLoading } =
     useAgentStore();
   const [agentsLoaded, setAgentsLoaded] = useState(false);
-  const [didAttemptGatewayConnect, setDidAttemptGatewayConnect] = useState(false);
   const [showGatewaySetupPanel, setShowGatewaySetupPanel] = useState(false);
   const [officeMenuOpen, setOfficeMenuOpen] = useState(false);
   const [clockTick, setClockTick] = useState(0);
