@@ -1369,18 +1369,6 @@ export function OfficeScreen({
     };
   }, []);
 
-  useEffect(() => {
-    if (status === "connecting") {
-      setDidAttemptGatewayConnect(true);
-    }
-  }, [status]);
-
-  useEffect(() => {
-    if (gatewayError) {
-      setDidAttemptGatewayConnect(true);
-    }
-  }, [gatewayError]);
-
   const loadStudioSettings = useCallback(
     (options?: StudioSettingsLoadOptions) => settingsCoordinator.loadSettings(options),
     [settingsCoordinator],
