@@ -103,7 +103,7 @@ export function inspectUpstreamGatewayUrl(rawUrl, adapterType = "") {
   const protocol = parsed.protocol.toLowerCase();
   const hostname = parsed.hostname.toLowerCase();
   const port = parsed.port;
-  const pathname = parsed.pathname.replace(/\\/+$/, "");
+  const pathname = parsed.pathname.replace(/\/+$/, "");
   const targetsHermesAgent = String(adapterType || "").trim().toLowerCase() === "hermes-agent";
   if (!targetsHermesAgent && port === DASHBOARD_PORT) findings.push({
     code: "hermes_agent_dashboard_port", severity: "error",
