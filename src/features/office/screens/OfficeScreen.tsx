@@ -944,6 +944,7 @@ export function OfficeScreen({
   const [agentsLoaded, setAgentsLoaded] = useState(false);
   const [showGatewaySetupPanel, setShowGatewaySetupPanel] = useState(false);
   const [officeMenuOpen, setOfficeMenuOpen] = useState(false);
+  const [cameraPresetRequest, setCameraPresetRequest] = useState<"overview" | "frontDesk" | "lounge" | null>(null);
   const [clockTick, setClockTick] = useState(0);
   const [debugRows, setDebugRows] = useState<OfficeDebugRow[]>([]);
   const [feedEvents, setFeedEvents] = useState<OfficeFeedEvent[]>([]);
@@ -4413,6 +4414,11 @@ export function OfficeScreen({
         </button>
         {officeMenuOpen ? (
           <div className="absolute right-0 top-12 z-[95] w-52 overflow-hidden rounded-2xl border-2 border-[#5b321d] bg-[#fff5e6] p-2 text-[#422719] shadow-[5px_5px_0_#5b321d]">
+            <div className="px-3 pb-1 pt-2 text-[10px] font-bold uppercase tracking-wider text-[#9b6b49]">Sudut kamera</div>
+            <button type="button" onClick={() => { setCameraPresetRequest("overview"); setOfficeMenuOpen(false); }} className="w-full rounded-lg px-3 py-2.5 text-left text-sm font-semibold hover:bg-[#fbe2c5]">Tampilan umum</button>
+            <button type="button" onClick={() => { setCameraPresetRequest("frontDesk"); setOfficeMenuOpen(false); }} className="w-full rounded-lg px-3 py-2.5 text-left text-sm font-semibold hover:bg-[#fbe2c5]">Resepsionis</button>
+            <button type="button" onClick={() => { setCameraPresetRequest("lounge"); setOfficeMenuOpen(false); }} className="w-full rounded-lg px-3 py-2.5 text-left text-sm font-semibold hover:bg-[#fbe2c5]">Ruang santai</button>
+            <div className="my-1 border-t border-[#dfb58f]" />
             <button type="button" onClick={() => { handleOfficeRenderModeChange("3d"); setOfficeMenuOpen(false); }} aria-pressed={officeRenderMode === "3d"} className={`flex w-full items-center justify-between rounded-lg px-3 py-2.5 text-left text-sm font-semibold hover:bg-[#fbe2c5] ${officeRenderMode === "3d" ? "bg-[#f7c18e]" : ""}`}>Tampilan 3D {officeRenderMode === "3d" ? "✓" : ""}</button>
             <button type="button" onClick={() => { handleOfficeRenderModeChange("2d"); setOfficeMenuOpen(false); }} aria-pressed={officeRenderMode === "2d"} className={`flex w-full items-center justify-between rounded-lg px-3 py-2.5 text-left text-sm font-semibold hover:bg-[#fbe2c5] ${officeRenderMode === "2d" ? "bg-[#f7c18e]" : ""}`}>Tampilan 2D {officeRenderMode === "2d" ? "✓" : ""}</button>
             <div className="my-1 border-t border-[#dfb58f]" />
@@ -4482,6 +4488,7 @@ export function OfficeScreen({
           streamingTextByAgentId={streamingTextByAgentId}
           renderMode={officeRenderMode}
           onRenderModeChange={handleOfficeRenderModeChange}
+          cameraPresetRequest={cameraPresetRequest}
           onAgentChatSelect={(agentId) => {
             handleOpenAgentChat(agentId);
           }}
