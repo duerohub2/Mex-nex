@@ -34,6 +34,8 @@ export type GraphicsQualityConfig = {
   maxDpr: number;
   /** Whether the EffectComposer post-processing chain is mounted. */
   postProcessing: boolean;
+  /** Whether real-time shadows are enabled for the scene. */
+  shadows: boolean;
   /** Screen-space ambient occlusion (N8AO). */
   ambientOcclusion: boolean;
   /** AO quality knob passed to N8AO. */
@@ -51,6 +53,7 @@ const QUALITY_CONFIGS: Record<GraphicsQuality, GraphicsQualityConfig> = {
     shadowMapSize: 1024,
     maxDpr: 1.25,
     postProcessing: false,
+    shadows: false,
     ambientOcclusion: false,
     aoQuality: "performance",
     bloom: false,
@@ -61,6 +64,7 @@ const QUALITY_CONFIGS: Record<GraphicsQuality, GraphicsQualityConfig> = {
     shadowMapSize: 2048,
     maxDpr: 1.5,
     postProcessing: true,
+    shadows: true,
     ambientOcclusion: true,
     aoQuality: "low",
     bloom: true,
@@ -81,7 +85,42 @@ const QUALITY_CONFIGS: Record<GraphicsQuality, GraphicsQualityConfig> = {
 
 export const getGraphicsQualityConfig = (
   quality: GraphicsQuality,
-): GraphicsQualityConfig => QUALITY_CONFIGS[quality];
+  touchOptimized = false,
+): GraphicsQualityConfig => {
+  const config = QUALITY_CONFIGS[quality];
+  if (!touchOptimized) return config;
+
+  // Keep the office readable on phones without paying desktop GPU costs.
+  if (quality === "low") {
+    return { ...config, maxDpr: 1, shadowMapSize: 512 };
+  }
+  if (quality === "balanced") {
+    return {
+      ...config,
+      maxDpr: 1,
+      shadowMapSize: 1024,
+      postProcessing: false,
+      shadows: false,
+      ambientOcclusion: false,
+      bloom: false,
+      smaa: false,
+    };
+  }
+  return { ...config, maxDpr: 1.25, shadowMapSize: 2048, aoQuality: "low" };
+};
+
+/** Coarse-pointer/touch hardware should start with a lightweight office preset. */
+export const isTouchOptimizedDevice = (): boolean => {
+  if (typeof window === "undefined") return false;
+  try {
+    return (
+      window.matchMedia?.("(pointer: coarse)").matches === true ||
+      (typeof navigator !== "undefined" && navigator.maxTouchPoints > 0)
+    );
+  } catch {
+    return false;
+  }
+};
 
 export const isGraphicsQuality = (value: unknown): value is GraphicsQuality =>
   value === "low" || value === "balanced" || value === "ultra";
@@ -157,7 +196,8 @@ export const detectSoftwareWebGL = (): boolean => {
  * hardware-appropriate default.
  */
 export const resolveInitialGraphicsQuality = (): GraphicsQuality =>
-  loadStoredGraphicsQuality() ?? (detectSoftwareWebGL() ? "low" : "balanced");
+  loadStoredGraphicsQuality() ??
+  (detectSoftwareWebGL() || isTouchOptimizedDevice() ? "low" : "balanced");
 
 export const saveGraphicsQuality = (quality: GraphicsQuality) => {
   if (typeof window === "undefined") return;
