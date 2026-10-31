@@ -1,0 +1,7 @@
+/* Perbaikan scroll dashboard MEX-NEX.
+   Office virtual tetap memakai viewport penuh; dashboard boleh digulir. */
+body:has(.shell) {
+  overflow-x: hidden;
+  overflow-y: auto;
+  min-height: 100vh;
+}
