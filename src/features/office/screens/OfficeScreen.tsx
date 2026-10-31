@@ -951,6 +951,7 @@ export function OfficeScreen({
     useState(false);
   const [showDelayedGatewayConnectOverlay, setShowDelayedGatewayConnectOverlay] =
     useState(false);
+  const [showGatewaySetupPanel, setShowGatewaySetupPanel] = useState(false);
   const [clockTick, setClockTick] = useState(0);
   const [debugRows, setDebugRows] = useState<OfficeDebugRow[]>([]);
   const [feedEvents, setFeedEvents] = useState<OfficeFeedEvent[]>([]);
@@ -4425,18 +4426,10 @@ export function OfficeScreen({
     setShowDelayedGatewayConnectOverlay(false);
   }, [agentsLoaded, didAttemptGatewayConnect, shouldPromptForConnect, status]);
 
-  const showGatewayLoadingOverlay =
-    !agentsLoaded &&
-    (!connectPromptReady ||
-      (gatewayUrl.trim().length > 0 &&
-        !shouldPromptForConnect &&
-        ((!didAttemptGatewayConnect && showDelayedGatewayLoadingOverlay) ||
-          (status === "connecting" && showDelayedGatewayLoadingOverlay))));
-  const showGatewayConnectOverlay =
-    connectPromptReady &&
-    status === "disconnected" &&
-    !agentsLoaded &&
-    (shouldPromptForConnect || showDelayedGatewayConnectOverlay);
+  // Keep the virtual office visible; runtime connection must never block the scene.
+  const showGatewayLoadingOverlay = false;
+  // Gateway setup is opened only on demand, never as an automatic blocking popup.
+  const showGatewayConnectOverlay = connectPromptReady && showGatewaySetupPanel;
   // The virtual office is the primary workspace and must remain visible even
   // before a gateway is connected or the agent list has finished loading.
   // Runtime connection only enriches the scene with live agents; it must not
@@ -4467,6 +4460,7 @@ export function OfficeScreen({
       <div className="pointer-events-auto absolute right-3 top-3 z-[90] flex items-center gap-2">
         <button type="button" onClick={() => handleOfficeRenderModeChange("3d")} aria-label="Mode kantor 3D" className={`rounded-lg border border-white/20 px-4 py-2 text-xs font-bold shadow-lg backdrop-blur-md ${officeRenderMode === "3d" ? "bg-cyan-400 text-black" : "bg-black/70 text-white"}`}>3D</button>
         <button type="button" onClick={() => handleOfficeRenderModeChange("2d")} aria-label="Mode kantor 2D" className={`rounded-lg border border-white/20 px-4 py-2 text-xs font-bold shadow-lg backdrop-blur-md ${officeRenderMode === "2d" ? "bg-cyan-400 text-black" : "bg-black/70 text-white"}`}>2D</button>
+        <button type="button" onClick={() => setShowGatewaySetupPanel((open) => !open)} className="rounded-lg border border-white/20 bg-black/70 px-4 py-2 text-xs font-bold text-white shadow-lg backdrop-blur-md">{showGatewaySetupPanel ? "Tutup Runtime" : "Hubungkan Runtime"}</button>
         <button type="button" onClick={() => router.push("/")} className="rounded-lg border border-white/20 bg-black/70 px-4 py-2 text-xs font-bold text-white shadow-lg backdrop-blur-md">Back to Dashboard</button>
       </div>
       {showGatewayLoadingOverlay ? (
