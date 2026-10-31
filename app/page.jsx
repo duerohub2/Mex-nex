@@ -96,7 +96,7 @@ export default function Home() {
       <aside className="sidebar">
         <div className="brand"><div className="brand-mark">M</div><div><strong>MEX-NEX</strong><span>AI VIRTUAL OFFICE</span></div></div>
         <div className="workspace-label">WORKSPACE</div>
-        <nav>{navItems.map(([id, label, icon]) => <button key={id} className={active === id ? "nav-item selected" : "nav-item"} onClick={() => setActive(id)}><span className="nav-icon">{icon}</span>{label}{id === "tasks" && tasks.length > 0 && <small>{tasks.length}</small>}</button>)}</nav>
+        <nav><a href="/office" className="nav-item"><span className="nav-icon">▣</span>Kantor Virtual ↗</a>{navItems.map(([id, label, icon]) => <button key={id} className={active === id ? "nav-item selected" : "nav-item"} onClick={() => setActive(id)}><span className="nav-icon">{icon}</span>{label}{id === "tasks" && tasks.length > 0 && <small>{tasks.length}</small>}</button>)}</nav>
         <div className="sidebar-bottom"><div className="local-indicator"><i /> SERVER LOKAL AKTIF</div><p>Mode pribadi · Tanpa login</p><p className="version">MEX-NEX · Tahap 5</p></div>
       </aside>
       <section className="main-area">
