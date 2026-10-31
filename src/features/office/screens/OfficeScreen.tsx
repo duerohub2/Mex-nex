@@ -4437,10 +4437,11 @@ export function OfficeScreen({
     status === "disconnected" &&
     !agentsLoaded &&
     (shouldPromptForConnect || showDelayedGatewayConnectOverlay);
-  // Defer mounting the heavy office renderers (Three.js / Phaser) until a
-  // gateway connection exists, so users can pick 2D vs. 3D on the connect
-  // screen before either pipeline loads.
-  const officeSceneReady = agentsLoaded || status === "connected";
+  // The virtual office is the primary workspace and must remain visible even
+  // before a gateway is connected or the agent list has finished loading.
+  // Runtime connection only enriches the scene with live agents; it must not
+  // gate the office map itself.
+  const officeSceneReady = true;
 
   const runningCount = state.agents.filter(
     (agent) =>
