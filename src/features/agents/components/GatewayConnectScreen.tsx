@@ -179,7 +179,7 @@ export const GatewayConnectScreen = ({
       <label className="flex flex-col gap-1 text-[11px] font-medium text-foreground/90">
         URL Gateway
         <input
-          className="h-11 w-full rounded-md border-2 border-black bg-white px-3 font-sans text-sm text-black outline-none focus:ring-2 focus:ring-[#00f5ff]"
+          className="h-11 w-full rounded-md border-2 border-black bg-white px-3 font-sans text-sm text-black outline-none focus:ring-2 focus:ring-[#f4a261]"
           type="text"
           value={gatewayUrl}
           onChange={(event) => onGatewayUrlChange(event.target.value)}
@@ -216,7 +216,7 @@ export const GatewayConnectScreen = ({
         {tokenOptional ? "Token gateway (opsional)" : "Token gateway"}
         <div className="relative">
           <input
-            className="h-11 w-full rounded-md border-2 border-black bg-white px-3 pr-10 font-sans text-sm text-black outline-none focus:ring-2 focus:ring-[#00f5ff]"
+            className="h-11 w-full rounded-md border-2 border-black bg-white px-3 pr-10 font-sans text-sm text-black outline-none focus:ring-2 focus:ring-[#f4a261]"
             type={showToken ? "text" : "password"}
             value={token}
             onChange={(event) => onTokenChange(event.target.value)}
@@ -240,7 +240,7 @@ export const GatewayConnectScreen = ({
 
       <button
         type="button"
-        className="mt-1 h-12 w-full rounded-md border-2 border-black bg-[#00f5ff] px-4 text-xs font-black tracking-[0.05em] text-black shadow-[4px_4px_0_#000] disabled:cursor-not-allowed disabled:opacity-60"
+        className="mt-1 h-12 w-full rounded-md border-2 border-black bg-[#f4a261] px-4 text-xs font-black tracking-[0.05em] text-black shadow-[3px_3px_0_#8a5737] disabled:cursor-not-allowed disabled:opacity-60"
         onClick={onConnect}
         disabled={connectDisabled || !gatewayUrl.trim()}
       >
@@ -259,7 +259,7 @@ export const GatewayConnectScreen = ({
 
   return (
     <div className="nex-pop-connect mx-auto flex min-h-0 w-full max-w-[820px] flex-1 flex-col gap-4 px-2 pb-6 sm:gap-5 sm:px-0">
-      <div className="ui-card rounded-xl border-2 border-black bg-[#00f5ff] px-3 py-3 text-black shadow-[5px_5px_0_#000] sm:px-4">
+      <div className="ui-card rounded-xl border-2 border-black bg-[#f4a261] px-3 py-3 text-black shadow-[3px_3px_0_#8a5737] sm:px-4">
         <div className="flex items-center gap-2">
           {status === "connecting" ? (
             <RunningAvatarLoader size={18} trackWidth={36} inline />
@@ -273,7 +273,7 @@ export const GatewayConnectScreen = ({
       </div>
 
       {renderMode && onRenderModeChange ? (
-        <div className="ui-card rounded-xl border-2 border-black bg-[#fff8e7] px-3 py-4 text-black shadow-[-5px_5px_0_#000] sm:px-6">
+        <div className="ui-card rounded-xl border-2 border-black bg-[#fff5e6] px-3 py-4 text-black shadow-[3px_3px_0_#8a5737] sm:px-6">
           <p className="font-mono text-[10px] font-medium tracking-[0.06em] text-muted-foreground">
             Tampilan kantor
           </p>
@@ -291,8 +291,8 @@ export const GatewayConnectScreen = ({
                   data-testid={`connect-render-mode-${option.id}`}
                   className={`rounded-md border px-3 py-2.5 text-left transition-colors ${
                     selected
-                      ? "border-2 border-black bg-[#ffe600] shadow-[3px_3px_0_#000]"
-                      : "border-2 border-black bg-white hover:bg-[#00f5ff]"
+                      ? "border-2 border-black bg-[#f7c18e] shadow-[2px_2px_0_#8a5737]"
+                      : "border-2 border-black bg-white hover:bg-[#f4a261]"
                   }`}
                   onClick={() => onRenderModeChange(option.id)}
                 >
@@ -310,7 +310,7 @@ export const GatewayConnectScreen = ({
         </div>
       ) : null}
 
-      <div className="ui-card rounded-xl border-2 border-black bg-[#fff8e7] px-3 py-4 text-black shadow-[-5px_5px_0_#000] sm:px-6 sm:py-5">
+      <div className="ui-card rounded-xl border-2 border-black bg-[#fff5e6] px-3 py-4 text-black shadow-[-5px_5px_0_#000] sm:px-6 sm:py-5">
         <div>
           <p className="font-mono text-[10px] font-medium tracking-[0.06em] text-muted-foreground">
             Gateway jarak jauh (disarankan)
@@ -330,42 +330,42 @@ export const GatewayConnectScreen = ({
           <div className="mt-3 flex flex-wrap gap-2">
             <button
               type="button"
-              className="min-h-10 rounded-md border-2 border-black bg-[#ff4fd8] px-3 py-2 text-[11px] font-black tracking-[0.03em] text-black shadow-[3px_3px_0_#000]"
+              className="min-h-10 rounded-md border-2 border-black bg-[#e89a62] px-3 py-2 text-[11px] font-black tracking-[0.03em] text-black shadow-[3px_3px_0_#000]"
               onClick={useDemoPreset}
             >
               Backend demo
             </button>
             <button
               type="button"
-              className="min-h-10 rounded-md border-2 border-black bg-[#ff4fd8] px-3 py-2 text-[11px] font-black tracking-[0.03em] text-black shadow-[3px_3px_0_#000]"
+              className="min-h-10 rounded-md border-2 border-black bg-[#e89a62] px-3 py-2 text-[11px] font-black tracking-[0.03em] text-black shadow-[3px_3px_0_#000]"
               onClick={useHermesPreset}
             >
               Backend Hermes
             </button>
             <button
               type="button"
-              className="min-h-10 rounded-md border-2 border-black bg-[#ff4fd8] px-3 py-2 text-[11px] font-black tracking-[0.03em] text-black shadow-[3px_3px_0_#000]"
+              className="min-h-10 rounded-md border-2 border-black bg-[#e89a62] px-3 py-2 text-[11px] font-black tracking-[0.03em] text-black shadow-[3px_3px_0_#000]"
               onClick={useHermesAgentPreset}
             >
               Hermes Agent (langsung)
             </button>
             <button
               type="button"
-              className="min-h-10 rounded-md border-2 border-black bg-[#ff4fd8] px-3 py-2 text-[11px] font-black tracking-[0.03em] text-black shadow-[3px_3px_0_#000]"
+              className="min-h-10 rounded-md border-2 border-black bg-[#e89a62] px-3 py-2 text-[11px] font-black tracking-[0.03em] text-black shadow-[3px_3px_0_#000]"
               onClick={useLocalPreset}
             >
               Runtime lokal
             </button>
             <button
               type="button"
-              className="min-h-10 rounded-md border-2 border-black bg-[#ff4fd8] px-3 py-2 text-[11px] font-black tracking-[0.03em] text-black shadow-[3px_3px_0_#000]"
+              className="min-h-10 rounded-md border-2 border-black bg-[#e89a62] px-3 py-2 text-[11px] font-black tracking-[0.03em] text-black shadow-[3px_3px_0_#000]"
               onClick={useHermes3dPreset}
             >
               Runtime Hermes3D
             </button>
             <button
               type="button"
-              className="min-h-10 rounded-md border-2 border-black bg-[#ff4fd8] px-3 py-2 text-[11px] font-black tracking-[0.03em] text-black shadow-[3px_3px_0_#000]"
+              className="min-h-10 rounded-md border-2 border-black bg-[#e89a62] px-3 py-2 text-[11px] font-black tracking-[0.03em] text-black shadow-[3px_3px_0_#000]"
               onClick={useCustomPreset}
             >
               Backend kustom
@@ -375,7 +375,7 @@ export const GatewayConnectScreen = ({
         {remoteForm}
       </div>
 
-      <div className="ui-card rounded-xl border-2 border-black bg-[#fff8e7] px-3 py-4 text-black shadow-[-5px_5px_0_#000] sm:px-6 sm:py-5">
+      <div className="ui-card rounded-xl border-2 border-black bg-[#fff5e6] px-3 py-4 text-black shadow-[-5px_5px_0_#000] sm:px-6 sm:py-5">
         <div className="space-y-1.5">
           <p className="font-mono text-[10px] font-semibold tracking-[0.06em] text-muted-foreground">
             Jalankan secara lokal (opsional)
