@@ -1,4 +1,3 @@
-import { inspectUpstreamGatewayUrl as inspectAppUrl } from "../../src/lib/gateway/upstreamUrlDiagnostics.ts";
 
 export const DOCTOR_STATUSES = Object.freeze({ pass: "pass", warn: "warn", fail: "fail" });
 
@@ -88,4 +87,43 @@ export function parseDoctorArgs(args = []) {
   }
   return result;
 }
-export const inspectUpstreamGatewayUrl = (url, adapterType = "") => inspectAppUrl(url, adapterType);
+
+const DASHBOARD_PORT = "9119";
+const API_PORT = "8642";
+const WS_PATH = "/api/ws";
+const TLS_PORTS = new Set(["443", "8443", "10000"]);
+const ENDPOINT_FIX = "Hermes3D connects through its own adapter, not the hermes-agent dashboard. Run `npm run hermes-adapter` with HERMES_API_URL pointing at the Hermes OpenAI-compatible API (port 8642), then connect to the adapter on port 18789.";
+const isTailnet = hostname => hostname === "ts.net" || hostname.endsWith(".ts.net");
+export function inspectUpstreamGatewayUrl(rawUrl, adapterType = "") {
+  const value = typeof rawUrl === "string" ? rawUrl.trim() : "";
+  if (!value) return [];
+  let parsed;
+  try { parsed = new URL(value); } catch { return []; }
+  const findings = [];
+  const protocol = parsed.protocol.toLowerCase();
+  const hostname = parsed.hostname.toLowerCase();
+  const port = parsed.port;
+  const pathname = parsed.pathname.replace(/\\/+$/, "");
+  const targetsHermesAgent = String(adapterType || "").trim().toLowerCase() === "hermes-agent";
+  if (!targetsHermesAgent && port === DASHBOARD_PORT) findings.push({
+    code: "hermes_agent_dashboard_port", severity: "error",
+    message: `Port ${DASHBOARD_PORT} is the hermes-agent dashboard, which speaks JSON-RPC 2.0 over /api/ws with single-use ticket auth. Hermes3D cannot talk to it.`,
+    fix: ENDPOINT_FIX,
+  });
+  if (!targetsHermesAgent && pathname === WS_PATH) findings.push({
+    code: "hermes_agent_jsonrpc_path", severity: "error",
+    message: `${WS_PATH} is the hermes-agent JSON-RPC endpoint, not a Hermes3D gateway.`,
+    fix: ENDPOINT_FIX,
+  });
+  if (port === API_PORT) findings.push({
+    code: "hermes_openai_api_port", severity: "error",
+    message: `Port ${API_PORT} is the Hermes OpenAI-compatible HTTP API. It serves /v1/chat/completions over HTTP and has no gateway websocket.`,
+    fix: "Set HERMES_API_URL to this address and run `npm run hermes-adapter`, then point the gateway URL at the adapter instead.",
+  });
+  if (protocol === "wss:" && port && !TLS_PORTS.has(port) && isTailnet(hostname)) findings.push({
+    code: "tls_on_plain_tailnet_port", severity: "warning",
+    message: `wss:// expects TLS, but Tailscale only terminates TLS on ports ${[...TLS_PORTS].join(", ")}. Port ${port} on a tailnet host is almost certainly plain HTTP.`,
+    fix: "Either use ws:// against this port, or expose the service with `tailscale serve --https=443 http://127.0.0.1:<port>` and connect to wss://<host> with no port.",
+  });
+  return findings;
+}
