@@ -32,7 +32,7 @@ const subscribe = (listener: () => void): (() => void) => {
 
 const readCompleted = (): boolean => {
   try {
-    return window.localStorage.getItem(STORAGE_KEY) === "true";
+    return window.localStorage.getItem(STORAGE_KEY) !== "false";
   } catch {
     return false;
   }
