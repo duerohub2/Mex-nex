@@ -86,8 +86,8 @@ function syncQaBulletin(state, review, now) {
     return;
   }
   const category = blocked ? "QA · Blocker" : "QA · Handoff";
-  const issueText = unresolved.map(issue => "- " + issue.title + " (" + issue.severity + ")").join("\\n");
-  const body = [review.summary || review.title, issueText].filter(Boolean).join("\\n\\n");
+  const issueText = unresolved.map(issue => "- " + issue.title + " (" + issue.severity + ")").join("\n");
+  const body = [review.summary || review.title, issueText].filter(Boolean).join("\n\n");
   if (existing) {
     existing.title = review.title;
     existing.body = body;
