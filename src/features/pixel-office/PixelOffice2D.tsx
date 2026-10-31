@@ -233,7 +233,7 @@ export function PixelOffice2D(props: PixelOffice2DProps) {
       </div>
 
       {/* Toolbar — top right. */}
-      <div className="absolute right-2 top-12 z-20 flex max-w-[calc(100%-1rem)] flex-wrap justify-end gap-1.5 sm:right-3 sm:top-3 sm:flex-nowrap sm:gap-2">
+      <div className="hidden absolute right-2 top-12 z-20 flex max-w-[calc(100%-1rem)] flex-wrap justify-end gap-1.5 sm:right-3 sm:top-3 sm:flex-nowrap sm:gap-2">
         {onAddAgent ? (
           <button
             onClick={onAddAgent}
