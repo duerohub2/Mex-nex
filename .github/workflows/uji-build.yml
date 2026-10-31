@@ -5,6 +5,7 @@ on:
     branches:
       - main
       - import/core-app-20261030
+      - stage-5/qa-workflow-v1
     paths:
       - 'app/**'
       - 'src/**'
@@ -36,4 +37,5 @@ jobs:
           node-version: 22
           cache: npm
       - run: npm ci
+      - run: npm run test -- --run tests/unit/qaWorkflow.test.ts tests/unit/officeWorkflows.test.ts tests/unit/officeApiStageFive.test.ts
       - run: npm run build
