@@ -201,8 +201,15 @@ export function PixelOffice2D(props: PixelOffice2DProps) {
   const errorCount = agents.filter((agent) => agent.status === "error").length;
 
   return (
-    <div className="relative h-full w-full overflow-hidden bg-[#6fb544]">
-      <div className="absolute inset-0" ref={rootRef} />
+    <div
+      className="relative h-full w-full overflow-hidden bg-[#6fb544]"
+      style={{ touchAction: "none", overscrollBehavior: "contain" }}
+    >
+      <div
+        className="absolute inset-0 select-none"
+        ref={rootRef}
+        style={{ touchAction: "none", overscrollBehavior: "contain" }}
+      />
 
       {/* Office title — top left. */}
       <div className="absolute left-2 right-2 top-2 z-20 flex flex-wrap items-start gap-1.5 select-none sm:left-3 sm:right-auto sm:top-3 sm:gap-2">
