@@ -42,6 +42,7 @@ import {
 } from "@/features/office/screens/SmsBoothImmersiveScreen";
 import { StandupImmersiveScreen } from "@/features/office/screens/StandupImmersiveScreen";
 import type { OfficeUsageAnalyticsParams } from "@/features/office/hooks/useOfficeUsageAnalyticsViewModel";
+import { resolveOfficeVisualStatus } from "@/lib/office/visualActivity";
 import type { AgentState } from "@/features/agents/state/store";
 import type { CronJobSummary } from "@/lib/cron/types";
 import { buildMockPhoneCallScenario } from "@/lib/office/call/mock";
