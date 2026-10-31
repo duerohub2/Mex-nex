@@ -87,4 +87,32 @@ describe("MEX-NEX Stage 5 office API integration", () => {
     expect(verified.qaReadiness).toBe("green");
     expect(verified.bulletins.find(card => card.sourceQaReviewId === review.id).archived).toBe(true);
   });
+  it("supports structured Whiteboard blocks and Bulletin card lifecycle", async () => {
+    const created = await post({ action: "whiteboard-create", title: "Rencana produk", mode: "planning", content: "Tujuan awal" });
+    const board = created.whiteboards[0];
+    expect(board.blocks.length).toBeGreaterThan(1);
+
+    const added = await post({ action: "whiteboard-add-block", boardId: board.id, type: "decision", title: "Pilihan teknologi", body: "Gunakan adapter modular." });
+    const block = added.whiteboards[0].blocks.find(item => item.title === "Pilihan teknologi");
+    expect(block).toBeTruthy();
+
+    const updated = await post({ action: "whiteboard-update-block", boardId: board.id, blockId: block.id, body: "Gunakan adapter modular dan teruji." });
+    expect(updated.whiteboards[0].blocks.find(item => item.id === block.id).body).toContain("teruji");
+
+    const deleted = await post({ action: "whiteboard-delete-block", boardId: board.id, blockId: block.id });
+    expect(deleted.whiteboards[0].blocks.some(item => item.id === block.id)).toBe(false);
+
+    const duplicated = await post({ action: "whiteboard-duplicate", boardId: board.id });
+    expect(duplicated.whiteboards[0].title).toContain("Salinan");
+    const archived = await post({ action: "whiteboard-archive", boardId: board.id, archived: true });
+    expect(archived.whiteboards.find(item => item.id === board.id).archived).toBe(true);
+
+    const bulletin = await post({ action: "bulletin-create", title: "Rilis internal", body: "Rilis menunggu pemeriksaan.", type: "goal", priority: "high" });
+    const card = bulletin.bulletins.find(item => item.title === "Rilis internal");
+    const pinned = await post({ action: "bulletin-pin", cardId: card.id, pinned: true });
+    expect(pinned.bulletins.find(item => item.id === card.id).pinned).toBe(true);
+    const bulletinArchived = await post({ action: "bulletin-archive", cardId: card.id, archived: true });
+    expect(bulletinArchived.bulletins.find(item => item.id === card.id).archived).toBe(true);
+  });
+
 });
