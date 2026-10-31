@@ -14,6 +14,9 @@ on:
       - 'assets/**'
       - 'plugins/**'
       - 'tests/**'
+      - 'docs/**'
+      - 'README.md'
+      - 'ROADMAP.md'
       - 'public/**'
       - 'package.json'
       - 'package-lock.json'
@@ -38,4 +41,5 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm run test -- --run
+      - run: npm run typecheck
       - run: npm run build
