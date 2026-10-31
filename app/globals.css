@@ -148,3 +148,58 @@ button{cursor:pointer}
 
 .analytics-progress{height:7px;border-radius:20px;background:#edf0f5;overflow:hidden;margin:14px 0 7px}
 .analytics-progress span{display:block;height:100%;border-radius:20px;background:linear-gradient(90deg,#5368e8,#1da77a);transition:width .2s ease}
+
+
+/* MEX-NEX warm Pop Art dashboard theme */
+:root{--bg:#fff4e5;--surface:#fffaf2;--ink:#49301f;--muted:#98785f;--line:#ead3ba;--blue:#d98245;--navy:#6b4027;--green:#548b68}
+body{background:#fff4e5;color:#49301f}
+.shell{background:#fff4e5}
+.sidebar{background:#f8e5ce;color:#49301f;border-right:2px solid #6b4027}
+.brand-mark{background:#f4a261;color:#422719;box-shadow:3px 3px 0 #6b4027;border:2px solid #6b4027}
+.brand span{color:#9b6b49}
+.workspace-label,.eyebrow{color:#a87855}
+.nav-item{color:#76543d}
+.nav-item:hover,.nav-item.selected{background:#f4c99f;color:#422719}
+.nav-item.selected{box-shadow:inset 3px 0 #d98245}
+.nav-item small{background:#e9b98d;color:#49301f}
+.sidebar-bottom{color:#98785f}
+.local-indicator{color:#79563d}
+.main-area{color:#49301f}
+.topbar h1{color:#49301f}
+.top-status{color:#79563d;background:#fffaf2;border:1px solid #e4c5a5}
+.welcome{background:linear-gradient(112deg,#f5c99e,#f1ad78 72%,#e9965f);color:#49301f;border:2px solid #6b4027;box-shadow:5px 5px 0 #6b4027}
+.welcome p{color:#68452e}
+.eyebrow.light{color:#875633}
+.art-window{border:1px solid #9a633e66;background:#fff8ed55;box-shadow:0 12px 30px #87563322}
+.art-window span{background:#b9794e}
+.art-window b{color:#754628}
+.orb-one{background:#fff1d866}.orb-two{background:#d9824555}
+.stat-card,.panel{background:#fffaf2;border:1.5px solid #e5c6a7;box-shadow:2px 3px 0 #ead3ba}
+.stat-card span,.stat-card small,.agent-info span,.agent-info small,.task-row small{color:#98785f}
+.text-button{color:#b96b36}
+.agent-card{border-bottom-color:#f0dfcc}
+.agent-avatar{background:#f7dfc4;color:#9c5e31}
+.agent-status{color:#548b68}
+.task-row{border-bottom-color:#f0dfcc}
+.task-check{color:#b9794e}
+.empty-state{color:#98785f}
+.count-pill{color:#79563d;background:#f8e5ce}
+.department-icon{background:#f8e5ce;color:#b96b36}
+.department-card{border-color:#ead3ba;background:#fffdf8}
+.department-card>span{color:#b96b36}
+.task-form input,.chat-form input,.entity-form input,.entity-form select,.entity-form textarea,.task-form select{border-color:#e5c6a7;background:#fffdf8;color:#49301f}
+.task-form input:focus,.chat-form input:focus{border-color:#d98245}
+.task-form button,.chat-form button,.primary-button,.entity-form button{background:#e9955e;color:#422719;border:1.5px solid #6b4027;box-shadow:2px 2px 0 #6b4027}
+.chat-notice{background:#f8e5ce;color:#79563d}
+.message-item{border-color:#ead3ba;background:#fffdf8}
+.message-item b{color:#b96b36}
+.alert.error{background:#fff0e8;color:#a34d35}
+.alert.success{background:#edf5e9;color:#47754f}
+.runtime-config{background:#fff4e5;border-color:#ead3ba}
+.runtime-setup{border-color:#ead3ba}
+.runtime-setup code{background:#6b4027;color:#fff4e5}
+.runtime-pill{background:#f8e5ce;color:#9c5e31}
+.runtime-pill.ready{background:#edf5e9;color:#47754f}
+.status-select{border-color:#ead3ba;background:#fffdf8;color:#79563d}
+.footer{color:#a88b72}
+@media(max-width:760px){.sidebar{border-right:0;border-bottom:2px solid #6b4027}.brand{padding-bottom:10px}.sidebar nav{gap:6px}.nav-item{background:#fff4e5;border:1px solid #e5c6a7;border-radius:9px}.nav-item.selected{background:#f4c99f}}
