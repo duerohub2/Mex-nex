@@ -57,6 +57,7 @@ function QaPanel({reviews,tasks,agents,busy,submit,readiness}){
   })}</div>
  </>;
 }
-\nfunction Empty({text}){return <div className="empty-state">{text}</div>;}
+
+function Empty({text}){return <div className="empty-state">{text}</div>;}
 function Stat({label,value,hint}){return <div className="stat-card"><span>{label}</span><strong>{value}</strong><small>{hint}</small></div>;}
 function Metric({label,value}){return <div className="stage-metric"><span>{label}</span><strong>{value}</strong></div>;}
