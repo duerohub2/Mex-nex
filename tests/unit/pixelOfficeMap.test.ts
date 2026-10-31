@@ -80,6 +80,61 @@ describe("hermes hq pixel map integrity", () => {
     }
   });
 
+  it("keeps every furniture footprint inside the map", async () => {
+    const { OBJECT_FOOTPRINT } = await import("@/features/pixel-office/types");
+    for (const object of map.objects) {
+      const [width, height] = OBJECT_FOOTPRINT[object.kind];
+      expect(object.tx, `object ${object.id} left edge`).toBeGreaterThanOrEqual(0);
+      expect(object.ty, `object ${object.id} top edge`).toBeGreaterThanOrEqual(0);
+      expect(object.tx + width, `object ${object.id} right edge`).toBeLessThanOrEqual(map.cols);
+      expect(object.ty + height, `object ${object.id} bottom edge`).toBeLessThanOrEqual(map.rows);
+    }
+  });
+
+  it("uses unique identifiers for rooms, furniture, desks, and stations", () => {
+    const ids = [
+      ...map.zones.map((entry) => entry.id),
+      ...map.objects.map((entry) => entry.id),
+      ...map.desks.map((entry) => entry.id),
+      ...map.stations.map((entry) => entry.id),
+    ];
+    expect(new Set(ids).size).toBe(ids.length);
+  });
+
+  it("includes the core company rooms and shared facilities", () => {
+    const zoneKinds = new Set(map.zones.map((entry) => entry.kind));
+    for (const kind of [
+      "meeting",
+      "team_pod",
+      "kitchen",
+      "library",
+      "phone",
+      "gym",
+      "lounge",
+      "game_room",
+      "server",
+      "focus",
+    ]) {
+      expect(zoneKinds, `missing room category: ${kind}`).toContain(kind);
+    }
+
+    const objectKinds = new Set(map.objects.map((entry) => entry.kind));
+    for (const kind of [
+      "meeting_table",
+      "desk_monitor",
+      "whiteboard",
+      "kitchen_counter",
+      "bookshelf",
+      "phone_booth",
+      "treadmill",
+      "sofa_h",
+      "arcade",
+      "server_rack",
+    ]) {
+      expect(objectKinds, `missing facility: ${kind}`).toContain(kind);
+    }
+  });
+
   it("places spawn on a non-wall walkable tile", () => {
     expect(inBounds(map.spawn.tx, map.spawn.ty)).toBe(true);
     expect(map.ground[map.spawn.ty * map.cols + map.spawn.tx]).not.toBe("wall");
