@@ -120,7 +120,7 @@ function syncMeetingOutputs(state, meeting, now) {
     card.updatedAt = now;
     card.archived = false;
   } else {
-    state.bulletins.unshift({ id: randomUUID(), sourceMeetingId: meeting.id, title: "Hasil meeting: " + meeting.title, body: cardBody, category: "Meeting", createdAt: now, updatedAt: now, archived: false });
+    state.bulletins.unshift({ id: randomUUID(), sourceMeetingId: meeting.id, title: "Hasil meeting: " + meeting.title, body: cardBody, category: "Meeting", type: "meeting_note", priority: "normal", pinned: false, createdAt: now, updatedAt: now, archived: false });
   }
 }
 
@@ -143,7 +143,7 @@ function syncQaBulletin(state, review, now) {
     existing.archived = false;
     existing.updatedAt = now;
   } else {
-    state.bulletins.unshift({ id: randomUUID(), sourceQaReviewId: review.id, title: review.title, body, category, createdAt: now, updatedAt: now, archived: false });
+    state.bulletins.unshift({ id: randomUUID(), sourceQaReviewId: review.id, title: review.title, body, category, type: blocked ? "blocker" : "handoff", priority: blocked ? "high" : "normal", pinned: blocked, createdAt: now, updatedAt: now, archived: false });
   }
 }
 
