@@ -124,6 +124,8 @@ function syncMeetingOutputs(state, meeting, now) {
   const card = state.bulletins.find(item => item.sourceMeetingId === meeting.id);
   if (card) {
     card.body = cardBody;
+    card.category = "Meeting";
+    card.type = "meeting_note";
     card.updatedAt = now;
     card.archived = false;
   } else {
