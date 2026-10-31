@@ -947,10 +947,6 @@ export function OfficeScreen({
     useAgentStore();
   const [agentsLoaded, setAgentsLoaded] = useState(false);
   const [didAttemptGatewayConnect, setDidAttemptGatewayConnect] = useState(false);
-  const [showDelayedGatewayLoadingOverlay, setShowDelayedGatewayLoadingOverlay] =
-    useState(false);
-  const [showDelayedGatewayConnectOverlay, setShowDelayedGatewayConnectOverlay] =
-    useState(false);
   const [showGatewaySetupPanel, setShowGatewaySetupPanel] = useState(false);
   const [clockTick, setClockTick] = useState(0);
   const [debugRows, setDebugRows] = useState<OfficeDebugRow[]>([]);
@@ -4391,40 +4387,6 @@ export function OfficeScreen({
 
   // No longer force-close the jukebox panel when skill is disabled;
   // the panel handles the disabled state itself.
-
-  useEffect(() => {
-    if (
-      status === "connecting" &&
-      !agentsLoaded &&
-      gatewayUrl.trim().length > 0 &&
-      !shouldPromptForConnect
-    ) {
-      const timeoutId = window.setTimeout(() => {
-        setShowDelayedGatewayLoadingOverlay(true);
-      }, GATEWAY_LOADING_OVERLAY_DELAY_MS);
-      return () => {
-        window.clearTimeout(timeoutId);
-      };
-    }
-    setShowDelayedGatewayLoadingOverlay(false);
-  }, [agentsLoaded, gatewayUrl, shouldPromptForConnect, status]);
-
-  useEffect(() => {
-    if (
-      status === "disconnected" &&
-      !agentsLoaded &&
-      didAttemptGatewayConnect &&
-      !shouldPromptForConnect
-    ) {
-      const timeoutId = window.setTimeout(() => {
-        setShowDelayedGatewayConnectOverlay(true);
-      }, GATEWAY_CONNECT_OVERLAY_DELAY_MS);
-      return () => {
-        window.clearTimeout(timeoutId);
-      };
-    }
-    setShowDelayedGatewayConnectOverlay(false);
-  }, [agentsLoaded, didAttemptGatewayConnect, shouldPromptForConnect, status]);
 
   // Keep the virtual office visible; runtime connection must never block the scene.
   const showGatewayLoadingOverlay = false;
