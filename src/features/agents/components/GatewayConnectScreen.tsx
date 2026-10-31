@@ -298,7 +298,7 @@ export const GatewayConnectScreen = ({
                 >
                   <span className="flex items-center gap-2 text-xs font-semibold text-foreground">
                     {option.label}
-                    {selected ? <Check className="h-3.5 w-3.5 text-amber-400" /> : null}
+                    {selected ? <Check className="h-3.5 w-3.5 text-foreground" /> : null}
                   </span>
                   <span className="mt-1 block text-xs leading-snug text-muted-foreground">
                     {option.description}
