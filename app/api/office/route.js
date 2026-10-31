@@ -253,15 +253,79 @@ export async function POST(request) {
       }
       case "whiteboard-create": {
         const title = clean(payload.title, 120, "Judul whiteboard");
+        const mode = ["planning", "meeting", "architecture", "org", "freeform"].includes(payload.mode) ? payload.mode : "freeform";
         const content = clean(payload.content, 8000, "Isi whiteboard", false);
-        state.whiteboards.unshift({ id: randomUUID(), title, content, createdAt: now, updatedAt: now });
-        record(state, "whiteboard", "Whiteboard dibuat: " + title, now); break;
+        const templateSections = {
+          meeting: ["Peserta", "Agenda", "Keputusan", "Hambatan", "Tindak lanjut"],
+          planning: ["Masalah", "Pilihan solusi", "Risiko", "Arah terpilih", "Tugas"],
+          architecture: ["Tujuan sistem", "Komponen", "Alur data", "Integrasi", "Risiko teknis"],
+          org: ["Tujuan tim", "Departemen", "Peran", "Tanggung jawab", "Handoff"],
+        };
+        const blocks = (templateSections[mode] || []).map(section => ({ id: randomUUID(), type: "heading", title: section, body: "", createdAt: now, updatedAt: now, authorType: "system" }));
+        if (content) blocks.push({ id: randomUUID(), type: "note", title: "Catatan awal", body: content, createdAt: now, updatedAt: now, authorType: "human" });
+        state.whiteboards.unshift({ id: randomUUID(), title, mode, content, blocks, archived: false, createdAt: now, updatedAt: now });
+        record(state, "whiteboard", "Whiteboard dibuat: " + title, now);
+        break;
       }
       case "whiteboard-update": {
         const item = state.whiteboards.find(x => x.id === payload.boardId);
         if (!item) throw new Error("Whiteboard tidak ditemukan.");
-        item.content = clean(payload.content, 8000, "Isi whiteboard", false); item.updatedAt = now;
-        record(state, "whiteboard-update", "Whiteboard diperbarui: " + item.title, now); break;
+        item.content = clean(payload.content, 8000, "Isi whiteboard", false);
+        item.blocks = [{ id: randomUUID(), type: "note", title: "Catatan", body: item.content, createdAt: now, updatedAt: now, authorType: "human" }];
+        item.updatedAt = now;
+        record(state, "whiteboard-update", "Whiteboard diperbarui: " + item.title, now);
+        break;
+      }
+      case "whiteboard-add-block": {
+        const item = state.whiteboards.find(x => x.id === payload.boardId);
+        if (!item) throw new Error("Whiteboard tidak ditemukan.");
+        if (item.archived) throw new Error("Whiteboard yang diarsipkan tidak dapat diubah.");
+        const type = ["heading", "note", "decision", "question", "action", "group"].includes(payload.type) ? payload.type : "note";
+        const title = clean(payload.title, 160, "Judul blok", false);
+        const body = clean(payload.body, 4000, "Isi blok", false);
+        if (!title && !body) throw new Error("Judul atau isi blok wajib diisi.");
+        item.blocks.push({ id: randomUUID(), type, title, body, createdAt: now, updatedAt: now, authorType: "human" });
+        item.updatedAt = now;
+        record(state, "whiteboard-block", "Blok ditambahkan ke: " + item.title, now);
+        break;
+      }
+      case "whiteboard-update-block": {
+        const item = state.whiteboards.find(x => x.id === payload.boardId);
+        const block = item?.blocks.find(x => x.id === payload.blockId);
+        if (!item || !block) throw new Error("Blok whiteboard tidak ditemukan.");
+        if (item.archived) throw new Error("Whiteboard yang diarsipkan tidak dapat diubah.");
+        if (payload.title !== undefined) block.title = clean(payload.title, 160, "Judul blok", false);
+        if (payload.body !== undefined) block.body = clean(payload.body, 4000, "Isi blok", false);
+        if (payload.type !== undefined && ["heading", "note", "decision", "question", "action", "group"].includes(payload.type)) block.type = payload.type;
+        block.updatedAt = now;
+        item.updatedAt = now;
+        record(state, "whiteboard-block-update", "Blok whiteboard diperbarui: " + item.title, now);
+        break;
+      }
+      case "whiteboard-delete-block": {
+        const item = state.whiteboards.find(x => x.id === payload.boardId);
+        if (!item || !item.blocks.some(x => x.id === payload.blockId)) throw new Error("Blok whiteboard tidak ditemukan.");
+        if (item.archived) throw new Error("Whiteboard yang diarsipkan tidak dapat diubah.");
+        item.blocks = item.blocks.filter(x => x.id !== payload.blockId);
+        item.updatedAt = now;
+        record(state, "whiteboard-block-delete", "Blok dihapus dari: " + item.title, now);
+        break;
+      }
+      case "whiteboard-archive": {
+        const item = state.whiteboards.find(x => x.id === payload.boardId);
+        if (!item) throw new Error("Whiteboard tidak ditemukan.");
+        item.archived = payload.archived !== false;
+        item.updatedAt = now;
+        record(state, "whiteboard-archive", (item.archived ? "Whiteboard diarsipkan: " : "Whiteboard dibuka kembali: ") + item.title, now);
+        break;
+      }
+      case "whiteboard-duplicate": {
+        const source = state.whiteboards.find(x => x.id === payload.boardId);
+        if (!source) throw new Error("Whiteboard tidak ditemukan.");
+        const copy = { ...source, id: randomUUID(), sourceMeetingId: null, title: source.title + " (Salinan)", archived: false, createdAt: now, updatedAt: now, blocks: source.blocks.map(block => ({ ...block, id: randomUUID(), createdAt: now, updatedAt: now })) };
+        state.whiteboards.unshift(copy);
+        record(state, "whiteboard-duplicate", "Whiteboard disalin: " + source.title, now);
+        break;
       }
       case "bulletin-create": {
         const title = clean(payload.title, 120, "Judul pengumuman");
