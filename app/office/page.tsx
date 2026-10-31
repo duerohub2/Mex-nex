@@ -7,7 +7,7 @@ const ENABLED_RE = /^(1|true|yes|on)$/i;
 
 const readDebugFlag = (value: string | undefined): boolean => {
   const normalized = (value ?? "").trim();
-  if (!normalized) return true;
+  if (!normalized) return false;
   return ENABLED_RE.test(normalized);
 };
 
