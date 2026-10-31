@@ -57,3 +57,8 @@ Roadmap pengembangan dan checklist Tahap 7 tersedia di [docs/roadmap.md](docs/ro
 ## Asal source dan lisensi
 
 Sebagian antarmuka dan aset berasal dari repositori sumber [duerohub2/Nex-Mex](https://github.com/duerohub2/Nex-Mex) dan basis upstream [Hermes3D](https://github.com/iamlukethedev/Hermes3D). Periksa dan pertahankan ketentuan lisensi serta atribusi upstream sebelum distribusi.
+
+
+## Tahap 7 — Integrasi dan pengujian
+
+Validasi CI menjalankan seluruh unit test, pemeriksaan TypeScript, dan build produksi. Checklist pengujian manual serta batasan validasi tercatat di [dokumen Tahap 7](docs/TAHAP-7-INTEGRASI-PENGUJIAN.md) dan [roadmap](docs/roadmap.md). Pengujian persistensi melalui pemuatan ulang modul route bukan pengganti restart proses server yang sesungguhnya.
