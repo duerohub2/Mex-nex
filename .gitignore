@@ -1,12 +1,72 @@
+# Dependencies
 node_modules/
+.pnp
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/versions
+
+# Build output
 .next/
 out/
 build/
 dist/
 coverage/
+*.tsbuildinfo
+next-env.d.ts
+
+# Local data and environment
 .data/
 .env
 .env.*
 !.env.example
+
+# Logs and OS
 *.log
 .DS_Store
+
+# Secrets, certificates, and private keys
+*.pem
+*.key
+*.crt
+*.cer
+*.p12
+*.pfx
+*.jks
+*.keystore
+.netrc
+id_rsa
+id_rsa.pub
+id_ed25519
+id_ed25519.pub
+
+# Deployment and test artifacts
+.vercel/
+playwright-report/
+test-results/
+.playwright-home/
+.playwright-cli/
+output/playwright/
+screenshots-*/
+
+# Local agent state and worktrees
+.agent/local
+.agent/execplan-pending.md
+.agent/*.local.md
+.agent/future-plans
+.hermes/
+agent-canvas/
+worktrees/
+.claude/
+.beads/
+.bv/
+
+# Local HTTPS certificates
+.certs/
+.understand-anything/
+
+# Python cache
+__pycache__/
+*.pyc

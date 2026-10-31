@@ -1,74 +1,55 @@
-# Panduan Android / Termux
+# Panduan menjalankan MEX-NEX di Android / Termux
 
-Panduan ini menjalankan MEX-NEX secara lokal di HP Android. Tidak diperlukan akun, registrasi, Vercel, atau layanan hosting.
+Panduan ini untuk menjalankan MEX-NEX secara lokal di HP Android. Performa dan kompatibilitas fitur 2D/3D bergantung pada perangkat, versi Android, browser, dan dukungan WebGL.
 
-## 1. Pasang Termux dan paket dasar
+## 1. Siapkan Termux
 
 Gunakan Termux dari sumber resminya (F-Droid atau GitHub Termux), lalu jalankan:
 
-```bash
-pkg update && pkg upgrade -y
-pkg install git nodejs-lts -y
-node -v
-npm -v
-```
+    pkg update && pkg upgrade -y
+    pkg install git nodejs-lts -y
+    node -v
+    npm -v
 
-Pastikan Node.js versi 20 atau lebih baru.
+Gunakan Node.js 22 atau lebih baru agar sesuai dengan konfigurasi build proyek. Jika paket Termux belum menyediakan versi tersebut, perbarui repositori/paket atau gunakan distribusi Node.js 22 yang kompatibel.
 
 ## 2. Unduh repository
 
-```bash
-git clone https://github.com/duerohub2/mex-nex.git
-cd mex-nex
-```
+    git clone https://github.com/duerohub2/mex-nex.git
+    cd mex-nex
 
-Jika folder repository sudah ada, masuk ke folder tersebut dan jalankan `git pull`.
+Jika repository sudah ada, masuk ke foldernya dan jalankan git pull.
 
 ## 3. Pasang dependency
 
-```bash
-npm install
-```
+    npm ci
 
-Proses pertama dapat memerlukan waktu dan koneksi internet.
+Proses instalasi dan build dapat memerlukan ruang penyimpanan serta RAM yang cukup. Jika Android menghentikan proses karena memori, tutup aplikasi lain lalu coba kembali.
 
-## 4. Jalankan kantor
+## 4. Jalankan MEX-NEX
 
-```bash
-npm run local
-```
+    npm run local
 
-Tunggu sampai Next.js menampilkan pesan server siap. Buka browser Android:
+Tunggu sampai server siap, lalu buka browser Android di http://127.0.0.1:3000. Biarkan Termux tetap berjalan selama aplikasi digunakan. Untuk menghentikan server, kembali ke Termux dan tekan Ctrl+C.
 
-`http://127.0.0.1:3000`
+## 5. Jalankan mode gateway demo (opsional)
 
-Biarkan Termux tetap berjalan selama aplikasi digunakan.
+    npm run local:demo
 
-## 5. Menghentikan aplikasi
-
-Kembali ke Termux dan tekan `Ctrl+C`.
+Mode ini menjalankan web bersama gateway demo di ws://127.0.0.1:18789. Gateway demo hanya mensimulasikan status dan percakapan Agent; bukan runtime model AI sungguhan dan tidak mengeksekusi tool eksternal.
 
 ## 6. Data dan backup
 
-Data kantor disimpan di:
+Simpan backup data kantor lokal secara berkala. Jangan membagikan file yang berisi percakapan atau data privat. Folder data lokal tidak diunggah ke Git.
 
-` .data/office.json `
+## 7. Troubleshooting
 
-Folder `.data` tidak diunggah ke Git. Salin file tersebut secara berkala ke lokasi backup pribadi. Jangan membagikan file yang berisi percakapan atau data privat.
+- Periksa versi Node.js dengan node -v; gunakan v22 atau lebih baru.
+- Jika dependency gagal dipasang, jalankan pkg update && pkg upgrade -y, pastikan ruang penyimpanan cukup, lalu ulangi npm ci.
+- Jika port 3000 atau 18789 sudah digunakan, hentikan proses lama atau atur variabel PORT / DEMO_ADAPTER_PORT.
+- Jika browser tidak dapat membuka halaman, pastikan server masih berjalan dan gunakan alamat loopback di atas.
+- Jika tampilan 3D lambat, tutup aplikasi lain atau gunakan renderer 2D bila tersedia.
 
-## 7. Jika port 3000 sudah digunakan
+## 8. Batasan verifikasi
 
-Jalankan dengan port alternatif:
-
-```bash
-PORT=3001 npm run local
-```
-
-Kemudian buka `http://127.0.0.1:3001`.
-
-## Catatan tahap awal
-
-- Tahap 1 menyediakan UI, API, dan penyimpanan lokal.
-- Instruksi yang dikirim lewat Command Center baru dicatat; belum diproses model AI.
-- Profil Agent dan departemen adalah data awal.
-- Runtime AI, delegasi otomatis, meeting, QA, dan kantor 2D/3D akan dibangun pada tahap berikutnya.
+Build CI memeriksa source di GitHub Actions, tetapi tidak sama dengan pengujian langsung di HP Android. Performa rendering 3D, dukungan WebGL, kompatibilitas paket native, dan kestabilan ketika aplikasi berjalan di latar belakang tetap perlu diuji di perangkat nyata.

@@ -1,80 +1,57 @@
-# MEX-NEX — Kantor AI Lokal
+# MEX-NEX — Kantor Virtual AI
 
-MEX-NEX adalah fondasi kantor virtual AI Agent yang dijalankan secara lokal melalui terminal dan browser. Proyek ini dibangun sebagai aplikasi mandiri; repositori `nex-mex` hanya menjadi referensi kebutuhan fitur dan arsitektur.
+MEX-NEX adalah ekosistem kantor virtual AI Agent yang menggabungkan fondasi aplikasi lokal, backend kantor, dan antarmuka kantor virtual 2D/3D. Proyek dapat dikembangkan dari komputer maupun Android melalui Termux, dengan batasan performa perangkat.
 
-## Status pembangunan
+## Isi repositori
 
-**Tahap 1 — Fondasi aplikasi (selesai)**
+- app/ — aplikasi dan fondasi kantor MEX-NEX.
+- src/ — antarmuka Next.js, fitur Agent, kantor virtual, dan komponen visual.
+- server/ — server aplikasi, gateway, dan adapter.
+- public/office-assets/ — aset visual kantor.
+- assets/, plugins/, dan tests/ — aset, plugin, serta pengujian yang diimpor.
+- docs/ — dokumentasi proyek dan panduan penggunaan.
 
-- [x] Aplikasi web lokal tanpa login.
-- [x] Backend API lokal.
-- [x] Penyimpanan data kantor persisten berbasis berkas JSON.
-- [x] Data awal departemen dan profil Agent.
-- [x] Pencatatan instruksi melalui Command Center (belum menjalankan AI).
-- [x] Task Manager dasar.
-- [x] Launcher terminal untuk Termux.
-- [x] Lapisan runtime AI multi-provider dan chat Agent (Tahap 3).
-- [x] AI Manager membuat rencana dan mendelegasikan respons ke Agent (Tahap 3).
-- [x] Struktur organisasi, pembuatan Agent, dan delegasi tugas dasar (Tahap 2).
-- [ ] Visualisasi kantor 2D/3D.
-- [x] Agent Execution Engine dengan tool workspace terbatas (Tahap 4).
-- [x] Meeting Room: jadwal, agenda, catatan, dan status meeting (Tahap 5).
-- [x] Whiteboard teks yang tersimpan dan dapat diperbarui (Tahap 5).
-- [x] Bulletin Board dengan kategori pengumuman (Tahap 5).
-- [x] QA Department: pencatatan pemeriksaan, prioritas, dan status QA (Tahap 5).
-- [x] Dashboard analitik dari data tugas, Agent, QA, dan aktivitas kantor (Tahap 5).
-- [ ] Meeting realtime audio/video dan whiteboard visual realtime (pengembangan lanjutan).
-- [ ] Visualisasi kantor 2D/3D (Tahap 6).
-- [ ] Pengujian integrasi menyeluruh (Tahap 7).
+## Status pengembangan
 
-## Menjalankan di Android / Termux
+Fondasi Tahap 1–5 MEX-NEX mencakup aplikasi web lokal, backend API, penyimpanan persisten, organisasi dan departemen, profil Agent, chat, delegasi tugas, Agent Execution Engine dengan workspace terbatas, Meeting Room, Whiteboard teks, Bulletin Board, QA Department, dan dashboard analitik.
 
-Persyaratan: Node.js 20 atau lebih baru dan Git.
+Antarmuka kantor virtual 2D/3D dan integrasi gateway disertakan sebagai bagian dari pengembangan visual. Fitur realtime audio/video, whiteboard visual realtime, pengujian integrasi menyeluruh, serta verifikasi langsung di perangkat Android masih memerlukan pengujian dan pengembangan lanjutan.
 
-```bash
-pkg update && pkg upgrade -y
-pkg install git nodejs-lts -y
-git clone https://github.com/duerohub2/mex-nex.git
-cd mex-nex
-npm install
-npm run local
-```
+## Persyaratan
 
-Buka browser Android dan kunjungi:
+- Node.js 22 atau lebih baru.
+- npm dan Git.
+- Android: Termux terbaru. Performa 3D bergantung pada kemampuan perangkat dan browser.
 
-`http://127.0.0.1:3000`
+## Menjalankan MEX-NEX di komputer atau Android / Termux
 
-Hentikan server dari Termux dengan `Ctrl+C`.
+    git clone https://github.com/duerohub2/mex-nex.git
+    cd mex-nex
+    npm ci
+    npm run local
 
-## Menjalankan di komputer
+Buka browser di http://127.0.0.1:3000. Biarkan terminal tetap berjalan selama aplikasi digunakan. Hentikan dengan Ctrl+C.
 
-```bash
-git clone https://github.com/duerohub2/mex-nex.git
-cd mex-nex
-npm install
-npm run local
-```
+Untuk menjalankan web bersama gateway demo:
 
-## Penyimpanan lokal
+    npm run local:demo
 
-Data aplikasi dibuat otomatis di `.data/office.json`. Folder tersebut tidak dimasukkan ke Git. Untuk memindahkan lokasi data, atur `MEX_NEX_DATA_DIR` sebelum menjalankan aplikasi.
+Gateway demo hanya mensimulasikan koneksi, status Agent, dan percakapan. Mode demo bukan model LLM dan tidak menjalankan tool eksternal sungguhan.
 
-## Konfigurasi
+Untuk menjalankan server pengembangan secara langsung:
 
-Salin `.env.example` menjadi `.env.local` jika ingin mengubah konfigurasi. Jangan pernah memasukkan API key ke kode frontend atau mengunggah file environment ke GitHub.
+    npm run dev
 
-## Status AI
+## Penyimpanan dan konfigurasi
 
-Tahap 3 menyediakan chat model melalui Hermes-compatible, model lokal, atau provider eksternal yang mendukung endpoint OpenAI-compatible. AI Manager dapat membagi instruksi menjadi pekerjaan Agent dan mengumpulkan respons. Untuk mengaktifkannya, salin `.env.example` ke `.env.local`, isi provider, endpoint, model, dan API key yang sesuai. Tahap 4 menambahkan Agent tool-use untuk workspace terbatas, waktu, status, dan kalkulator. Tidak ada shell bebas, browser, atau tindakan eksternal.
+Data kantor lokal disimpan di folder .data/ (jika fitur penyimpanan lokal digunakan). Folder ini tidak dimasukkan ke Git.
 
-## Dokumentasi
+Salin .env.example menjadi .env.local bila perlu mengubah konfigurasi. Isi endpoint, model, dan API key hanya di file lokal. Jangan pernah memasukkan API key atau token asli ke source code maupun commit Git.
 
-- [Panduan Termux](docs/PANDUAN-TERMUX.md)
-- [Arsitektur Tahap 1](docs/ARSITEKTUR-TAHAP-1.md)
-- [Panduan AI Runtime Tahap 3](docs/TAHAP-3-AI-RUNTIME.md)
-- [Panduan Agent Execution Tahap 4](docs/TAHAP-4-AGENT-EXECUTION.md)
-- [Fitur Kantor Tahap 5](docs/TAHAP-5-FITUR-KANTOR.md)
+## Pengujian
 
-## Referensi fitur
+GitHub Actions menjalankan instalasi dependency dan build produksi menggunakan Node.js 22. Build yang berhasil tidak otomatis membuktikan kompatibilitas penuh pada perangkat Android/Termux. Pengujian langsung di perangkat fisik tetap diperlukan.
 
-Repositori `duerohub2/nex-mex` digunakan sebagai referensi spesifikasi fitur kantor. Source aplikasi tidak diimpor otomatis ke proyek ini.
+## Asal source dan lisensi
+
+Sebagian antarmuka dan aset berasal dari repositori sumber [duerohub2/Nex-Mex](https://github.com/duerohub2/Nex-Mex) dan basis upstream [Hermes3D](https://github.com/iamlukethedev/Hermes3D). Periksa dan pertahankan ketentuan lisensi serta atribusi upstream sebelum distribusi.

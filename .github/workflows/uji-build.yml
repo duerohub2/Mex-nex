@@ -4,9 +4,16 @@ on:
   push:
     branches:
       - main
+      - import/core-app-20261030
     paths:
       - 'app/**'
+      - 'src/**'
+      - 'server/**'
       - 'scripts/**'
+      - 'assets/**'
+      - 'plugins/**'
+      - 'tests/**'
+      - 'public/**'
       - 'package.json'
       - 'package-lock.json'
       - 'next.config.*'
@@ -27,5 +34,6 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 22
-      - run: npm install
+          cache: npm
+      - run: npm ci
       - run: npm run build
