@@ -7566,7 +7566,7 @@ export function RetroOffice3D({
       )}
 
       {/* Toolbar — top right. */}
-      {!readOnly && !immersiveOverlayActive ? (
+      {false && !readOnly && !immersiveOverlayActive ? (
         <div className="absolute left-2 right-12 top-28 z-20 flex max-w-[calc(100%-3.5rem)] flex-wrap items-center justify-start gap-2 sm:left-auto sm:right-3 sm:top-3 sm:max-w-none sm:flex-nowrap sm:justify-end sm:gap-2">
           {remoteOfficeEnabled &&
           (remoteOfficeSourceKind === "presence_endpoint"
