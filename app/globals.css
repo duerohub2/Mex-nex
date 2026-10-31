@@ -136,3 +136,12 @@ button{cursor:pointer}
 .qa-status-label{display:grid;gap:7px;margin-top:12px;font-size:10px;color:var(--muted)}
 .qa-issues{display:grid;gap:8px;margin-top:14px}.qa-issues>b{font-size:10px}.qa-issue{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;padding:11px;border:1px solid var(--line);border-radius:9px;background:#fffaf7}.qa-issue.resolved{background:#f5faf7;opacity:.75}.qa-issue strong,.qa-issue small{display:block}.qa-issue strong{font-size:10px}.qa-issue small{font:9px "DM Mono",monospace;color:var(--muted);margin-top:4px}.qa-issue p{margin:6px 0 0}.qa-issue button{border:0;border-radius:8px;padding:8px 10px;font-size:9px;white-space:nowrap}
 .qa-issue-form{display:grid;gap:8px;margin-top:14px;padding:12px;background:#f7f8fc;border:1px solid var(--line);border-radius:9px}.qa-issue-form textarea{min-height:60px;resize:vertical}.qa-issue-form .stage-form-row{grid-template-columns:1fr auto}.qa-issue-form button{border:0;border-radius:8px;background:#5368e8;color:#fff;padding:9px 12px;font-size:10px;font-weight:700}
+
+.stage-field-label{display:grid;gap:7px;font-size:10px;color:var(--muted)}
+.stage-field-label select{min-height:72px}
+.meeting-status-select{min-width:170px;max-width:100%;padding:9px 10px;border:1px solid var(--line);border-radius:8px;background:#fff;color:var(--ink);font:10px Manrope,Arial}
+.whiteboard-block{display:grid;gap:8px;margin-top:12px;padding:12px;border:1px solid var(--line);border-radius:10px;background:#fbfcff}
+.whiteboard-block input,.whiteboard-block textarea{width:100%;min-width:0;padding:10px 11px;border:1px solid var(--line);border-radius:8px;background:#fff;color:var(--ink);font:10px Manrope,Arial}
+.whiteboard-block textarea{min-height:72px;resize:vertical}
+.whiteboard-block input:disabled,.whiteboard-block textarea:disabled{background:#f1f2f5;color:#9099a8}
+@media(max-width:760px){.stage-form-row{grid-template-columns:1fr}.meeting-status-select{width:100%}}
