@@ -10,7 +10,7 @@ export function resolveRuntimeContext({ settings = {}, upstreamGateway = {}, env
     adapterType === "hermes3d" ? "http://localhost:3000/api/runtime/custom" :
     adapterType === "hermes" ? "ws://localhost:18789" : "http://localhost:7770"
   ));
-  const token = String(gateway.token || selected.token || upstreamGateway.token || env.GATEWAY_TOKEN || "");
+  const token = String(gateway.token ?? selected.token ?? upstreamGateway.token ?? env.GATEWAY_TOKEN ?? "");
   return { adapterType, gatewayUrl, token, tokenConfigured: Boolean(token), profiles };
 }
 
