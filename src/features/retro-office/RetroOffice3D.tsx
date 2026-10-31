@@ -2602,6 +2602,7 @@ export function RetroOffice3D({
   onOpenOnboarding,
   renderMode = "3d",
   onRenderModeChange,
+  cameraPresetRequest = null,
   atmAnalytics = null,
   feedEvents = EMPTY_FEED_EVENTS,
   gatewayStatus = "disconnected",
@@ -2720,6 +2721,7 @@ export function RetroOffice3D({
   onOpenOnboarding?: () => void;
   renderMode?: OfficeRenderMode;
   onRenderModeChange?: (mode: OfficeRenderMode) => void;
+  cameraPresetRequest?: "overview" | "frontDesk" | "lounge" | null;
   atmAnalytics?: OfficeUsageAnalyticsParams | null;
   feedEvents?: FeedEvent[];
   gatewayStatus?: string;
@@ -3120,6 +3122,12 @@ export function RetroOffice3D({
     target: [number, number, number];
     zoom?: number;
   } | null>(null);
+
+  useEffect(() => {
+    if (cameraPresetRequest) {
+      cameraPresetRef.current = CAMERA_PRESET_MAP[cameraPresetRequest];
+    }
+  }, [cameraPresetRequest]);
   const LOCAL_CAMERA_TARGET = useMemo(
     () =>
       toWorld(LOCAL_OFFICE_CANVAS_WIDTH / 2, LOCAL_OFFICE_CANVAS_HEIGHT / 2),
@@ -6428,42 +6436,9 @@ export function RetroOffice3D({
         ) : null}
       </div>
 
-      {/* New Idea 2: Camera preset buttons — top left. */}
-      {!readOnly && !immersiveOverlayActive ? (
-        <div className="absolute left-2 top-2 z-20 flex max-w-[calc(100%-1rem)] flex-col items-start gap-2 sm:left-3 sm:top-3">
-          <div className="flex flex-wrap items-center gap-1.5 rounded-lg border-2 border-black bg-[#ffe600] p-1.5 shadow-[4px_4px_0_#000]">
-            {(
-              [
-                {
-                  key: "overview",
-                  icon: <Maximize size={12} />,
-                  title: "Tampilan umum",
-                },
-                {
-                  key: "frontDesk",
-                  icon: <Monitor size={12} />,
-                  title: "Resepsionis",
-                },
-                {
-                  key: "lounge",
-                  icon: <Armchair size={12} />,
-                  title: "Ruang santai",
-                },
-              ] as const
-            ).map(({ key, icon, title }) => (
-              <button
-                key={key}
-                title={title}
-                onClick={() => {
-                  cameraPresetRef.current = CAMERA_PRESET_MAP[key];
-                }}
-                className="flex h-9 w-9 items-center justify-center rounded-md border-2 border-black bg-[#00f5ff] text-black shadow-[2px_2px_0_#000] transition-transform hover:-translate-y-0.5 sm:h-8 sm:w-8"
-              >
-                {icon}
-              </button>
-            ))}
-          </div>
-          {standupMeeting ? (
+      {/* Camera presets are available from the global office hamburger menu. */}
+      {!readOnly && !immersiveOverlayActive && standupMeeting ? (
+
             <button
               type="button"
               onClick={() => setStandupBoardOpen(true)}
