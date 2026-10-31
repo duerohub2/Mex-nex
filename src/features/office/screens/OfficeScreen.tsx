@@ -4464,6 +4464,11 @@ export function OfficeScreen({
 
   return (
     <main className="relative h-full w-full overflow-hidden bg-black">
+      <div className="pointer-events-auto absolute right-3 top-3 z-[90] flex items-center gap-2">
+        <button type="button" onClick={() => handleOfficeRenderModeChange("3d")} aria-label="Mode kantor 3D" className={`rounded-lg border border-white/20 px-4 py-2 text-xs font-bold shadow-lg backdrop-blur-md ${officeRenderMode === "3d" ? "bg-cyan-400 text-black" : "bg-black/70 text-white"}`}>3D</button>
+        <button type="button" onClick={() => handleOfficeRenderModeChange("2d")} aria-label="Mode kantor 2D" className={`rounded-lg border border-white/20 px-4 py-2 text-xs font-bold shadow-lg backdrop-blur-md ${officeRenderMode === "2d" ? "bg-cyan-400 text-black" : "bg-black/70 text-white"}`}>2D</button>
+        <button type="button" onClick={() => router.push("/")} className="rounded-lg border border-white/20 bg-black/70 px-4 py-2 text-xs font-bold text-white shadow-lg backdrop-blur-md">Back to Dashboard</button>
+      </div>
       {showGatewayLoadingOverlay ? (
         <div
           className="pointer-events-none absolute inset-0 z-40 flex items-center justify-center bg-[#120a05]/76"
@@ -4870,7 +4875,7 @@ export function OfficeScreen({
         </div>
       ) : null}
 
-      {!debugEnabled ? (
+      {false && !debugEnabled ? (
         <HQSidebar
           open={sidebarOpen}
           activeTab={activeSidebarTab}
@@ -5208,7 +5213,7 @@ export function OfficeScreen({
       ) : null}
 
       <div
-        className={`fixed bottom-[36dvh] z-30 flex flex-col items-end gap-2 sm:bottom-3 ${sidebarOpen ? "right-84" : "right-3"} ${
+        className={`hidden fixed bottom-[36dvh] z-30 flex flex-col items-end gap-2 sm:bottom-3 ${sidebarOpen ? "right-84" : "right-3"} ${
           debugEnabled ? "hidden" : ""
         }`}
       >
