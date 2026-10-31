@@ -4488,7 +4488,6 @@ export function OfficeScreen({
           streamingTextByAgentId={streamingTextByAgentId}
           renderMode={officeRenderMode}
           onRenderModeChange={handleOfficeRenderModeChange}
-          cameraPresetRequest={cameraPresetRequest}
           onAgentChatSelect={(agentId) => {
             handleOpenAgentChat(agentId);
           }}
@@ -4550,6 +4549,7 @@ export function OfficeScreen({
         ) : (
         <RetroOffice3D
           agents={allVisibleAgents}
+          cameraPresetRequest={cameraPresetRequest}
           storageNamespace={activeFloor.id}
           layoutPreset="office"
           officeCenterSignal={officeCameraCenterSignal}
