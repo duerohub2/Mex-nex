@@ -4392,7 +4392,7 @@ export function OfficeScreen({
   // Keep the virtual office visible; runtime connection must never block the scene.
   const showGatewayLoadingOverlay = false;
   // Gateway setup is opened only on demand, never as an automatic blocking popup.
-  const showGatewayConnectOverlay = connectPromptReady && showGatewaySetupPanel;
+  const showGatewayConnectOverlay = showGatewaySetupPanel;
   // The virtual office is the primary workspace and must remain visible even
   // before a gateway is connected or the agent list has finished loading.
   // Runtime connection only enriches the scene with live agents; it must not
