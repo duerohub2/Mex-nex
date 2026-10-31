@@ -4428,7 +4428,7 @@ export function OfficeScreen({
             <button type="button" onClick={() => { handleOfficeRenderModeChange("3d"); setOfficeMenuOpen(false); }} aria-pressed={officeRenderMode === "3d"} className={`flex w-full items-center justify-between rounded-lg px-3 py-2.5 text-left text-sm font-semibold hover:bg-[#fbe2c5] ${officeRenderMode === "3d" ? "bg-[#f7c18e]" : ""}`}>Tampilan 3D {officeRenderMode === "3d" ? "✓" : ""}</button>
             <button type="button" onClick={() => { handleOfficeRenderModeChange("2d"); setOfficeMenuOpen(false); }} aria-pressed={officeRenderMode === "2d"} className={`flex w-full items-center justify-between rounded-lg px-3 py-2.5 text-left text-sm font-semibold hover:bg-[#fbe2c5] ${officeRenderMode === "2d" ? "bg-[#f7c18e]" : ""}`}>Tampilan 2D {officeRenderMode === "2d" ? "✓" : ""}</button>
             <div className="my-1 border-t border-[#dfb58f]" />
-            <button type="button" onClick={() => { setShowGatewaySetupPanel(true); setOfficeMenuOpen(false); }} className="w-full rounded-lg px-3 py-2.5 text-left text-sm font-semibold hover:bg-[#fbe2c5]">Hubungkan Runtime</button>
+            <button type="button" onClick={() => { setShowGatewaySetupPanel((open) => !open); setOfficeMenuOpen(false); }} aria-expanded={showGatewaySetupPanel} className="w-full rounded-lg px-3 py-2.5 text-left text-sm font-semibold hover:bg-[#fbe2c5]">{showGatewaySetupPanel ? "Tutup Hubungkan Runtime" : "Hubungkan Runtime"}</button>
             <button type="button" onClick={() => router.push("/")} className="w-full rounded-lg px-3 py-2.5 text-left text-sm font-semibold hover:bg-[#fbe2c5]">Dashboard</button>
           </div>
         ) : null}
@@ -4451,7 +4451,13 @@ export function OfficeScreen({
       ) : null}
       {showGatewayConnectOverlay ? (
         <div className="pointer-events-auto absolute inset-0 z-[80] flex items-start justify-end overflow-y-auto bg-transparent px-3 pb-4 pt-16 sm:px-5 sm:pt-20">
-          <div className="mb-4 max-h-[78dvh] w-full max-w-[620px] overflow-y-auto rounded-2xl border-2 border-[#6b4027] bg-[#fff5e6] p-3 text-[#422719] shadow-[7px_7px_0_#6b4027] sm:p-5">
+          <div role="dialog" aria-modal="false" aria-label="Pengaturan Hubungkan Runtime" className="mb-4 max-h-[78dvh] w-full max-w-[620px] overflow-y-auto rounded-2xl border-2 border-[#6b4027] bg-[#fff5e6] p-3 text-[#422719] shadow-[7px_7px_0_#6b4027] sm:p-5">
+            <div className="mb-3 flex items-center justify-between gap-3 border-b border-[#dfb58f] pb-3">
+              <h2 className="text-base font-bold text-[#59351f]">Pengaturan Runtime</h2>
+              <button type="button" onClick={() => setShowGatewaySetupPanel(false)} aria-label="Tutup Hubungkan Runtime" className="inline-flex shrink-0 items-center gap-1.5 rounded-lg border border-[#8a5737] bg-[#f4a261] px-3 py-2 text-sm font-semibold text-[#422719] shadow-[2px_2px_0_#8a5737] hover:bg-[#f7c18e]">
+                <X className="h-4 w-4" /> Tutup
+              </button>
+            </div>
             <GatewayConnectScreen
               renderMode={officeRenderMode}
               onRenderModeChange={handleOfficeRenderModeChange}
