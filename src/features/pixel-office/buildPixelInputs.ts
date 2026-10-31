@@ -4,6 +4,7 @@
 import type { OfficeAgent } from "@/features/retro-office/core/types";
 import type { OfficeAnimationState } from "@/lib/office/eventTriggers";
 import type { PixelAgentInput } from "@/features/pixel-office/types";
+import { resolveOfficeVisualStatus } from "@/lib/office/visualActivity";
 
 export const buildPixelAgentInputs = (params: {
   agents: OfficeAgent[];
@@ -37,8 +38,7 @@ export const buildPixelAgentInputs = (params: {
       agent.status === "working" ||
       Boolean(animationState?.deskHoldByAgentId[id]) ||
       (animationState?.workingUntilByAgentId[id] ?? 0) > nowMs;
-    const status =
-      agent.status === "error" ? "error" : workingLatched ? "working" : agent.status;
+    const status = resolveOfficeVisualStatus(agent.status, workingLatched);
     return {
       id,
       name: agent.name,
