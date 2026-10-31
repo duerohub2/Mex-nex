@@ -1,7 +1,10 @@
 // Office renderer preference: immersive 3D scene vs. lightweight 2D pixel scene.
 // Persisted in localStorage so the choice survives reloads.
 
-import { detectSoftwareWebGL } from "@/features/retro-office/core/graphicsQuality";
+import {
+  detectSoftwareWebGL,
+  isTouchOptimizedDevice,
+} from "@/features/retro-office/core/graphicsQuality";
 
 export type OfficeRenderMode = "3d" | "2d";
 
@@ -45,7 +48,8 @@ export const loadStoredOfficeRenderMode = (): OfficeRenderMode | null => {
  * cannot drive the 3D pipeline smoothly, so they default to the pixel office.
  */
 export const resolveInitialOfficeRenderMode = (): OfficeRenderMode =>
-  loadStoredOfficeRenderMode() ?? (detectSoftwareWebGL() ? "2d" : "3d");
+  loadStoredOfficeRenderMode() ??
+  (detectSoftwareWebGL() || isTouchOptimizedDevice() ? "2d" : "3d");
 
 export const saveOfficeRenderMode = (mode: OfficeRenderMode) => {
   if (typeof window === "undefined") return;
