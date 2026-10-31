@@ -4419,11 +4419,11 @@ export function OfficeScreen({
 
   return (
     <main className="relative h-[100dvh] min-h-screen w-full overflow-hidden bg-black">
-      <div className="pointer-events-auto absolute right-3 top-3 z-[90] flex items-center gap-2">
-        <button type="button" onClick={() => handleOfficeRenderModeChange("3d")} aria-label="Mode kantor 3D" className={`rounded-lg border border-white/20 px-4 py-2 text-xs font-bold shadow-lg backdrop-blur-md ${officeRenderMode === "3d" ? "bg-cyan-400 text-black" : "bg-black/70 text-white"}`}>3D</button>
-        <button type="button" onClick={() => handleOfficeRenderModeChange("2d")} aria-label="Mode kantor 2D" className={`rounded-lg border border-white/20 px-4 py-2 text-xs font-bold shadow-lg backdrop-blur-md ${officeRenderMode === "2d" ? "bg-cyan-400 text-black" : "bg-black/70 text-white"}`}>2D</button>
-        <button type="button" onClick={() => setShowGatewaySetupPanel((open) => !open)} className="rounded-lg border border-white/20 bg-black/70 px-4 py-2 text-xs font-bold text-white shadow-lg backdrop-blur-md">{showGatewaySetupPanel ? "Tutup Runtime" : "Hubungkan Runtime"}</button>
-        <button type="button" onClick={() => router.push("/")} className="rounded-lg border border-white/20 bg-black/70 px-4 py-2 text-xs font-bold text-white shadow-lg backdrop-blur-md">Back to Dashboard</button>
+      <div className="pointer-events-auto absolute left-2 right-2 top-2 z-[90] flex flex-wrap items-center justify-end gap-1.5 sm:left-auto sm:right-4 sm:top-4 sm:flex-nowrap sm:gap-2">
+        <button type="button" onClick={() => handleOfficeRenderModeChange("3d")} aria-label="Mode kantor 3D" aria-pressed={officeRenderMode === "3d"} className={`shrink-0 rounded-md border border-white/20 !px-3 !py-2 !text-xs font-semibold shadow-md backdrop-blur-md sm:rounded-lg sm:!px-4 ${officeRenderMode === "3d" ? "bg-cyan-400 text-black" : "bg-black/70 text-white"}`}>3D</button>
+        <button type="button" onClick={() => handleOfficeRenderModeChange("2d")} aria-label="Mode kantor 2D" aria-pressed={officeRenderMode === "2d"} className={`shrink-0 rounded-md border border-white/20 !px-3 !py-2 !text-xs font-semibold shadow-md backdrop-blur-md sm:rounded-lg sm:!px-4 ${officeRenderMode === "2d" ? "bg-cyan-400 text-black" : "bg-black/70 text-white"}`}>2D</button>
+        <button type="button" onClick={() => setShowGatewaySetupPanel((open) => !open)} aria-label="Pengaturan runtime" className="shrink-0 rounded-md border border-white/20 bg-black/70 !px-3 !py-2 !text-xs font-semibold text-white shadow-md backdrop-blur-md sm:rounded-lg sm:!px-4">{showGatewaySetupPanel ? "Tutup" : "Runtime"}</button>
+        <button type="button" onClick={() => router.push("/")} className="shrink-0 rounded-md border border-white/20 bg-black/70 !px-3 !py-2 !text-xs font-semibold text-white shadow-md backdrop-blur-md sm:rounded-lg sm:!px-4">Dashboard</button>
       </div>
       {showGatewayLoadingOverlay ? (
         <div
