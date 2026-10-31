@@ -1,6 +1,7 @@
 import { randomUUID } from "node:crypto";
 import { mkdir, readFile, rename, writeFile } from "node:fs/promises";
 import path from "node:path";
+import { getQaReadiness, normalizeQaReview, QA_STATUSES, QA_SEVERITIES } from "../../lib/qa.js";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -47,6 +48,8 @@ function normalize(state) {
     assigneeId: task.assigneeId || null,
     assigneeName: merged.agents.find(a => a.id === task.assigneeId)?.name || task.assignee || null
   }));
+  merged.qaReviews = merged.qaReviews.map(normalizeQaReview);
+  merged.qaReadiness = getQaReadiness(merged.qaReviews);
   merged.version = 2;
   return merged;
 }
@@ -71,6 +74,29 @@ async function persist(state) {
 function record(state, type, description, now) {
   state.activity.unshift({ id: randomUUID(), type, description, createdAt: now });
   state.activity = state.activity.slice(0, 200);
+}
+
+function syncQaBulletin(state, review, now) {
+  const unresolved = review.issues.filter(issue => !issue.resolved);
+  const blocked = ["blocked", "failed"].includes(review.status) || unresolved.some(issue => ["high", "critical"].includes(issue.severity));
+  const changesNeeded = review.status === "changes_requested";
+  const existing = state.bulletins.find(card => card.sourceQaReviewId === review.id);
+  if (!blocked && !changesNeeded) {
+    if (existing) { existing.archived = true; existing.updatedAt = now; }
+    return;
+  }
+  const category = blocked ? "QA · Blocker" : "QA · Handoff";
+  const issueText = unresolved.map(issue => "- " + issue.title + " (" + issue.severity + ")").join("\\n");
+  const body = [review.summary || review.title, issueText].filter(Boolean).join("\\n\\n");
+  if (existing) {
+    existing.title = review.title;
+    existing.body = body;
+    existing.category = category;
+    existing.archived = false;
+    existing.updatedAt = now;
+  } else {
+    state.bulletins.unshift({ id: randomUUID(), sourceQaReviewId: review.id, title: review.title, body, category, createdAt: now, updatedAt: now, archived: false });
+  }
 }
 
 function clean(value, max, label, required = true) {
@@ -183,16 +209,49 @@ export async function POST(request) {
       case "qa-create": {
         const title = clean(payload.title, 160, "Judul pemeriksaan");
         const detail = clean(payload.detail, 4000, "Detail pemeriksaan");
-        const priority = ["low", "medium", "high"].includes(payload.priority) ? payload.priority : "medium";
-        state.qaReviews.unshift({ id: randomUUID(), title, detail, priority, status: "open", createdAt: now, updatedAt: now });
-        record(state, "qa", "Pemeriksaan QA dibuat: " + title, now); break;
+        const priority = QA_SEVERITIES.includes(payload.priority) ? payload.priority : "medium";
+        const linkedTaskId = payload.linkedTaskId || null;
+        if (linkedTaskId && !state.tasks.some(task => task.id === linkedTaskId)) throw new Error("Tugas yang ditautkan tidak ditemukan.");
+        const assignedReviewerAgentId = payload.assignedReviewerAgentId || null;
+        if (assignedReviewerAgentId && !state.agents.some(agent => agent.id === assignedReviewerAgentId)) throw new Error("Agent QA yang dipilih tidak ditemukan.");
+        const item = normalizeQaReview({ id: randomUUID(), title, detail, summary: detail, priority, status: "queued", linkedTaskId, assignedReviewerAgentId, issues: [], createdAt: now, updatedAt: now });
+        state.qaReviews.unshift(item);
+        record(state, "qa", "Pemeriksaan QA masuk antrean: " + title, now);
+        break;
       }
       case "qa-update": {
         const item = state.qaReviews.find(x => x.id === payload.reviewId);
         if (!item) throw new Error("Pemeriksaan QA tidak ditemukan.");
-        if (!["open", "in_review", "passed", "failed"].includes(payload.status)) throw new Error("Status QA tidak valid.");
-        item.status = payload.status; item.updatedAt = now;
-        record(state, "qa-update", "Status QA diperbarui: " + item.title + " → " + payload.status, now); break;
+        if (!QA_STATUSES.includes(payload.status)) throw new Error("Status QA tidak valid.");
+        item.status = payload.status;
+        if (payload.summary !== undefined) item.summary = clean(payload.summary, 4000, "Ringkasan QA", false);
+        item.updatedAt = now;
+        syncQaBulletin(state, item, now);
+        record(state, "qa-update", "Status QA diperbarui: " + item.title + " → " + payload.status, now);
+        break;
+      }
+      case "qa-add-issue": {
+        const item = state.qaReviews.find(x => x.id === payload.reviewId);
+        if (!item) throw new Error("Pemeriksaan QA tidak ditemukan.");
+        const title = clean(payload.title, 160, "Judul temuan");
+        const body = clean(payload.body, 2000, "Detail temuan", false);
+        const severity = QA_SEVERITIES.includes(payload.severity) ? payload.severity : "medium";
+        item.issues.push({ id: randomUUID(), title, body, severity, resolved: false, createdAt: now, updatedAt: now });
+        item.updatedAt = now;
+        syncQaBulletin(state, item, now);
+        record(state, "qa-issue", "Temuan QA ditambahkan: " + title, now);
+        break;
+      }
+      case "qa-resolve-issue": {
+        const item = state.qaReviews.find(x => x.id === payload.reviewId);
+        const issue = item?.issues.find(x => x.id === payload.issueId);
+        if (!item || !issue) throw new Error("Temuan QA tidak ditemukan.");
+        issue.resolved = true;
+        issue.updatedAt = now;
+        item.updatedAt = now;
+        syncQaBulletin(state, item, now);
+        record(state, "qa-issue-resolved", "Temuan QA diselesaikan: " + issue.title, now);
+        break;
       }
       default: throw new Error("Aksi tidak dikenal.");
     }
