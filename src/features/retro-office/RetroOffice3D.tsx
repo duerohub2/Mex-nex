@@ -1184,20 +1184,17 @@ function useAgentTick(
       if (agent.status === "working" && !explicitDeskHold && deskPos)
         stickyUntilRef.current.set(agent.id, now + DESK_STICKY_MS);
       const stickyUntil = stickyUntilRef.current.get(agent.id) ?? 0;
-      const effectiveStatus: OfficeAgent["status"] =
-        agent.status === "error"
-          ? "error"
-          : explicitMeetingHold ||
-              explicitDeskHold ||
-              explicitGymHold ||
-              explicitSmsBoothHold ||
-              explicitPhoneBoothHold ||
-              explicitQaHold ||
-              explicitGithubHold ||
-              agent.status === "working" ||
-              stickyUntil > now
-            ? "working"
-            : "idle";
+      const effectiveStatus = resolveOfficeVisualStatus(
+        agent.status,
+        explicitMeetingHold ||
+          explicitDeskHold ||
+          explicitGymHold ||
+          explicitSmsBoothHold ||
+          explicitPhoneBoothHold ||
+          explicitQaHold ||
+          explicitGithubHold ||
+          stickyUntil > now,
+      );
 
       const conversationMembership = conversationMembershipByAgentId.get(
         agent.id,
