@@ -140,6 +140,9 @@ function syncQaBulletin(state, review, now) {
     existing.title = review.title;
     existing.body = body;
     existing.category = category;
+    existing.type = blocked ? "blocker" : "handoff";
+    existing.priority = blocked ? "high" : "normal";
+    existing.pinned = blocked;
     existing.archived = false;
     existing.updatedAt = now;
   } else {
