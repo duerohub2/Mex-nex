@@ -15,7 +15,7 @@ MEX-NEX adalah ekosistem kantor virtual AI Agent yang menggabungkan fondasi apli
 
 Fondasi Tahap 1–5 MEX-NEX mencakup aplikasi web lokal, backend API, penyimpanan persisten, organisasi dan departemen, profil Agent, chat, delegasi tugas, Agent Execution Engine dengan workspace terbatas, Meeting Room, Whiteboard teks, Bulletin Board, QA Department, dan dashboard analitik.
 
-Antarmuka kantor virtual 2D/3D dan integrasi gateway disertakan sebagai bagian dari pengembangan visual. Fitur realtime audio/video, whiteboard visual realtime, pengujian integrasi menyeluruh, serta verifikasi langsung di perangkat Android masih memerlukan pengujian dan pengembangan lanjutan.
+Antarmuka kantor virtual 2D/3D dan integrasi gateway disertakan sebagai bagian dari pengembangan visual. Tahap 7 menambahkan pengujian integrasi persistensi, percakapan Agent, validasi request, dan kegagalan provider. Fitur realtime audio/video serta whiteboard visual realtime belum termasuk fitur yang sudah tervalidasi. Pengujian langsung di perangkat Android dan layanan provider/gateway eksternal tetap perlu dilakukan.
 
 ## Persyaratan
 
@@ -50,7 +50,9 @@ Salin .env.example menjadi .env.local bila perlu mengubah konfigurasi. Isi endpo
 
 ## Pengujian
 
-GitHub Actions menjalankan instalasi dependency dan build produksi menggunakan Node.js 22. Build yang berhasil tidak otomatis membuktikan kompatibilitas penuh pada perangkat Android/Termux. Pengujian langsung di perangkat fisik tetap diperlukan.
+GitHub Actions menjalankan instalasi dependency, seluruh unit test, pemeriksaan TypeScript, dan build produksi menggunakan Node.js 22. Build dan unit test yang berhasil tidak otomatis membuktikan kompatibilitas penuh pada perangkat Android/Termux atau provider eksternal. Pengujian langsung di perangkat fisik tetap diperlukan.
+
+Roadmap pengembangan dan checklist Tahap 7 tersedia di [docs/roadmap.md](docs/roadmap.md) dan [docs/TAHAP-7-INTEGRASI-PENGUJIAN.md](docs/TAHAP-7-INTEGRASI-PENGUJIAN.md).
 
 ## Asal source dan lisensi
 
