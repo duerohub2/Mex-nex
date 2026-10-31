@@ -24,7 +24,7 @@ const seed = {
     { id: "creative-01", name: "Mika", role: "Creative Strategist", departmentId: "creative", avatar: "M", status: "Siap", description: "Konsep kreatif dan komunikasi visual.", managerId: "manager-01" },
     { id: "qa-01", name: "Quinn", role: "QA Specialist", departmentId: "quality", avatar: "Q", status: "Siap", description: "Pemeriksaan kualitas hasil pekerjaan.", managerId: "manager-01" }
   ],
-  tasks: [], messages: [], activity: []
+  tasks: [], messages: [], activity: [], meetings: [], whiteboards: [], bulletins: [], qaReviews: []
 };
 
 let writeQueue = Promise.resolve();
@@ -36,6 +36,7 @@ function normalize(state) {
   merged.tasks = Array.isArray(merged.tasks) ? merged.tasks : [];
   merged.messages = Array.isArray(merged.messages) ? merged.messages : [];
   merged.activity = Array.isArray(merged.activity) ? merged.activity : [];
+  for (const key of ["meetings", "whiteboards", "bulletins", "qaReviews"]) merged[key] = Array.isArray(merged[key]) ? merged[key] : [];
   merged.agents = merged.agents.map(agent => ({
     ...agent, managerId: agent.managerId || null,
     departmentName: merged.departments.find(d => d.id === agent.departmentId)?.name || agent.departmentName || "Tanpa departemen",
@@ -145,6 +146,53 @@ export async function POST(request) {
         task.status = payload.status; task.updatedAt = now;
         record(state, "task-status", "Status tugas diperbarui: " + task.title, now);
         break;
+      }
+      case "meeting-create": {
+        const title = clean(payload.title, 120, "Judul meeting");
+        const agenda = clean(payload.agenda, 3000, "Agenda", false);
+        const scheduledAt = clean(payload.scheduledAt, 40, "Waktu meeting", false);
+        state.meetings.unshift({ id: randomUUID(), title, agenda, scheduledAt, notes: "", status: "scheduled", createdAt: now, updatedAt: now });
+        record(state, "meeting", "Meeting dibuat: " + title, now); break;
+      }
+      case "meeting-update": {
+        const item = state.meetings.find(x => x.id === payload.meetingId);
+        if (!item) throw new Error("Meeting tidak ditemukan.");
+        if (payload.notes !== undefined) item.notes = clean(payload.notes, 5000, "Catatan meeting", false);
+        if (payload.status !== undefined) { if (!["scheduled", "completed", "cancelled"].includes(payload.status)) throw new Error("Status meeting tidak valid."); item.status = payload.status; }
+        item.updatedAt = now; record(state, "meeting-update", "Meeting diperbarui: " + item.title, now); break;
+      }
+      case "whiteboard-create": {
+        const title = clean(payload.title, 120, "Judul whiteboard");
+        const content = clean(payload.content, 8000, "Isi whiteboard", false);
+        state.whiteboards.unshift({ id: randomUUID(), title, content, createdAt: now, updatedAt: now });
+        record(state, "whiteboard", "Whiteboard dibuat: " + title, now); break;
+      }
+      case "whiteboard-update": {
+        const item = state.whiteboards.find(x => x.id === payload.boardId);
+        if (!item) throw new Error("Whiteboard tidak ditemukan.");
+        item.content = clean(payload.content, 8000, "Isi whiteboard", false); item.updatedAt = now;
+        record(state, "whiteboard-update", "Whiteboard diperbarui: " + item.title, now); break;
+      }
+      case "bulletin-create": {
+        const title = clean(payload.title, 120, "Judul pengumuman");
+        const body = clean(payload.body, 4000, "Isi pengumuman");
+        const category = clean(payload.category, 40, "Kategori", false) || "Umum";
+        state.bulletins.unshift({ id: randomUUID(), title, body, category, createdAt: now });
+        record(state, "bulletin", "Pengumuman diterbitkan: " + title, now); break;
+      }
+      case "qa-create": {
+        const title = clean(payload.title, 160, "Judul pemeriksaan");
+        const detail = clean(payload.detail, 4000, "Detail pemeriksaan");
+        const priority = ["low", "medium", "high"].includes(payload.priority) ? payload.priority : "medium";
+        state.qaReviews.unshift({ id: randomUUID(), title, detail, priority, status: "open", createdAt: now, updatedAt: now });
+        record(state, "qa", "Pemeriksaan QA dibuat: " + title, now); break;
+      }
+      case "qa-update": {
+        const item = state.qaReviews.find(x => x.id === payload.reviewId);
+        if (!item) throw new Error("Pemeriksaan QA tidak ditemukan.");
+        if (!["open", "in_review", "passed", "failed"].includes(payload.status)) throw new Error("Status QA tidak valid.");
+        item.status = payload.status; item.updatedAt = now;
+        record(state, "qa-update", "Status QA diperbarui: " + item.title + " → " + payload.status, now); break;
       }
       default: throw new Error("Aksi tidak dikenal.");
     }
