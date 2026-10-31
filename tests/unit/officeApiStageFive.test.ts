@@ -4,8 +4,8 @@ import { mkdtemp, rm } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 
-let api;
-let dataDirectory;
+let api: typeof import("../../app/api/office/route.js");
+let dataDirectory: string;
 
 beforeAll(async () => {
   dataDirectory = await mkdtemp(join(tmpdir(), "mex-nex-stage-five-"));
@@ -18,7 +18,7 @@ afterAll(async () => {
   delete process.env.MEX_NEX_DATA_DIR;
 });
 
-async function post(payload) {
+async function post(payload: Record<string, unknown>): Promise<any> {
   const response = await api.POST(new Request("http://localhost/api/office", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
