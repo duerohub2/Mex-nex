@@ -145,3 +145,6 @@ button{cursor:pointer}
 .whiteboard-block textarea{min-height:72px;resize:vertical}
 .whiteboard-block input:disabled,.whiteboard-block textarea:disabled{background:#f1f2f5;color:#9099a8}
 @media(max-width:760px){.stage-form-row{grid-template-columns:1fr}.meeting-status-select{width:100%}}
+
+.analytics-progress{height:7px;border-radius:20px;background:#edf0f5;overflow:hidden;margin:14px 0 7px}
+.analytics-progress span{display:block;height:100%;border-radius:20px;background:linear-gradient(90deg,#5368e8,#1da77a);transition:width .2s ease}
