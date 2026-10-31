@@ -241,6 +241,7 @@ import {
 import {
   getGraphicsQualityConfig,
   isSoftwareWebGLRenderer,
+  isTouchOptimizedDevice,
   resolveInitialGraphicsQuality,
   loadStoredGraphicsQuality,
   saveGraphicsQuality,
@@ -3163,7 +3164,7 @@ export function RetroOffice3D({
     resolveInitialGraphicsQuality(),
   );
   const graphicsQualityConfig = useMemo(
-    () => getGraphicsQualityConfig(graphicsQuality),
+    () => getGraphicsQualityConfig(graphicsQuality, isTouchOptimizedDevice()),
     [graphicsQuality],
   );
   const setGraphicsQuality = useCallback((quality: GraphicsQuality) => {
@@ -5785,14 +5786,14 @@ export function RetroOffice3D({
               near: 0.3,
               far: 320,
             }}
-            shadows={{ type: THREE.PCFShadowMap }}
+            shadows={graphicsQualityConfig.shadows ? { type: THREE.PCFShadowMap } : false}
             gl={{
               antialias: true,
               powerPreference: "high-performance",
               toneMapping: THREE.ACESFilmicToneMapping,
               toneMappingExposure: 1.0,
             }}
-            style={{ width: "100%", height: "100%" }}
+            style={{ width: "100%", height: "100%", touchAction: "none" }}
             onCreated={handleCanvasCreated}
             onPointerUp={() => {
               if (drag.kind === "moving") setDrag({ kind: "idle" });
