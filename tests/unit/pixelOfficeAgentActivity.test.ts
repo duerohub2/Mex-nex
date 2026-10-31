@@ -163,7 +163,9 @@ describe("pixel office cleaning cue mapping", () => {
     expect(
       isCleaningActive(
         makeAnimationState({
-          cleaningCues: [\n            { id: "clean-1", agentId: "agent-1", agentName: "NEX", ts: 10_000 },\n          ],
+          cleaningCues: [
+            { id: "clean-1", agentId: "agent-1", agentName: "NEX", ts: 10_000 },
+          ],
         }),
       ),
     ).toBe(true);
