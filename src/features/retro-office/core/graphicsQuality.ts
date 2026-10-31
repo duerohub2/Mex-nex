@@ -75,6 +75,7 @@ const QUALITY_CONFIGS: Record<GraphicsQuality, GraphicsQualityConfig> = {
     shadowMapSize: 4096,
     maxDpr: 2,
     postProcessing: true,
+    shadows: true,
     ambientOcclusion: true,
     aoQuality: "medium",
     bloom: true,
