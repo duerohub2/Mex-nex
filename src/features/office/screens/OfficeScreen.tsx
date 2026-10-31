@@ -9,7 +9,7 @@ import {
   useState,
 } from "react";
 import { useRouter } from "next/navigation";
-import { MessageSquare, ChevronDown, ChevronLeft, ChevronRight, Mic } from "lucide-react";
+import { MessageSquare, ChevronDown, ChevronLeft, ChevronRight, Mic, Menu, X } from "lucide-react";
 import { RetroOffice3D } from "@/features/retro-office/RetroOffice3D";
 import type { OfficeAgent } from "@/features/retro-office/core/types";
 import { PixelOffice2D } from "@/features/pixel-office/PixelOffice2D";
@@ -948,6 +948,7 @@ export function OfficeScreen({
   const [agentsLoaded, setAgentsLoaded] = useState(false);
   const [didAttemptGatewayConnect, setDidAttemptGatewayConnect] = useState(false);
   const [showGatewaySetupPanel, setShowGatewaySetupPanel] = useState(false);
+  const [officeMenuOpen, setOfficeMenuOpen] = useState(false);
   const [clockTick, setClockTick] = useState(0);
   const [debugRows, setDebugRows] = useState<OfficeDebugRow[]>([]);
   const [feedEvents, setFeedEvents] = useState<OfficeFeedEvent[]>([]);
@@ -4419,11 +4420,23 @@ export function OfficeScreen({
 
   return (
     <main className="relative h-[100dvh] min-h-screen w-full overflow-hidden bg-black">
-      <div className="pointer-events-auto absolute left-2 right-2 top-2 z-[90] flex flex-wrap items-center justify-end gap-1.5 sm:left-auto sm:right-4 sm:top-4 sm:flex-nowrap sm:gap-2">
-        <button type="button" onClick={() => handleOfficeRenderModeChange("3d")} aria-label="Mode kantor 3D" aria-pressed={officeRenderMode === "3d"} className={`shrink-0 rounded-md border border-white/20 !px-3 !py-2 !text-xs font-semibold shadow-md backdrop-blur-md sm:rounded-lg sm:!px-4 ${officeRenderMode === "3d" ? "bg-cyan-400 text-black" : "bg-black/70 text-white"}`}>3D</button>
-        <button type="button" onClick={() => handleOfficeRenderModeChange("2d")} aria-label="Mode kantor 2D" aria-pressed={officeRenderMode === "2d"} className={`shrink-0 rounded-md border border-white/20 !px-3 !py-2 !text-xs font-semibold shadow-md backdrop-blur-md sm:rounded-lg sm:!px-4 ${officeRenderMode === "2d" ? "bg-cyan-400 text-black" : "bg-black/70 text-white"}`}>2D</button>
-        <button type="button" onClick={() => setShowGatewaySetupPanel((open) => !open)} aria-label="Pengaturan runtime" className="shrink-0 rounded-md border border-white/20 bg-black/70 !px-3 !py-2 !text-xs font-semibold text-white shadow-md backdrop-blur-md sm:rounded-lg sm:!px-4">{showGatewaySetupPanel ? "Tutup" : "Runtime"}</button>
-        <button type="button" onClick={() => router.push("/")} className="shrink-0 rounded-md border border-white/20 bg-black/70 !px-3 !py-2 !text-xs font-semibold text-white shadow-md backdrop-blur-md sm:rounded-lg sm:!px-4">Dashboard</button>
+      <div className="pointer-events-auto absolute right-3 top-3 z-[90] flex items-center gap-2 sm:right-5 sm:top-5">
+        <div className="flex items-center gap-2 rounded-full border-2 border-[#5b321d] bg-[#fff3df] px-3 py-2 text-xs font-bold text-[#59351f] shadow-[2px_3px_0_#5b321d]">
+          <span className={`h-2.5 w-2.5 rounded-full ${status === "connected" ? "bg-emerald-500" : status === "connecting" ? "bg-amber-500 animate-pulse" : "bg-[#d58a50]"}`} />
+          <span>{status === "connected" ? "Runtime aktif" : status === "connecting" ? "Menghubungkan" : "Runtime offline"}</span>
+        </div>
+        <button type="button" onClick={() => setOfficeMenuOpen((open) => !open)} aria-label={officeMenuOpen ? "Tutup menu kantor" : "Buka menu kantor"} aria-expanded={officeMenuOpen} className="grid h-10 w-10 place-items-center rounded-xl border-2 border-[#5b321d] bg-[#f4a261] text-[#422719] shadow-[3px_3px_0_#5b321d] transition-transform active:translate-y-0.5 active:shadow-none">
+          {officeMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+        </button>
+        {officeMenuOpen ? (
+          <div className="absolute right-0 top-12 z-[95] w-52 overflow-hidden rounded-2xl border-2 border-[#5b321d] bg-[#fff5e6] p-2 text-[#422719] shadow-[5px_5px_0_#5b321d]">
+            <button type="button" onClick={() => { handleOfficeRenderModeChange("3d"); setOfficeMenuOpen(false); }} aria-pressed={officeRenderMode === "3d"} className={`flex w-full items-center justify-between rounded-lg px-3 py-2.5 text-left text-sm font-semibold hover:bg-[#fbe2c5] ${officeRenderMode === "3d" ? "bg-[#f7c18e]" : ""}`}>Tampilan 3D {officeRenderMode === "3d" ? "✓" : ""}</button>
+            <button type="button" onClick={() => { handleOfficeRenderModeChange("2d"); setOfficeMenuOpen(false); }} aria-pressed={officeRenderMode === "2d"} className={`flex w-full items-center justify-between rounded-lg px-3 py-2.5 text-left text-sm font-semibold hover:bg-[#fbe2c5] ${officeRenderMode === "2d" ? "bg-[#f7c18e]" : ""}`}>Tampilan 2D {officeRenderMode === "2d" ? "✓" : ""}</button>
+            <div className="my-1 border-t border-[#dfb58f]" />
+            <button type="button" onClick={() => { setShowGatewaySetupPanel(true); setOfficeMenuOpen(false); }} className="w-full rounded-lg px-3 py-2.5 text-left text-sm font-semibold hover:bg-[#fbe2c5]">Hubungkan Runtime</button>
+            <button type="button" onClick={() => router.push("/")} className="w-full rounded-lg px-3 py-2.5 text-left text-sm font-semibold hover:bg-[#fbe2c5]">Dashboard</button>
+          </div>
+        ) : null}
       </div>
       {showGatewayLoadingOverlay ? (
         <div
@@ -4442,8 +4455,8 @@ export function OfficeScreen({
         </div>
       ) : null}
       {showGatewayConnectOverlay ? (
-        <div className="pointer-events-auto absolute inset-0 z-50 flex items-start justify-center overflow-y-auto bg-[#120a05]/76 px-4 py-10">
-          <div className="mb-10 w-full max-w-[860px] rounded-2xl border border-amber-900/55 bg-[#120a05]/98 p-3 shadow-2xl">
+        <div className="pointer-events-auto absolute inset-0 z-[80] flex items-start justify-end overflow-y-auto bg-transparent px-3 pb-4 pt-16 sm:px-5 sm:pt-20">
+          <div className="mb-4 max-h-[78dvh] w-full max-w-[620px] overflow-y-auto rounded-2xl border-2 border-[#6b4027] bg-[#fff5e6] p-3 text-[#422719] shadow-[7px_7px_0_#6b4027] sm:p-5">
             <GatewayConnectScreen
               renderMode={officeRenderMode}
               onRenderModeChange={handleOfficeRenderModeChange}
