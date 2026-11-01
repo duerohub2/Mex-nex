@@ -17,6 +17,7 @@ type OfficeWorldCanvasProps = {
   fallback?: ReactNode;
   interactive?: boolean;
   shadows?: boolean;
+  scene?: Partial<Record<SceneLayerId, ReactNode>>;
 };
 
 function WorldLighting() {
@@ -70,6 +71,7 @@ export function OfficeWorldCanvas({
   ),
   interactive = true,
   shadows = true,
+  scene,
 }: OfficeWorldCanvasProps) {
   return (
     <div className={className ?? "relative h-full min-h-64 w-full overflow-hidden"}>
