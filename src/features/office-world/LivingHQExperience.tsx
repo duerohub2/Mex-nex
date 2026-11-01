@@ -28,10 +28,10 @@ export function LivingHQExperience() {
         </span>
       </header>
 
-      <section className="relative min-h-0 flex-1">
+      <section className="relative min-h-0 flex-1 touch-none">
         <OfficeWorldCanvas
           camera={camera}
-          interactive={false}
+          interactive
           scene={{
             environment: <LivingHQEnvironment />,
             "building-shell": <group scale={1.15}><OfficeBuilding visibleLevels={visibleLevels} interiorMode /></group>,
@@ -40,6 +40,10 @@ export function LivingHQExperience() {
         />
         <div className="pointer-events-none absolute bottom-4 left-4 max-w-[min(90vw,560px)] rounded-xl border border-white/70 bg-[#fff3e2]/90 px-3 py-2 text-xs font-semibold shadow">
           Satu kantor terhubung · Engineering · Meeting · Creative Studio · Lounge · Pantry
+        </div>
+        <div className="pointer-events-none absolute right-4 top-4 rounded-lg border border-white/70 bg-[#fff3e2]/90 px-3 py-2 text-[11px] font-semibold shadow sm:text-xs">
+          PC: drag untuk geser · scroll untuk zoom
+          <span className="hidden sm:inline"> · HP: satu jari geser · pinch untuk zoom</span>
         </div>
       </section>
     </main>
