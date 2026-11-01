@@ -1,6 +1,7 @@
 "use client";
 
-import { useMemo, useState } from "react";\nimport { OfficeBuilding } from "@/features/office-world/OfficeBuilding";
+import { useMemo, useState } from "react";
+import { OfficeBuilding } from "@/features/office-world/OfficeBuilding";
 import { OfficeInteriors } from "@/features/office-world/OfficeInteriors";
 import { OfficeWorldCanvas } from "@/features/office-world/OfficeWorldCanvas";
 import { LivingHQEnvironment } from "@/features/office-world/LivingHQEnvironment";
