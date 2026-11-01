@@ -107,6 +107,7 @@ Jalur ini adalah fondasi aplikasi yang sudah ada. Checklist detail dan histori t
 - B3: **SELESAI** — world model enam level, kamera orthographic/isometrik, lighting config, scene graph, reusable R3F canvas shell, fallback WebGL, 10 unit tests, lint, dan production build tervalidasi. Full suite masih memiliki 3 kegagalan onboarding yang tidak terkait; typecheck penuh masih memiliki error di dua test lama. Profiling iPhone ditetapkan untuk B14.\n- B4: **Geometri shell utama tersedia** — cutaway enam level, struktur, fasad, core dan rooftop placeholder. Belum ada visual QA perangkat fisik.
 - B5: **Building/Floor View tersedia pada route preview** `/office/living-hq` — pemilih enam level, transisi kamera, orbit/zoom/pan. Visual QA iPhone masih menunggu.
 - B6: **Pass pertama interior dan fasilitas tersedia** — komponen interior prosedural untuk enam level, workstation, ruang rapat, server rack, lift/tangga placeholder, lounge dan rooftop garden. ESLint dan production build lulus; visual QA dan detail final masih terbuka.
+- Visual polish sebelum B7: **Implementasi awal tersedia** — environment kampus/kota low-poly, gedung diperbesar, zoom awal disesuaikan, dan variasi props interior ditambah. ESLint serta production build lulus; visual QA iPhone/deployment masih menunggu.
 - B7–B14: **Belum dimulai**.
 - Deployment Vercel untuk commit `f0f861bc81aca3691bff59bde38846901f5dda18`: status **READY**; SSO protection masih aktif untuk deployment non-custom-domain. Status READY bukan bukti seluruh fitur telah diuji.
 - Penyimpanan kantor dan sesi AI yang diaudit saat ini berupa file JSON lokal. Migrasi production storage belum dilakukan.
@@ -122,5 +123,6 @@ Jalur ini adalah fondasi aplikasi yang sudah ada. Checklist detail dan histori t
 - [Fondasi 3D Tahap 3](TAHAP-3-FONDASI-3D-WORLD-MODEL.md)
 - [Geometri gedung Tahap 4](TAHAP-4-GEOMETRI-GEDUNG-UTAMA.md)
 - [Building/Floor View Tahap 5](TAHAP-5-BUILDING-FLOOR-VIEW.md)
-- [Interior dan fasilitas Tahap 6](TAHAP-6-INTERIOR-DAN-FASILITAS.md)\n- [Renderer Living HQ](../src/features/office-world/OfficeWorldCanvas.tsx)\n- [Referensi visual Tahap 1](visual-reference-library/TAHAP-1-REFERENSI-VISUAL.md)
+- [Interior dan fasilitas Tahap 6](TAHAP-6-INTERIOR-DAN-FASILITAS.md)
+- [Penyempurnaan visual sebelum Tahap 7](PENYEMPURNAAN-VISUAL-SEBELUM-TAHAP-7.md)\n- [Renderer Living HQ](../src/features/office-world/OfficeWorldCanvas.tsx)\n- [Referensi visual Tahap 1](visual-reference-library/TAHAP-1-REFERENSI-VISUAL.md)
 - [Roadmap fondasi](roadmap.md)
