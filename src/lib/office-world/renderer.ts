@@ -104,7 +104,7 @@ export const getFloorCameraConfig = (
 /** Clamp a requested zoom so touch gestures cannot lose the world. */
 export const clampWorldZoom = (
   requestedZoom: number,
-  camera: Pick<OrthographicCameraConfig, "minZoom" | "maxZoom"> =
+  camera: Pick<OrthographicCameraConfig, "minZoom" | "maxZoom" | "zoom"> =
     BUILDING_CAMERA_CONFIG,
 ): number => {
   if (!Number.isFinite(requestedZoom)) return camera.zoom ?? 24;
