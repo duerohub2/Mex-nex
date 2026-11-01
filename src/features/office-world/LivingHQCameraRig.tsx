@@ -5,7 +5,11 @@ import { useFrame, useThree } from "@react-three/fiber";
 import * as THREE from "three";
 import type { OrthographicCameraConfig } from "@/lib/office-world/renderer";
 
-/** Animates camera presets, then releases the camera to OrbitControls. */
+/**
+ * Applies a camera preset only when the selected view changes.
+ * Any user interaction immediately cancels the transition so the camera
+ * never fights OrbitControls or snaps back while the user is inspecting.
+ */
 export function LivingHQCameraRig({ config }: { config: OrthographicCameraConfig }) {
   const { camera, controls } = useThree();
   const targetPosition = useRef(new THREE.Vector3(...config.position));
@@ -14,17 +18,35 @@ export function LivingHQCameraRig({ config }: { config: OrthographicCameraConfig
   const transitioning = useRef(true);
 
   useEffect(() => {
+    const orbit = controls as (THREE.EventDispatcher & {
+      target?: THREE.Vector3;
+      update?: () => void;
+    }) | null;
+
+    const cancelTransition = () => {
+      transitioning.current = false;
+    };
+
+    orbit?.addEventListener("start", cancelTransition);
+    return () => orbit?.removeEventListener("start", cancelTransition);
+  }, [controls]);
+
+  useEffect(() => {
     targetPosition.current.set(...config.position);
     targetLookAt.current.set(...config.target);
     targetZoom.current = config.zoom;
     transitioning.current = true;
-  }, [config]);
+  }, [
+    config.position[0], config.position[1], config.position[2],
+    config.target[0], config.target[1], config.target[2],
+    config.zoom,
+  ]);
 
   useFrame(() => {
     if (!transitioning.current) return;
 
     camera.position.lerp(targetPosition.current, 0.12);
-    // Imperative camera animation belongs in the render loop.
+    // Camera animation is intentionally performed in the render loop.
     // eslint-disable-next-line react-hooks/immutability
     camera.zoom = THREE.MathUtils.lerp(camera.zoom, targetZoom.current, 0.12);
     camera.updateProjectionMatrix();
