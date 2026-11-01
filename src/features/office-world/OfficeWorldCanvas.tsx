@@ -3,6 +3,7 @@
 import { Suspense, type ReactNode } from "react";
 import { Canvas } from "@react-three/fiber";
 import { OrbitControls, OrthographicCamera } from "@react-three/drei";
+import { MOUSE, TOUCH } from "three";
 import {
   BUILDING_CAMERA_CONFIG,
   OFFICE_LIGHTING,
@@ -75,15 +76,16 @@ export function OfficeWorldCanvas({
   scene,
 }: OfficeWorldCanvasProps) {
   return (
-    <div className={className ?? "relative h-full min-h-64 w-full overflow-hidden"}>
+    <div className={className ?? "relative h-full min-h-64 w-full overflow-hidden touch-none"}>
       <Canvas
         orthographic
-        dpr={[1, 1.5]}
+        dpr={[1, 1.75]}
         shadows={shadows ? "soft" : false}
         gl={{
           antialias: true,
           alpha: false,
-          powerPreference: "low-power",
+          powerPreference: "high-performance",
+          preserveDrawingBuffer: false,
         }}
         fallback={fallback}
       >
@@ -112,14 +114,24 @@ export function OfficeWorldCanvas({
           <OrbitControls
             makeDefault
             enableDamping
-            enableRotate
+            enableRotate={false}
             enableZoom
-            dampingFactor={0.12}
+            enablePan
+            dampingFactor={0.14}
+            zoomSpeed={0.9}
+            panSpeed={0.9}
             minZoom={camera.minZoom}
             maxZoom={camera.maxZoom}
-            minPolarAngle={0.15}
-            maxPolarAngle={Math.PI / 1.95}
-            enablePan
+            mouseButtons={{
+              LEFT: MOUSE.PAN,
+              MIDDLE: MOUSE.DOLLY,
+              RIGHT: MOUSE.PAN,
+            }}
+            touches={{
+              ONE: TOUCH.PAN,
+              TWO: TOUCH.DOLLY_PAN,
+            }}
+            screenSpacePanning
           />
         ) : null}
       </Canvas>
