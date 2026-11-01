@@ -56,7 +56,7 @@ Salin .env.example menjadi .env.local bila perlu mengubah konfigurasi. Isi endpo
 
 GitHub Actions menjalankan instalasi dependency, seluruh unit test, pemeriksaan TypeScript, dan build produksi menggunakan Node.js 22. Build dan unit test yang berhasil tidak otomatis membuktikan kompatibilitas penuh pada perangkat Android/Termux atau provider eksternal. Pengujian langsung di perangkat fisik tetap diperlukan.
 
-Roadmap fondasi dan checklist Tahap 7 tersedia di [docs/roadmap.md](docs/roadmap.md) dan [docs/TAHAP-7-INTEGRASI-PENGUJIAN.md](docs/TAHAP-7-INTEGRASI-PENGUJIAN.md). Rancangan ekspansi Living Headquarters tersedia di [GDD](docs/MEX-NEX-GDD.md), [TDD](docs/MEX-NEX-TDD.md), [Model Data](docs/MEX-NEX-DATA-MODEL.md), [Kontrak API/Event](docs/MEX-NEX-API-EVENT-CONTRACT.md), [Rencana Tahap 2](docs/TAHAP-2-IMPLEMENTATION-PLAN.md), dan [Audit Source Awal](docs/TAHAP-2-AUDIT-SOURCE-AWAL.md), dan [Keputusan Arsitektur Tahap 2](docs/TAHAP-2-KEPUTUSAN-ARSITEKTUR.md).
+Roadmap fondasi dan checklist Tahap 7 tersedia di [docs/roadmap.md](docs/roadmap.md) dan [docs/TAHAP-7-INTEGRASI-PENGUJIAN.md](docs/TAHAP-7-INTEGRASI-PENGUJIAN.md). Rancangan ekspansi Living Headquarters tersedia di [GDD](docs/MEX-NEX-GDD.md), [TDD](docs/MEX-NEX-TDD.md), [Model Data](docs/MEX-NEX-DATA-MODEL.md), [Kontrak API/Event](docs/MEX-NEX-API-EVENT-CONTRACT.md), [Rencana Tahap 2](docs/TAHAP-2-IMPLEMENTATION-PLAN.md), dan [Audit Source Awal](docs/TAHAP-2-AUDIT-SOURCE-AWAL.md), dan [Keputusan Arsitektur Tahap 2](docs/TAHAP-2-KEPUTUSAN-ARSITEKTUR.md), dan [Validasi Tahap 2](docs/TAHAP-2-VALIDASI.md).
 
 ## Asal source dan lisensi
 
