@@ -7,14 +7,16 @@ type Props = { className?: string };
 type IsoPoint = { x: number; y: number };
 type Furniture = { key: string; x: number; y: number; scale: number; depthOffset?: number };
 const FURNITURE: Furniture[] = [
-  { key: "desk", x: 360, y: 430, scale: 0.19 },
-  { key: "desk", x: 485, y: 495, scale: 0.19 },
-  { key: "desk", x: 690, y: 430, scale: 0.19 },
-  { key: "desk", x: 815, y: 495, scale: 0.19 },
-  { key: "desk", x: 1080, y: 430, scale: 0.19 },
-  { key: "desk", x: 1205, y: 495, scale: 0.19 },
-  { key: "desk", x: 1060, y: 680, scale: 0.19 },
-  { key: "desk", x: 1185, y: 745, scale: 0.19 },
+  // Three tidy work bays; paired desks share the same depth line.
+  { key: "desk", x: 350, y: 435, scale: 0.17 },
+  { key: "desk", x: 525, y: 485, scale: 0.17 },
+  { key: "desk", x: 700, y: 435, scale: 0.17 },
+  { key: "desk", x: 875, y: 485, scale: 0.17 },
+  { key: "desk", x: 1050, y: 435, scale: 0.17 },
+  { key: "desk", x: 1225, y: 485, scale: 0.17 },
+  // Operations desks stay inside the lower-right floor boundary.
+  { key: "desk", x: 700, y: 605, scale: 0.16 },
+  { key: "desk", x: 900, y: 605, scale: 0.16 },
 ];
 
 export function PhaserOfficeCanvas({ className }: Props) {
@@ -116,28 +118,33 @@ export function PhaserOfficeCanvas({ className }: Props) {
           this.polygon([{x:315,y:300},{x:485,y:208},{x:485,y:265},{x:315,y:357}],0x294650,1,0x1b343d);
           this.label("MEX—NEX",400,286,"#fff0d9","20px");
 
-          // Six compact, clearly separated department footprints.
-          const zones=[
-            {p:[{x:245,y:450},{x:410,y:360},{x:575,y:450},{x:410,y:540}],c:0xc7d4b9,t:"ENGINEERING",x:410,y:378},
-            {p:[{x:565,y:450},{x:730,y:360},{x:895,y:450},{x:730,y:540}],c:0xd8c9ad,t:"RESEARCH",x:730,y:378},
-            {p:[{x:885,y:450},{x:1050,y:360},{x:1215,y:450},{x:1050,y:540}],c:0xc2d5d0,t:"CREATIVE STUDIO",x:1050,y:378},
-            {p:[{x:350,y:650},{x:485,y:576},{x:620,y:650},{x:485,y:724}],c:0xd2c2ad,t:"LOUNGE",x:485,y:596},
-            {p:[{x:650,y:650},{x:785,y:576},{x:920,y:650},{x:785,y:724}],c:0xe0d2b8,t:"PANTRY",x:785,y:596},
-            {p:[{x:950,y:650},{x:1085,y:576},{x:1220,y:650},{x:1085,y:724}],c:0xc8d4c9,t:"OPERATIONS",x:1085,y:596},
+          // Department bays are aligned in one clear row; labels sit above furniture.
+          const zones = [
+            { p: [{x:245,y:455},{x:430,y:355},{x:615,y:455},{x:430,y:555}], c:0xc7d4b9, t:"ENGINEERING", x:430, y:380 },
+            { p: [{x:615,y:455},{x:800,y:355},{x:985,y:455},{x:800,y:555}], c:0xd8c9ad, t:"RESEARCH", x:800, y:380 },
+            { p: [{x:985,y:455},{x:1170,y:355},{x:1355,y:455},{x:1170,y:555}], c:0xc2d5d0, t:"CREATIVE STUDIO", x:1170, y:380 },
           ];
-          zones.forEach(z=>{
-            this.polygon(z.p as IsoPoint[],z.c,0.96,0xb7a68d);
-            this.label(z.t,z.x,z.y,"#425b50","14px");
+          zones.forEach((z) => {
+            this.polygon(z.p, z.c, 0.94, 0xb7a68d);
+            this.label(z.t, z.x, z.y, "#425b50", "13px");
           });
 
-          // Open aisle: light inset strip keeps movement between zones readable.
-          this.polygon([{x:625,y:555},{x:800,y:460},{x:975,y:555},{x:800,y:650}],0xeee4d2,0.92,0xd0c0a8);
-          this.label("COLLABORATION",800,548,"#7b6854","12px");
+          // Shared facilities occupy the front edge without covering workstations.
+          this.polygon([{x:410,y:625},{x:555,y:545},{x:700,y:625},{x:555,y:705}],0xd2c2ad,0.96,0xb7a68d);
+          this.label("LOUNGE",555,590,"#425b50","13px");
+          this.polygon([{x:700,y:625},{x:845,y:545},{x:990,y:625},{x:845,y:705}],0xe0d2b8,0.96,0xb7a68d);
+          this.label("PANTRY",845,590,"#425b50","13px");
+          this.polygon([{x:990,y:625},{x:1135,y:545},{x:1280,y:625},{x:1135,y:705}],0xc8d4c9,0.96,0xb7a68d);
+          this.label("OPERATIONS",1135,590,"#425b50","13px");
 
-          // Small glass dividers only at the outer edges of work bays.
-          this.polygon([{x:585,y:390},{x:600,y:382},{x:600,y:490},{x:585,y:498}],0x8db7ae,0.32,0x688d85);
-          this.polygon([{x:905,y:390},{x:920,y:382},{x:920,y:490},{x:905,y:498}],0x8db7ae,0.32,0x688d85);
-          this.polygon([{x:635,y:610},{x:650,y:602},{x:650,y:690},{x:635,y:698}],0x8db7ae,0.28,0x688d85);
+          // A compact central circulation lane; no zone labels or furniture overlap it.
+          this.polygon([{x:650,y:525},{x:800,y:445},{x:950,y:525},{x:800,y:605}],0xeee4d2,0.9,0xd0c0a8);
+          this.label("COLLABORATION",800,520,"#7b6854","11px");
+
+          // Glass partitions mark bay edges, not the walking path.
+          this.polygon([{x:625,y:390},{x:638,y:383},{x:638,y:475},{x:625,y:482}],0x8db7ae,0.28,0x688d85);
+          this.polygon([{x:962,y:390},{x:975,y:383},{x:975,y:475},{x:962,y:482}],0x8db7ae,0.28,0x688d85);
+          this.polygon([{x:690,y:630},{x:703,y:623},{x:703,y:685},{x:690,y:692}],0x8db7ae,0.22,0x688d85);
 
           const board=this.add.image(1280,300,"tasks").setScale(0.18).setDepth(300);
           this.world.add(board);
@@ -152,13 +159,13 @@ export function PhaserOfficeCanvas({ className }: Props) {
             const desk=this.add.image(item.x,item.y,item.key).setScale(item.scale).setOrigin(0.5,0.82).setDepth(item.y);
             this.world.add(desk);
           });
-          const whiteboard=this.add.image(270,315,"whiteboard").setScale(0.19).setDepth(315);
-          const coffee=this.add.image(785,670,"coffee").setScale(0.18).setDepth(670);
+          const whiteboard=this.add.image(270,315,"whiteboard").setScale(0.16).setDepth(315);
+          const coffee=this.add.image(845,665,"coffee").setScale(0.15).setDepth(665);
           const plants=[
-            this.add.image(220,490,"plant").setScale(0.17).setDepth(490),
-            this.add.image(1370,490,"plant").setScale(0.17).setDepth(490),
-            this.add.image(1370,300,"plant").setScale(0.15).setDepth(300),
-            this.add.image(420,700,"plant").setScale(0.14).setDepth(700),
+            this.add.image(205,475,"plant").setScale(0.14).setDepth(475),
+            this.add.image(1390,475,"plant").setScale(0.14).setDepth(475),
+            this.add.image(1350,300,"plant").setScale(0.13).setDepth(300),
+            this.add.image(555,690,"plant").setScale(0.12).setDepth(690),
           ];
           this.world.add([whiteboard,coffee,...plants]);
         }
