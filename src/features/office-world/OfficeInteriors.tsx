@@ -214,6 +214,37 @@ function GlassRun({ x, z, y, length, axis = "x", height = 3.1, tint = "#9fcbd0" 
   );
 }
 
+function WallDisplay({ x, z, y, width = 4.2, height = 2.25, rotationY = 0 }: {
+  x: number; z: number; y: number; width?: number; height?: number; rotationY?: number;
+}) {
+  return (
+    <group position={[x, y, z]} rotation={[0, rotationY, 0]}>
+      <Block position={[0, 0, 0]} size={[width + 0.24, height + 0.24, 0.16]} color="#27343b" />
+      <mesh position={[0, 0, 0.095]}>
+        <boxGeometry args={[width, height, 0.035]} />
+        <meshStandardMaterial color="#172b38" emissive="#1c5364" emissiveIntensity={0.24} roughness={0.28} metalness={0.22} />
+      </mesh>
+      <Block position={[-width * 0.31, -height * 0.18, 0.12]} size={[width * 0.26, 0.055, 0.025]} color="#63b9b0" />
+      <Block position={[-width * 0.31, -height * 0.28, 0.12]} size={[width * 0.18, 0.035, 0.025]} color="#e7a36b" />
+      <Block position={[width * 0.23, height * 0.18, 0.12]} size={[width * 0.28, 0.055, 0.025]} color="#91c9d1" />
+      <Block position={[width * 0.23, height * 0.08, 0.12]} size={[width * 0.2, 0.035, 0.025]} color="#d8e2df" />
+    </group>
+  );
+}
+
+function AcousticWallPanel({ x, z, y, width = 2.2, height = 2.5, rotationY = 0 }: {
+  x: number; z: number; y: number; width?: number; height?: number; rotationY?: number;
+}) {
+  return (
+    <group position={[x, y, z]} rotation={[0, rotationY, 0]}>
+      <Block position={[0, 0, 0]} size={[width, height, 0.18]} color="#35414b" />
+      {Array.from({ length: 7 }, (_, i) => (
+        <Block key={i} position={[-width * 0.42 + i * width * 0.14, 0, 0.105]} size={[0.035, height * 0.88, 0.025]} color={i % 2 ? "#788b88" : "#bd916e"} />
+      ))}
+    </group>
+  );
+}
+
 function CeilingLight({ x, z, y, length = 4.2 }: { x: number; z: number; y: number; length?: number }) {
   return (
     <group position={[x, y + 3.45, z]}>
@@ -368,9 +399,15 @@ function LevelInterior({ levelId, elevation }: { levelId: OfficeLevelId; elevati
           {/* Executive / meeting room at the back-right */}
           <MeetingTable x={9} z={-8} y={y} seats={6} />
           <Bookcase x={15} z={-12} y={y} />
+          <OfficeFurnitureModel model="tableCoffee" position={[14.8, y + 0.1, -4.2]} scale={1.7} />
+          <Plant x={16} z={-6} y={y} />
+          <WallDisplay x={7.2} z={-13.55} y={y + 2.55} width={4.8} height={2.55} />
+          <AcousticWallPanel x={15.4} z={-13.48} y={y + 2.3} width={2.1} height={2.7} />
 
           {/* Creative studio at the back-left */}
           <StudioSet x={-11} z={-8} y={y} />
+          <WallDisplay x={-11} z={-13.55} y={y + 2.45} width={5.4} height={2.65} />
+          <AcousticWallPanel x={-17.25} z={-7.2} y={y + 2.15} width={2.2} height={2.5} rotationY={Math.PI / 2} />
 
           {/* Lounge and reception at the front-left */}
           <Sofa x={-12} z={10} y={y} color="#668b86" />
@@ -384,6 +421,11 @@ function LevelInterior({ levelId, elevation }: { levelId: OfficeLevelId; elevati
           <OfficeFurnitureModel model="chairModernCushion" position={[4.5, y + 0.08, 10.4]} scale={2.1} />
           <OfficeFurnitureModel model="chairModernCushion" position={[8.5, y + 0.08, 10.4]} scale={2.1} rotationY={Math.PI} />
 
+          {/* Technology / R&D nook with equipment and status wall. */}
+          <ServerRack x={14.5} z={0.4} y={y} />
+          <ServerRack x={14.5} z={3.2} y={y} />
+          <WallDisplay x={16.2} z={-0.4} y={y + 2.35} width={3.1} height={1.75} rotationY={Math.PI / 2} />
+          <Bookcase x={-16} z={-4.5} y={y} />
           <Plant x={-16} z={-1} y={y} />
           <Plant x={16} z={-1} y={y} />
           <Plant x={-16} z={12} y={y} />
