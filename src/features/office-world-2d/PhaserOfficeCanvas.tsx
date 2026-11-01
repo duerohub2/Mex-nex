@@ -63,8 +63,8 @@ export function PhaserOfficeCanvas({ className }: Props) {
           return graphics;
         }
 
-        private wall(points: Point[], color = 0xe8dfce, edge = 0x826f5b) {
-          return this.polygon(points, color, edge, 4);
+        private wall(points: Point[], color = 0xe8dfce, edge = 0x826f5b, lineWidth = 4) {
+          return this.polygon(points, color, edge, lineWidth);
         }
 
         private drawArchitecture() {
