@@ -307,13 +307,10 @@ function FloorArchitecture({ levelId, y }: { levelId: OfficeLevelId; y: number }
   if (levelId === "floor-2") {
     return (
       <group>
-        {/* One connected headquarters: transparent room dividers keep every department visible. */}
-        <GlassRun x={-6.5} z={-8.5} y={y} length={10} />
-        <GlassRun x={-12} z={-3.5} y={y} length={9} axis="z" />
-        <GlassRun x={7} z={-8.5} y={y} length={10} />
-        <GlassRun x={13} z={-3.5} y={y} length={9} axis="z" />
-        <GlassRun x={0} z={2.5} y={y} length={13} />
-        <LowPartition x={-1} z={10.5} y={y} length={9} color="#d6c3ad" />
+        {/* Open-plan HQ: only short glass dividers define private rooms; the centre stays clear. */}
+        <GlassRun x={-12.5} z={-7.5} y={y} length={6.5} axis="z" height={2.5} />
+        <GlassRun x={9.5} z={-7.5} y={y} length={6.5} axis="z" height={2.5} />
+        <LowPartition x={0} z={-12.5} y={y} length={8} color="#d6c3ad" />
       </group>
     );
   }
@@ -404,10 +401,11 @@ function LevelInterior({ levelId, elevation }: { levelId: OfficeLevelId; elevati
           <WallDisplay x={7.2} z={-13.55} y={y + 2.55} width={4.8} height={2.55} />
           <AcousticWallPanel x={15.4} z={-13.48} y={y + 2.3} width={2.1} height={2.7} />
 
-          {/* Creative studio at the back-left */}
-          <StudioSet x={-11} z={-8} y={y} />
-          <WallDisplay x={-11} z={-13.55} y={y + 2.45} width={5.4} height={2.65} />
-          <AcousticWallPanel x={-17.25} z={-7.2} y={y + 2.15} width={2.2} height={2.5} rotationY={Math.PI / 2} />
+          {/* Creative studio: compact paired desks with a single presentation wall. */}
+          <Desk x={-13.2} z={-7.4} y={y} />
+          <Desk x={-8.2} z={-7.4} y={y} />
+          <WallDisplay x={-11} z={-13.55} y={y + 2.45} width={4.6} height={2.2} />
+          <AcousticWallPanel x={-17.25} z={-7.2} y={y + 2.05} width={1.5} height={2.1} rotationY={Math.PI / 2} />
 
           {/* Lounge and reception at the front-left */}
           <Sofa x={-12} z={10} y={y} color="#668b86" />
