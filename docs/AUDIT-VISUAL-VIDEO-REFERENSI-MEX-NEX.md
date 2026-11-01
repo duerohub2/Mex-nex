@@ -38,15 +38,16 @@ Area yang terlihat jelas:
 - Furnitur GLB sudah digunakan, tetapi belum membentuk satu interior dengan kepadatan, komposisi, dan kualitas material seperti video.
 - Denah lantai belum memiliki zoning yang kuat dan unik.
 - Studio konten dan kolam renang belum tersedia sebagai zona yang jelas.
-- Struktur fasad dan partisi kaca belum cukup menyampaikan karakter ruang terbuka video.
+- Struktur fasad dan partisi kaca masih berupa kit awal; belum memiliki detail pintu, hardware, mullion berulang yang kaya, dan material final.
 - Belum ada sistem visual Agent yang tervalidasi terhubung ke state backend pada Living HQ.
 
 ## Pekerjaan awal yang sudah dimulai
 
 - Menambahkan zona studio konten pada lantai 3 sebagai fondasi layout produksi.
 - Menambahkan kolam renang rooftop dengan deck, tepi kolam, kursi santai, sofa, meja, dan tanaman.
-- Membersihkan literal newline yang tidak semestinya berada di JSX interior.
+- Menambahkan architectural zoning awal pada seluruh enam level: panel kaca transparan, rangka metal, top rail, partisi rendah, dan pembatas zona sesuai fungsi lantai.
 - Mempertahankan komponen world model, navigasi lantai, renderer, dan backend yang sudah ada.
+- ESLint pada `OfficeInteriors.tsx` dan production build berhasil setelah perubahan zoning (1 November 2026).
 
 ## Tahapan redesign berikutnya
 
@@ -72,4 +73,4 @@ Area yang terlihat jelas:
 
 ## Status
 
-Audit referensi video selesai. Implementasi studio dan kolam baru merupakan pass awal berbasis geometri; belum setara dengan referensi dan belum dinyatakan lulus visual QA. Build, lint, dan pemeriksaan browser setelah perubahan ini masih harus dijalankan.
+Audit referensi video selesai. Studio, kolam, dan architectural zoning sudah masuk sebagai pass awal berbasis geometri dan GLB furnitur; belum setara dengan referensi dan belum dinyatakan lulus visual QA. ESLint file interior dan production build lulus. Pemeriksaan browser desktop/iPhone, skala/orientasi model, komposisi tiap lantai, FPS, serta status deployment masih harus divalidasi.
