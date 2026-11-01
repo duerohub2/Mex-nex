@@ -5,7 +5,6 @@ import { OfficeWorldCanvas } from "@/features/office-world/OfficeWorldCanvas";
 import { OfficeBuilding } from "@/features/office-world/OfficeBuilding";
 import { OFFICE_LEVELS, type OfficeLevelId } from "@/lib/office-world/world";
 import { BUILDING_CAMERA_CONFIG, getFloorCameraConfig } from "@/lib/office-world/renderer";
-import { LivingHQCameraRig } from "./LivingHQCameraRig";
 
 export function LivingHQExperience() {
   const [activeLevel, setActiveLevel] = useState<OfficeLevelId | null>(null);
