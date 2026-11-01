@@ -11,6 +11,8 @@ Mengubah keputusan visual Tahap 1 menjadi spesifikasi produk, domain, data, API,
 | [Logical Data Model](MEX-NEX-DATA-MODEL.md) | Entitas, relasi, indeks, lifecycle, migrasi |
 | [API & Event Contract](MEX-NEX-API-EVENT-CONTRACT.md) | Resource map, payload, event, state machine, replay |
 | [Visual reference](visual-reference-library/TAHAP-1-REFERENSI-VISUAL.md) | Moodboard dan standar aset |
+| [Keputusan arsitektur](TAHAP-2-KEPUTUSAN-ARSITEKTUR.md) | Temuan AI tools, event bridge, Vercel, keputusan kompatibilitas dan gate penutup |
+| [Roadmap utama](ROADMAP-UTAMA-MEX-NEX.md) | Jalur fondasi + Living Headquarters 14 tahap, dependensi, risiko, acceptance criteria |
 
 ## Urutan kerja
 ### 2.1 Audit sistem existing
