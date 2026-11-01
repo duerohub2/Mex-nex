@@ -58,7 +58,7 @@ export function PixelHQPreview() {
       const status=this.add.text(0,-88,agent.status,{fontFamily:"Arial",fontSize:"12px",color:"#e8f4e8",backgroundColor:"#527e69",padding:{x:7,y:4}}).setOrigin(0.5);
       group.add([shadow,sprite,name,status]);group.setSize(90,150);
       group.setInteractive(new Phaser.Geom.Rectangle(-48,-140,96,150),Phaser.Geom.Rectangle.Contains);
-      group.on("pointerdown",()=>{this.add.text(agent.x+55,agent.y-30,agent.role,{fontFamily:"Arial",fontSize:"14px",color:"#fff",backgroundColor:"#182f36",padding:8}).setDepth(900);});
+      group.on("pointerdown",()=>{this.add.text(agent.x+55,agent.y-30,agent.role,{fontFamily:"Arial",fontSize:"14px",color:"#fff",backgroundColor:"#182f36",padding:{x:8,y:8}}).setDepth(900);});
       this.tweens.add({targets:sprite,y:-4,duration:1250,yoyo:true,repeat:-1,ease:"Sine.easeInOut"});
      });
      this.add.text(800,115,"MEX-NEX · HEADQUARTERS",{fontFamily:"Arial",fontSize:"24px",color:"#f7e9c8",fontStyle:"bold",letterSpacing:4}).setOrigin(0.5);
