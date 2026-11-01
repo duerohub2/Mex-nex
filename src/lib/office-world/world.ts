@@ -130,9 +130,9 @@ export const BUILDING_OVERVIEW_CAMERA: CameraPreset = Object.freeze({
   position: Object.freeze({ x: 34, y: 29, z: 34 }),
   target: Object.freeze({ x: 0, y: 7.5, z: 0 }),
   // Portrait mobile screens need a much wider overview framing.
-  zoom: 6.5,
-  minZoom: 4,
-  maxZoom: 12,
+  zoom: 0.022,
+  minZoom: 0.012,
+  maxZoom: 0.04,
 });
 
 /** Per-floor camera target; camera position is derived by the renderer. */
