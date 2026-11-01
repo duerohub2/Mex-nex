@@ -99,7 +99,7 @@ export function OfficeWorldCanvas({
         <Suspense fallback={null}>
           {SCENE_LAYERS.map((layer) => (
             <group key={layer.id} name={`office-world:${layer.id}`}>
-              {layer.id === "environment" ? children : null}
+              {scene?.[layer.id] ?? (layer.id === "environment" ? children : null)}
             </group>
           ))}
         </Suspense>
