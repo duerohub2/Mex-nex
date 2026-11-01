@@ -4,6 +4,7 @@ import { useMemo, useState } from "react";
 import { OfficeWorldCanvas } from "@/features/office-world/OfficeWorldCanvas";
 import { OfficeBuilding } from "@/features/office-world/OfficeBuilding";
 import { OfficeInteriors } from "@/features/office-world/OfficeInteriors";
+import { LivingHQEnvironment } from "@/features/office-world/LivingHQEnvironment";
 import { OFFICE_LEVELS, type OfficeLevelId } from "@/lib/office-world/world";
 import { BUILDING_CAMERA_CONFIG, getFloorCameraConfig } from "@/lib/office-world/renderer";
 
@@ -58,8 +59,9 @@ export function LivingHQExperience() {
           camera={camera}
           interactive
           scene={{
-            "building-shell": <OfficeBuilding visibleLevels={visibleLevels} interiorMode={activeLevel !== null} />,
-            interiors: <OfficeInteriors visibleLevels={visibleLevels} />,
+            environment: <LivingHQEnvironment />,
+            "building-shell": <group scale={1.15}><OfficeBuilding visibleLevels={visibleLevels} interiorMode={activeLevel !== null} /></group>,
+            interiors: <group scale={1.15}><OfficeInteriors visibleLevels={visibleLevels} /></group>,
           }}
         />
         <div className="pointer-events-none absolute bottom-4 left-4 rounded-xl border border-white/70 bg-[#fff3e2]/90 px-3 py-2 text-xs font-semibold shadow">
