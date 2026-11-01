@@ -11,6 +11,12 @@
 - Canvas tetap memakai fallback WebGL dari fondasi Tahap 3.
 - Route `/office` dan renderer RetroOffice lama tidak diganti; preview Living HQ dipisahkan agar fitur kantor existing tetap aman.
 
+## Perbaikan framing overview (setelah feedback)
+
+- Feedback visual menunjukkan Building View tidak menampilkan keseluruhan gedung pada layar portrait.
+- Preset kamera overview diperlebar: zoom diturunkan dari 24 menjadi 6.5, batas zoom overview disesuaikan menjadi 4–12, dan target vertikal digeser ke tengah massa gedung.
+- Tujuan perubahan ini adalah memberi ruang horizontal yang cukup pada viewport portrait agar keseluruhan bentang gedung terlihat saat pertama dibuka.
+
 ## Validasi yang dijalankan
 
 Pada sandbox Node 22, setelah `npm ci`:
