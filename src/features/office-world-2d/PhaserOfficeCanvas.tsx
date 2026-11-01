@@ -69,13 +69,16 @@ export function PhaserOfficeCanvas({ level, className }: Props) {
 
         private block(x: number, z: number, elevation: number, width: number, depth: number, height: number, top: number, side = 0x9a7659) {
           const [cx, cy] = this.iso(x, z, elevation);
-          const left = [cx - width * 12, cy - width * 6];
-          const topPoint = [cx, cy - (width + depth) * 6];
-          const right = [cx + depth * 12, cy - depth * 6];
-          const front = [cx, cy + (depth - width) * 6];
+          const left: [number, number] = [cx - width * 12, cy - width * 6];
+          const topPoint: [number, number] = [cx, cy - (width + depth) * 6];
+          const right: [number, number] = [cx + depth * 12, cy - depth * 6];
+          const front: [number, number] = [cx, cy + (depth - width) * 6];
+          const frontBottom: [number, number] = [front[0], front[1] + height];
+          const leftBottom: [number, number] = [left[0], left[1] + height];
+          const rightBottom: [number, number] = [right[0], right[1] + height];
           this.polygon([left, topPoint, right, front], top, 1, 0x5c493b);
-          this.polygon([left, front, [front[0], front[1] + height], [left[0], left[1] + height]], side, 1, 0x5c493b);
-          this.polygon([front, right, [right[0], right[1] + height], [front[0], front[1] + height]], Phaser.Display.Color.IntegerToColor(side).darken(12).color, 1, 0x5c493b);
+          this.polygon([left, front, frontBottom, leftBottom], side, 1, 0x5c493b);
+          this.polygon([front, right, rightBottom, frontBottom], Phaser.Display.Color.IntegerToColor(side).darken(12).color, 1, 0x5c493b);
         }
 
         private label(text: string, x: number, y: number, color = "#594638", size = "12px") {
