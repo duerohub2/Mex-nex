@@ -372,7 +372,38 @@ Jangan mengunduh aset hanya dari thumbnail. Simpan LICENSE/NOTICE atau bukti lis
 - Sistem visual tidak boleh menjadi dependency yang menghambat task engine atau komunikasi agent.
 - Simulasi demo harus terisolasi dari data produksi dan diberi label jelas.
 
-## 20. Gerbang penerimaan Tahap 1
+## 20. Moodboard final dan keputusan visual yang disetujui
+
+**Persetujuan pemilik proyek:** pilihan visual final telah diberikan dan dikunci.
+
+| Elemen | Keputusan final | Arahan produksi |
+|---|---|---|
+| Gedung | Futuristic | Headquarters modern berarsitektur futuristik, fasad kaca, bentuk geometris tegas, pencahayaan arsitektural, rooftop hijau, identitas MEX-NEX yang terlihat jelas. Tetap gunakan cutaway/open-side agar semua lantai terbaca. |
+| Karakter | Human | Agent berbentuk manusia bergaya stylized 3D, proporsi ramah dan konsisten, variasi wajah/rambut/pakaian yang mudah dibedakan, tampilan profesional namun tidak kaku. Hindari robot sebagai desain utama. |
+| Interior | Hybrid | Gabungkan interior kantor modern yang fungsional dengan sentuhan futuristik: workstation realistis, ruang rapat, lounge, tanaman, layar digital, pencahayaan ambient, serta aksen warna terkontrol. |
+
+### Palet dan material acuan
+- **MEX-NEX navy / deep blue:** warna dasar identitas, panel UI, dan area bayangan.
+- **Electric/cobalt blue:** aksen teknologi, garis cahaya, signage, dan titik interaksi.
+- **Tech cyan:** indikator aktif, highlight navigasi, dan elemen digital.
+- **Cyber purple:** aksen sekunder untuk detail UI dan pencahayaan tertentu.
+- **Clean white / cool gray:** fasad, struktur, panel, dan ruang kerja agar tetap bersih.
+- **Warm amber / soft orange:** aksen hospitality pada lobby, lounge, dan pencahayaan interior agar kantor tidak terasa dingin.
+- **Greenery:** tanaman rooftop dan interior sebagai penyeimbang visual.
+
+Warna di atas adalah palet acuan dari moodboard, bukan nilai warna final per-material. Nilai token warna digital dan material 3D akan distandardisasi saat implementasi UI/3D agar kontras dan aksesibilitas terjaga.
+
+### Komposisi moodboard yang disetujui
+- Tampilan utama: gedung futuristic MEX-NEX dengan fasad kaca, beberapa lantai terlihat, rooftop garden, dan signage brand.
+- Potongan gedung: basement + empat lantai + rooftop dalam satu overview.
+- Interior: contoh lobby/reception, meeting room, open workspace, lounge, research lab, dan recreation area.
+- Karakter: kelompok agent manusia dengan pakaian kerja dan identitas visual berbeda.
+- Aktivitas: working, meeting, walking, discussing, researching, collaborating. Aktivitas ini adalah referensi visual; di produk nyata hanya boleh ditampilkan jika status/event backend mendukungnya.
+- Identitas: logo MEX-NEX, ikon fasilitas, dan komponen UI futuristik yang konsisten.
+
+Moodboard merupakan acuan arah visual, bukan spesifikasi final ukuran ruangan, jumlah agent, atau bukti bahwa aset 3D sudah tersedia. File moodboard yang dihasilkan pada percakapan ini belum disimpan sebagai berkas repository; dokumentasi ini merekam keputusan dan arahan produksinya.
+
+## 21. Gerbang penerimaan Tahap 1
 
 Tahap 1 baru boleh ditutup setelah:
 - [x] Referensi produk dan pembanding teknis awal dicatat.
@@ -383,13 +414,14 @@ Tahap 1 baru boleh ditutup setelah:
 - [x] Prinsip A2A, deliverable, audit, dan approval dirumuskan.
 - [x] Standar aset dan aturan lisensi ditetapkan.
 - [x] Sasaran performa mobile dan desktop ditulis sebagai target pengujian.
-- [ ] Kurasi moodboard final (gambar terpilih per kategori) selesai.
-- [ ] Pemilik proyek menyetujui palet, proporsi, style karakter, dan kepadatan detail.
-- [ ] Asset register diisi untuk setiap aset eksternal yang benar-benar dipilih.
+- [x] Moodboard final dikurasi sebagai acuan gedung, lantai, interior, karakter, aktivitas, dan identitas.
+- [x] Pemilik proyek menyetujui pilihan final: gedung futuristic, karakter human, interior hybrid.
+- [x] Palet acuan dan prinsip material dicatat.
+- [x] Asset register awal dibuat; belum ada aset pihak ketiga yang dipilih/diimpor, sehingga tidak ada lisensi eksternal yang diklaim telah disetujui.
 
-**Status Tahap 1: MATANG SECARA SPESIFIKASI, MENUNGGU PERSETUJUAN MOODBOARD DAN ASET.** Belum boleh dianggap selesai penuh sebelum tiga item terakhir disetujui/dilengkapi.
+**Status Tahap 1: SELESAI — baseline riset, moodboard, keputusan visual, standar teknis, dan gerbang produksi telah disepakati.** Pemilihan serta pemeriksaan lisensi aset individual akan dilakukan sebagai aktivitas sebelum setiap aset eksternal masuk repository, bukan alasan untuk menahan penutupan tahap riset.
 
-## 21. Referensi tambahan yang ditinjau
+## 22. Referensi tambahan yang ditinjau
 
 - Staffroom: https://github.com/staffroom-ai/staffroom — role-based agents, task routing, deliverables, MCP tools, approval, run log, Apache-2.0.
 - Atlassian Roving Office: https://github.com/atlassian-labs/roving-office — visualisasi live agent sessions dan pemisahan demo/real; Apache-2.0 untuk kode dengan pengecualian merek/aset pihak ketiga yang dijelaskan di NOTICE.
