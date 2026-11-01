@@ -57,7 +57,7 @@ export function LivingHQExperience() {
       <section className="relative min-h-0 flex-1">
         <OfficeWorldCanvas
           camera={camera}
-          interactive
+          interactive={false}
           scene={{
             environment: <LivingHQEnvironment />,
             "building-shell": <group scale={1.15}><OfficeBuilding visibleLevels={visibleLevels} interiorMode={activeLevel !== null} /></group>,
