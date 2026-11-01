@@ -111,11 +111,14 @@ export function OfficeWorldCanvas({
           <OrbitControls
             makeDefault
             enableDamping
+            enableRotate
+            enableZoom
+            enablePan
             dampingFactor={0.12}
             minZoom={camera.minZoom}
             maxZoom={camera.maxZoom}
             minPolarAngle={0.15}
-            maxPolarAngle={Math.PI / 2.05}
+            maxPolarAngle={Math.PI / 1.95}
             enablePan
           />
         ) : null}
