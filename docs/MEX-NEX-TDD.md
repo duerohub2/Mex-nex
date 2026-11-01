@@ -37,6 +37,17 @@ Node Server + Next.js
 ```
 Diagram adalah logical architecture; bukan klaim seluruh modul telah ada atau terhubung. Implementasi harus memetakan komponen ke file aktual sebelum refactor.
 
+## 2A. Implementasi existing yang telah dibaca
+
+Audit awal menemukan kontrak aktual berikut:
+- Office domain lokal dilayani oleh app/api/office/route.js dan menyimpan snapshot ke .data/office.json (version 2), termasuk departments, agents, tasks, messages, activity, meetings, whiteboards, bulletins, dan QA reviews.
+- AI chat/agent-run dilayani oleh app/api/ai/route.js; provider dapat berupa Hermes, local, atau external; sesi disimpan pada .data/ai-sessions.json.
+- Presence endpoint berada pada src/app/api/office/presence/route.ts dan dapat membaca local snapshot atau remote presence/gateway.
+- server/index.js mem-proxy WebSocket upstream pada /api/gateway/ws.
+- Tes tests/unit/stageSevenIntegration.test.ts memeriksa persistensi office/chat pada module reload dan tidak bocornya provider secret.
+
+Konsekuensi: /api/office dan /api/ai adalah kontrak existing yang harus dipertahankan. API /api/v1 di dokumen kontrak hanyalah usulan masa depan. File JSON lokal bukan database SQL dan belum membuktikan durabilitas pada deployment Vercel/multi-instance. Lihat [Audit Source Awal](TAHAP-2-AUDIT-SOURCE-AWAL.md).
+
 ## 3. Batas domain
 1. Organization: company, department, role, agent membership.
 2. Agent Runtime: provider, model, run, execution state, tool invocation.
