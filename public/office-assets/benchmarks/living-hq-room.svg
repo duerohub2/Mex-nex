@@ -1,132 +1,129 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1000" viewBox="0 0 1600 1000">
 <defs>
- <linearGradient id="floor" x2="0.9" y2="1"><stop stop-color="#e9d8bd"/><stop offset="1" stop-color="#c6a985"/></linearGradient>
- <linearGradient id="wall" x2="0" y2="1"><stop stop-color="#f6ead8"/><stop offset="1" stop-color="#cbb69a"/></linearGradient>
- <linearGradient id="wood" x2="0" y2="1"><stop stop-color="#d9a878"/><stop offset="1" stop-color="#a66f48"/></linearGradient>
- <linearGradient id="glass" x2="1" y2="1"><stop stop-color="#d9f3f0" stop-opacity=".7"/><stop offset="1" stop-color="#6d9e9d" stop-opacity=".34"/></linearGradient>
- <linearGradient id="screen" x2="0" y2="1"><stop stop-color="#243f50"/><stop offset="1" stop-color="#102633"/></linearGradient>
- <filter id="shadow" x="-30%" y="-30%" width="170%" height="180%"><feGaussianBlur stdDeviation="10"/></filter>
- <pattern id="plank" width="72" height="22" patternUnits="userSpaceOnUse"><path d="M0 1H72M0 21H72" stroke="#8d684d" stroke-opacity=".16" stroke-width="2"/></pattern>
+ <linearGradient id="floor" x2="0.8" y2="1"><stop stop-color="#f1e5d1"/><stop offset="1" stop-color="#cdb18d"/></linearGradient>
+ <linearGradient id="wallL" x2="0" y2="1"><stop stop-color="#f8eddb"/><stop offset="1" stop-color="#d6c1a4"/></linearGradient>
+ <linearGradient id="wallR" x2="0" y2="1"><stop stop-color="#eee0ca"/><stop offset="1" stop-color="#c6ae8f"/></linearGradient>
+ <linearGradient id="wood" x2="0" y2="1"><stop stop-color="#d7a879"/><stop offset="1" stop-color="#a9754e"/></linearGradient>
+ <linearGradient id="glass" x2="1" y2="1"><stop stop-color="#e2f5ef" stop-opacity=".65"/><stop offset="1" stop-color="#78a8a3" stop-opacity=".3"/></linearGradient>
+ <linearGradient id="screen" x2="0" y2="1"><stop stop-color="#274654"/><stop offset="1" stop-color="#102b38"/></linearGradient>
+ <pattern id="boards" width="84" height="24" patternUnits="userSpaceOnUse"><path d="M0 1H84M0 23H84" stroke="#987858" stroke-opacity=".13" stroke-width="2"/></pattern>
+ <filter id="soft"><feGaussianBlur stdDeviation="12"/></filter>
  <g id="desk">
-  <path d="M-65 0 0 -35 65 0 0 36Z" fill="#765039" opacity=".28" transform="translate(0 18)"/>
-  <path d="M-65 -8 0 -44 65 -8 0 28Z" fill="url(#wood)" stroke="#80573b" stroke-width="4"/>
-  <path d="M-48 -9 0 -35 48 -9 0 17Z" fill="#e6bd91"/>
-  <path d="M-45 -50 0 -75 38 -55 -7 -30Z" fill="#182e3a" stroke="#314b55" stroke-width="4"/>
-  <path d="M-39 -50 0 -71 31 -55 -8 -34Z" fill="#75b5ba"/>
-  <path d="M-7 -30V-8" stroke="#d6e1d8" stroke-width="3"/>
-  <path d="M-48 5V47M45 4V44" stroke="#73543d" stroke-width="7"/>
+  <path d="M-58 -4 0 -36 58 -4 0 29Z" fill="#79563e" opacity=".22" transform="translate(0 14)"/>
+  <path d="M-58 -10 0 -42 58 -10 0 23Z" fill="url(#wood)" stroke="#805b40" stroke-width="3"/>
+  <path d="M-40 -10 0 -32 40 -10 0 12Z" fill="#e9c9a2"/>
+  <path d="M-34 -49 0 -68 30 -51 -4 -32Z" fill="#193440" stroke="#38515a" stroke-width="3"/>
+  <path d="M-27 -49 0 -64 22 -51 -5 -37Z" fill="#8bc1bd"/>
+  <path d="M-5 -31V-10" stroke="#d8e5dc" stroke-width="3"/>
+  <path d="M-42 5V39M42 5V39" stroke="#78583f" stroke-width="6"/>
  </g>
  <g id="chair">
-  <path d="M-16 -10 0 -19 17 -10 0 0Z" fill="#547a7b"/>
-  <path d="M-16 -10V16L0 25V0Z" fill="#34575d"/><path d="M0 0 17 -10V16L0 25Z" fill="#29464d"/>
-  <path d="M-8 23V34M10 20V31" stroke="#35484b" stroke-width="4"/>
+  <path d="M-14 -12 0 -20 15 -12 0 -4Z" fill="#73918a"/>
+  <path d="M-14 -12V12L0 21V-4Z" fill="#4f716e"/><path d="M0 -4 15 -12V12L0 21Z" fill="#385b5b"/>
+  <path d="M-7 20V31M9 17V28" stroke="#4d5148" stroke-width="3"/>
  </g>
  <g id="plant">
-  <path d="M-17 0 0 -9 17 0 0 10Z" fill="#a66f4c"/><path d="M-17 0 0 10V31L-17 21Z" fill="#80543c"/><path d="M0 10 17 0V21L0 31Z" fill="#684632"/>
-  <path d="M0 1Q-24 -35 -9 -59Q4 -42 0 1M0 1Q26 -42 17 -62Q-2 -42 0 1M0 1Q-5 -60 9 -77Q17 -46 0 1" fill="#4c805e" stroke="#37654b" stroke-width="3"/>
+  <path d="M-15 0 0 -8 15 0 0 9Z" fill="#b17c57"/><path d="M-15 0 0 9V27L-15 18Z" fill="#8b5d43"/><path d="M0 9 15 0V18L0 27Z" fill="#704a37"/>
+  <path d="M0 0Q-25 -33 -11 -58Q4 -43 0 0M0 0Q24 -39 17 -62Q-3 -40 0 0M0 0Q-5 -55 9 -74Q17 -43 0 0" fill="#568568" stroke="#3c6c53" stroke-width="2.5"/>
  </g>
 </defs>
-<!-- soft grounding shadow and floating slab -->
-<ellipse cx="805" cy="820" rx="590" ry="92" fill="#30464a" opacity=".2" filter="url(#shadow)"/>
-<path d="M180 560 800 220 1420 560 800 910Z" fill="#78583f" opacity=".5" transform="translate(0 20)"/>
-<path d="M180 545 800 205 1420 545 800 895Z" fill="url(#floor)" stroke="#76583f" stroke-width="9"/>
-<path d="M180 545 800 205 1420 545 800 895Z" fill="url(#plank)" opacity=".8"/>
-<!-- back walls -->
-<path d="M180 545 800 205 800 82 180 420Z" fill="url(#wall)" stroke="#6d5947" stroke-width="9"/>
-<path d="M800 205 1420 545 1420 420 800 82Z" fill="#e7d7c1" stroke="#6d5947" stroke-width="9"/>
-<!-- wall panel rhythm -->
-<g stroke="#b59b7c" stroke-width="5" opacity=".8" fill="none">
- <path d="M300 479V354M430 408V283M560 337V212M690 266V141"/>
- <path d="M910 265V142M1050 342V218M1190 418V294M1330 495V370"/>
-</g>
-<!-- company feature sign -->
-<path d="M370 414 650 260 650 350 370 504Z" fill="#263e49" stroke="#1b3039" stroke-width="6"/>
-<path d="M405 417 620 298" stroke="#e9b77f" stroke-width="5"/>
-<text x="510" y="390" fill="#fff0d8" font-family="Arial" font-size="27" font-weight="700" text-anchor="middle" transform="rotate(-29 510 390)">MEX—NEX</text>
-<text x="515" y="423" fill="#a9d2cc" font-family="Arial" font-size="12" letter-spacing="4" text-anchor="middle" transform="rotate(-29 515 423)">LIVING HQ</text>
-<!-- zone floor rugs -->
-<path d="M270 565 470 455 675 565 475 676Z" fill="#9fb1a0" opacity=".68" stroke="#e9ddc9" stroke-width="5"/>
-<path d="M575 565 800 442 1025 565 800 690Z" fill="#c3b49b" opacity=".48" stroke="#e9ddc9" stroke-width="5"/>
-<path d="M925 565 1125 455 1325 565 1125 676Z" fill="#9aafb0" opacity=".62" stroke="#e9ddc9" stroke-width="5"/>
-<path d="M580 745 800 625 1020 745 800 865Z" fill="#d8c5a7" opacity=".62" stroke="#eadbc3" stroke-width="5"/>
-<!-- lounge zone left: sofa and coffee table -->
+<!-- backdrop and single clean floor plate -->
+<rect width="1600" height="1000" fill="#dce9e4"/>
+<ellipse cx="800" cy="835" rx="590" ry="85" fill="#52635a" opacity=".16" filter="url(#soft)"/>
+<path d="M170 550 800 205 1430 550 800 910Z" fill="#8b6849" transform="translate(0 19)"/>
+<path d="M170 535 800 190 1430 535 800 895Z" fill="url(#floor)" stroke="#795b40" stroke-width="10"/>
+<path d="M170 535 800 190 1430 535 800 895Z" fill="url(#boards)" opacity=".8"/>
+<!-- two rear walls, no exterior scenery -->
+<path d="M170 535 800 190 800 70 170 415Z" fill="url(#wallL)" stroke="#795f48" stroke-width="9"/>
+<path d="M800 190 1430 535 1430 415 800 70Z" fill="url(#wallR)" stroke="#795f48" stroke-width="9"/>
+<g stroke="#b89d7d" stroke-width="4" opacity=".65"><path d="M300 464V344M440 388V268M580 311V191M720 235V115M880 235V115M1020 311V191M1160 388V268M1300 464V344"/></g>
+<!-- company identity wall -->
+<path d="M340 405 560 285 560 355 340 475Z" fill="#263f49" stroke="#1c333d" stroke-width="5"/>
+<path d="M370 408 530 321" stroke="#e7b783" stroke-width="4"/>
+<text x="450" y="390" fill="#fff0d9" font-family="Arial" font-size="23" font-weight="700" text-anchor="middle" transform="rotate(-29 450 390)">MEX—NEX</text>
+<!-- soft zone rugs -->
+<path d="M300 555 480 456 665 557 485 658Z" fill="#a8b9a5" opacity=".78" stroke="#eee4d3" stroke-width="4"/>
+<path d="M650 555 800 472 950 555 800 638Z" fill="#d4c3a7" opacity=".75" stroke="#eee4d3" stroke-width="4"/>
+<path d="M960 555 1135 459 1310 555 1135 652Z" fill="#a9bec0" opacity=".76" stroke="#eee4d3" stroke-width="4"/>
+<path d="M390 720 540 638 690 720 540 802Z" fill="#c8b99f" opacity=".65" stroke="#eee4d3" stroke-width="4"/>
+<path d="M690 755 800 695 910 755 800 815Z" fill="#d9c9ae" opacity=".8" stroke="#eee4d3" stroke-width="4"/>
+<!-- meeting room at rear, centered and uncluttered -->
 <g>
- <path d="M285 574 370 527 510 600 425 648Z" fill="#7c5145" opacity=".28" transform="translate(0 15)"/>
- <path d="M285 548 370 501 510 574 425 621Z" fill="#b97868" stroke="#754d45" stroke-width="6"/>
- <path d="M300 544 370 506 493 570 423 609Z" fill="#e3a18c"/>
- <path d="M300 544 300 585 423 650 423 609Z" fill="#a96358"/>
- <path d="M423 609 493 570 493 610 423 650Z" fill="#8c554c"/>
- <path d="M340 540 370 524 414 547 384 563Z" fill="#f0c4ad"/>
- <path d="M445 635 500 605 555 634 500 665Z" fill="#b8865e" stroke="#805b40" stroke-width="4"/>
- <path d="M465 625 500 606 535 625 500 645Z" fill="#ead8b9"/>
- <use href="#plant" transform="translate(250 570) scale(.9)"/>
+ <path d="M675 352 800 283 925 352 800 421Z" fill="#78553d" opacity=".2" transform="translate(0 12)"/>
+ <path d="M675 337 800 268 925 337 800 406Z" fill="url(#wood)" stroke="#805a3d" stroke-width="5"/>
+ <path d="M704 337 800 284 896 337 800 390Z" fill="#e8caa4"/>
+ <path d="M775 325 800 311 825 325 800 339Z" fill="#203e4b" stroke="#f1dfc7" stroke-width="2"/>
+ <use href="#chair" transform="translate(660 348) scale(.82)"/><use href="#chair" transform="translate(800 245) scale(.82)"/><use href="#chair" transform="translate(940 348) scale(.82)"/>
+ <use href="#chair" transform="translate(710 438) scale(.82)"/><use href="#chair" transform="translate(890 438) scale(.82)"/>
 </g>
-<!-- engineering workstations, aligned on a single row -->
+<!-- engineering: three aligned individual desks, left zone -->
 <g>
- <use href="#desk" transform="translate(690 485) scale(.88)"/><use href="#chair" transform="translate(690 550)"/>
- <use href="#desk" transform="translate(850 575) scale(.88)"/><use href="#chair" transform="translate(850 640)"/>
- <use href="#desk" transform="translate(1010 485) scale(.88)"/><use href="#chair" transform="translate(1010 550)"/>
+ <use href="#desk" transform="translate(425 530) scale(.82)"/><use href="#chair" transform="translate(425 596) scale(.9)"/>
+ <use href="#desk" transform="translate(545 596) scale(.82)"/><use href="#chair" transform="translate(545 660) scale(.9)"/>
+ <use href="#desk" transform="translate(665 530) scale(.82)"/><use href="#chair" transform="translate(665 596) scale(.9)"/>
 </g>
-<!-- meeting area: clear table and six seats -->
+<!-- creative studio: one shared table with seats placed around its perimeter -->
 <g>
- <path d="M630 350 800 257 970 350 800 445Z" fill="#79563d" opacity=".25" transform="translate(0 18)"/>
- <path d="M630 330 800 237 970 330 800 423Z" fill="url(#wood)" stroke="#80583d" stroke-width="6"/>
- <path d="M665 330 800 256 935 330 800 404Z" fill="#e5c39c"/>
- <path d="M775 292 825 265 870 289 820 316Z" fill="#203b49" stroke="#f0dfc6" stroke-width="3"/>
- <use href="#chair" transform="translate(625 337) scale(.85)"/><use href="#chair" transform="translate(800 225) scale(.85)"/><use href="#chair" transform="translate(976 337) scale(.85)"/>
- <use href="#chair" transform="translate(690 440) scale(.85)"/><use href="#chair" transform="translate(910 440) scale(.85)"/>
+ <path d="M1000 548 1125 480 1250 548 1125 616Z" fill="#78543b" opacity=".2" transform="translate(0 12)"/>
+ <path d="M1000 535 1125 467 1250 535 1125 603Z" fill="url(#wood)" stroke="#805a3d" stroke-width="5"/>
+ <path d="M1028 535 1125 482 1222 535 1125 588Z" fill="#ebcda7"/>
+ <path d="M1095 527 1125 511 1155 527 1125 544Z" fill="#203e4b" stroke="#e5e6d9" stroke-width="2"/>
+ <use href="#chair" transform="translate(985 610) scale(.9)"/><use href="#chair" transform="translate(1125 646) scale(.9)"/><use href="#chair" transform="translate(1265 570) scale(.9)"/>
 </g>
-<!-- creative studio right: large shared table, neat seats -->
+<!-- lounge at front-left, physically separated from workstations -->
 <g>
- <path d="M1070 565 1185 502 1300 562 1185 625Z" fill="#77513a" opacity=".25" transform="translate(0 15)"/>
- <path d="M1070 548 1185 485 1300 545 1185 608Z" fill="#c18c60" stroke="#805a3d" stroke-width="5"/>
- <path d="M1095 546 1185 497 1275 545 1185 593Z" fill="#e8c59c"/>
- <path d="M1145 535 1185 513 1225 534 1185 556Z" fill="#233d4b" stroke="#dce7dd" stroke-width="3"/>
- <use href="#chair" transform="translate(1085 625) scale(.85)"/><use href="#chair" transform="translate(1185 660) scale(.85)"/><use href="#chair" transform="translate(1290 610) scale(.85)"/>
- <path d="M1260 365 1360 420 1360 465 1260 410Z" fill="#203945" stroke="#172d37" stroke-width="5"/>
- <path d="M1273 374 1348 415" stroke="#78b7bd" stroke-width="5"/>
+ <path d="M345 710 415 672 535 736 465 774Z" fill="#7d5147" opacity=".2" transform="translate(0 12)"/>
+ <path d="M345 690 415 652 535 716 465 754Z" fill="#b87968" stroke="#82564a" stroke-width="5"/>
+ <path d="M360 689 415 659 520 715 465 744Z" fill="#e7a892"/>
+ <path d="M360 689V724L465 780V744Z" fill="#a7665a"/><path d="M465 744 520 715V750L465 780Z" fill="#8b554b"/>
+ <path d="M480 790 530 763 580 790 530 818Z" fill="#b88961" stroke="#805b40" stroke-width="3"/>
+ <path d="M495 788 530 769 565 788 530 807Z" fill="#f0dfc2"/>
+ <use href="#plant" transform="translate(300 684) scale(.85)"/>
 </g>
-<!-- pantry at front, intentionally separated from desks -->
+<!-- pantry at front-center: compact counter, no overlap with lounge -->
 <g>
- <path d="M650 760 800 678 950 760 800 842Z" fill="#e7d9c1" stroke="#b99b78" stroke-width="5"/>
- <path d="M690 755 800 695 910 755 800 815Z" fill="#b47d55" stroke="#805b40" stroke-width="5"/>
- <path d="M740 743 800 710 860 743 800 776Z" fill="#eee1ca"/>
- <path d="M780 728 800 717 820 728 800 740Z" fill="#6e9c93"/>
- <path d="M700 790V830M900 790V830" stroke="#79583f" stroke-width="8"/>
- <path d="M955 710 1000 685 1045 710 1000 735Z" fill="#8a6044" stroke="#694a36" stroke-width="4"/>
- <path d="M970 705 1000 688 1030 705 1000 722Z" fill="#e9ddc7"/>
- <use href="#plant" transform="translate(1110 735) scale(.8)"/>
+ <path d="M710 755 800 706 890 755 800 804Z" fill="#a87550" stroke="#805a3d" stroke-width="4"/>
+ <path d="M730 752 800 714 870 752 800 790Z" fill="#f0e4cf"/>
+ <path d="M765 733 800 714 835 733 800 752Z" fill="#7da69a"/>
+ <path d="M730 770V805M870 770V805" stroke="#79583f" stroke-width="7"/>
 </g>
-<!-- glass partitions: only three clean aligned divider segments -->
-<g fill="url(#glass)" stroke="#446b70" stroke-width="7">
- <path d="M555 450 555 555 585 572 585 467Z"/><path d="M585 467 585 572 745 660 745 555Z"/>
- <path d="M1045 465 1045 560 1075 577 1075 482Z"/><path d="M1075 482 1075 577 1230 662 1230 567Z"/>
- <path d="M700 205 700 285 730 302 730 222Z"/><path d="M730 222 730 302 900 395 900 315Z"/>
-</g>
-<g stroke="#eaf8f1" stroke-width="4" opacity=".6" fill="none">
- <path d="M568 466 568 548M598 483 598 563M718 221 718 282M1060 480 1060 552M1090 497 1090 568"/>
-</g>
-<!-- overhead screens and acoustic panels -->
+<!-- operations/server nook, rear-right wall with clear floor space -->
 <g>
- <path d="M910 130 1030 195 1030 275 910 210Z" fill="url(#screen)" stroke="#172d38" stroke-width="7"/>
- <path d="M930 157 1008 199M930 176 985 206" stroke="#6db4b7" stroke-width="4"/>
- <path d="M1100 232 1205 290 1205 350 1100 292Z" fill="#243e4b" stroke="#172d38" stroke-width="6"/>
- <path d="M1120 258 1185 294M1120 276 1165 302" stroke="#75b8bb" stroke-width="4"/>
- <g fill="#b78b67"><path d="M760 115 785 101 785 195 760 209Z"/><path d="M800 94 825 108 825 202 800 188Z"/><path d="M840 116 865 130 865 224 840 210Z"/></g>
+ <path d="M1190 335 1250 302 1310 335 1250 368Z" fill="#263f49" stroke="#182f3a" stroke-width="4"/>
+ <path d="M1205 335 1250 310 1295 335 1250 360Z" fill="#78b8bd"/>
+ <path d="M1250 367V430" stroke="#334f58" stroke-width="5"/>
+ <path d="M1260 600 1300 578 1340 600 1300 622Z" fill="#344d54"/>
+ <path d="M1260 600V682L1300 704V622Z" fill="#49666a"/><path d="M1300 622 1340 600V682L1300 704Z" fill="#263f49"/>
+ <path d="M1270 625 1300 609 1330 625M1270 650 1300 634 1330 650M1270 675 1300 659 1330 675" stroke="#d28c62" stroke-width="7"/>
 </g>
-<!-- ceiling pendant lights -->
-<g stroke="#65716a" stroke-width="5" fill="none"><path d="M475 260V315M800 120V180M1130 300V355"/></g>
-<g fill="#f8e8b7" stroke="#d0b98e" stroke-width="4"><path d="M425 315 525 315 505 333 445 333Z"/><path d="M750 180 850 180 830 198 770 198Z"/><path d="M1080 355 1180 355 1160 373 1100 373Z"/></g>
-<!-- wayfinding labels -->
-<g font-family="Arial,sans-serif" font-size="16" font-weight="700" letter-spacing="2" fill="#6b5948">
- <text x="400" y="490" text-anchor="middle">LOUNGE</text>
- <text x="820" y="470" text-anchor="middle">ENGINEERING</text>
- <text x="800" y="215" text-anchor="middle">MEETING ROOM</text>
- <text x="1190" y="475" text-anchor="middle">CREATIVE STUDIO</text>
- <text x="800" y="855" text-anchor="middle">PANTRY</text>
+<!-- partitions: short, straight, leave wide circulation gaps -->
+<g fill="url(#glass)" stroke="#557d7c" stroke-width="5">
+ <path d="M760 460 760 525 785 539 785 474Z"/><path d="M785 474 785 539 920 613 920 548Z"/>
+ <path d="M925 460 925 525 950 539 950 474Z"/><path d="M950 474 950 539 985 558 985 493Z"/>
 </g>
-<!-- front fascia -->
-<path d="M180 545 800 895 800 923 180 575Z" fill="#9b7655" stroke="#6f523e" stroke-width="5"/>
-<path d="M800 895 1420 545 1420 575 800 923Z" fill="#795a42" stroke="#604733" stroke-width="5"/>
-<path d="M260 570 800 875M880 875 1360 605" stroke="#d7b58d" stroke-width="5" opacity=".65"/>
+<g stroke="#f3fff8" stroke-width="3" opacity=".65"><path d="M772 469V518M797 483V532M937 469V518M962 483V532"/></g>
+<!-- wall displays, acoustic panels, pendants -->
+<g>
+ <path d="M910 130 1040 201 1040 273 910 202Z" fill="url(#screen)" stroke="#19323d" stroke-width="6"/>
+ <path d="M932 157 1018 204M932 178 995 213" stroke="#76b9bc" stroke-width="4"/>
+ <path d="M1090 230 1195 287 1195 342 1090 285Z" fill="url(#screen)" stroke="#19323d" stroke-width="5"/>
+ <path d="M1110 255 1176 291M1110 273 1160 300" stroke="#76b9bc" stroke-width="3"/>
+ <g fill="#b98d68"><path d="M610 112 635 98 635 185 610 199Z"/><path d="M650 90 675 104 675 191 650 177Z"/><path d="M690 112 715 126 715 213 690 199Z"/></g>
+</g>
+<g stroke="#6c746b" stroke-width="4" fill="none"><path d="M470 270V320M800 125V175M1130 300V345"/></g>
+<g fill="#fff0c9" stroke="#d2b98e" stroke-width="3"><path d="M430 320H510L495 335H445Z"/><path d="M760 175H840L825 190H775Z"/><path d="M1090 345H1170L1155 360H1105Z"/></g>
+<!-- plants at corners only -->
+<use href="#plant" transform="translate(220 548) scale(.9)"/><use href="#plant" transform="translate(1370 550) scale(.85)"/>
+<!-- zone labels placed in open floor, away from furniture -->
+<g font-family="Arial,sans-serif" font-size="15" font-weight="700" letter-spacing="2" fill="#665340">
+ <text x="800" y="465" text-anchor="middle">MEETING ROOM</text>
+ <text x="520" y="475" text-anchor="middle">ENGINEERING</text>
+ <text x="1125" y="450" text-anchor="middle">CREATIVE STUDIO</text>
+ <text x="470" y="825" text-anchor="middle">LOUNGE</text>
+ <text x="800" y="850" text-anchor="middle">PANTRY</text>
+ <text x="1280" y="740" text-anchor="middle">OPERATIONS</text>
+</g>
+<!-- finished front fascia -->
+<path d="M170 535 800 895 800 922 170 565Z" fill="#a17a56" stroke="#76573e" stroke-width="5"/>
+<path d="M800 895 1430 535 1430 565 800 922Z" fill="#806044" stroke="#644a35" stroke-width="5"/>
 </svg>
