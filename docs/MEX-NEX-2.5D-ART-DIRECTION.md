@@ -1,6 +1,6 @@
 # MEX-NEX Living HQ — Art Direction 2.5D
 
-**Status:** keputusan produksi visual, 1 November 2026  
+**Status:** keputusan produksi visual, 1 November 2026 — revisi konsep single-floor  
 **Target:** browser desktop + Safari iPhone  
 **Renderer:** Phaser 3 sebagai compositor/interaksi 2.5D  
 **Visual reference utama:** video kantor isometrik yang diberikan pemilik proyek. Dokumen visual library lama hanya referensi teknis tambahan.
@@ -16,7 +16,7 @@ Phaser hanya mengatur layer, depth sorting, camera, hit-area, animasi sprite, da
 ## 2. Ciri visual wajib
 
 - Kamera orthographic/isometric tetap; sudut tinggi tiga-perempat, bukan tampak samping datar.
-- Gedung cutaway/open-side dengan enam level: basement, lantai 1–4, rooftop.
+- Satu lantai kantor besar bergaya cutaway/open-side. Semua departemen, ruang rapat, studio, lounge, pantry, dan area kerja terlihat bersamaan dalam satu komposisi. Tidak ada tumpukan enam lantai pada visual utama.
 - Arsitektur modern: rangka metal gelap, panel kaca besar, mullion tipis, pintu kaca, balkon/railing, slab lantai yang tebal dan terbaca.
 - Interior padat namun tertata: workstation lengkap, monitor, keyboard, kursi, meja rapat, sofa, rak, lampu, tanaman, perangkat teknis.
 - Material memiliki respons visual berbeda: kayu ber-grain, kaca reflektif/transparan, metal, kain, beton, dedaunan, air.
