@@ -87,6 +87,7 @@ export function OfficeWorldCanvas({
         }}
         fallback={fallback}
       >
+        <color attach="background" args={["#d9e6e3"]} />
         <OrthographicCamera
           makeDefault
           position={camera.position}
