@@ -162,10 +162,103 @@ function RooftopPool({ x, z, y }: { x: number; z: number; y: number }) {
   );
 }
 
+
+function GlassRun({ x, z, y, length, axis = "x", height = 3.1, tint = "#9fcbd0" }: {
+  x: number; z: number; y: number; length: number; axis?: "x" | "z"; height?: number; tint?: string;
+}) {
+  const alongX = axis === "x";
+  const panelSize: [number, number, number] = alongX
+    ? [length, height, 0.12]
+    : [0.12, height, length];
+  const postCount = Math.max(2, Math.floor(length / 2.4) + 1);
+  return (
+    <group>
+      <Block position={[x, y + height / 2, z]} size={panelSize} color={tint} opacity={0.24} />
+      <Block position={[x, y + 0.08, z]} size={alongX ? [length, 0.16, 0.2] : [0.2, 0.16, length]} color={C.metal} />
+      <Block position={[x, y + height, z]} size={alongX ? [length, 0.12, 0.2] : [0.2, 0.12, length]} color={C.metal} />
+      {Array.from({ length: postCount }, (_, i) => {
+        const offset = -length / 2 + (length * i) / (postCount - 1);
+        return <Block key={i} position={alongX ? [x + offset, y + height / 2, z] : [x, y + height / 2, z + offset]} size={[0.1, height + 0.08, 0.16]} color={C.metal} />;
+      })}
+    </group>
+  );
+}
+
+function LowPartition({ x, z, y, length, axis = "x", color = C.partition }: {
+  x: number; z: number; y: number; length: number; axis?: "x" | "z"; color?: string;
+}) {
+  return <Block position={[x, y + 0.72, z]} size={axis === "x" ? [length, 1.44, 0.28] : [0.28, 1.44, length]} color={color} />;
+}
+
+function FloorArchitecture({ levelId, y }: { levelId: OfficeLevelId; y: number }) {
+  if (levelId === "basement") {
+    return (
+      <group>
+        <LowPartition x={0} z={-10} y={y} length={28} />
+        <GlassRun x={-7} z={3} y={y} length={12} axis="z" tint="#7daab7" />
+        <GlassRun x={-1} z={-3} y={y} length={12} tint="#7daab7" />
+        <LowPartition x={8} z={-4} y={y} length={12} axis="z" color="#89969a" />
+      </group>
+    );
+  }
+  if (levelId === "floor-1") {
+    return (
+      <group>
+        <GlassRun x={-8} z={-5} y={y} length={13} axis="z" />
+        <GlassRun x={-1.5} z={-11.5} y={y} length={13} />
+        <GlassRun x={8.5} z={-4.5} y={y} length={9} axis="z" />
+        <GlassRun x={13} z={0} y={y} length={9} />
+        <LowPartition x={-10} z={5} y={y} length={7} axis="z" color="#d7b99b" />
+      </group>
+    );
+  }
+  if (levelId === "floor-2") {
+    return (
+      <group>
+        <GlassRun x={-17} z={-4} y={y} length={18} axis="z" />
+        <GlassRun x={-8} z={-12} y={y} length={18} />
+        <GlassRun x={8} z={-4} y={y} length={18} axis="z" />
+        <GlassRun x={8} z={5} y={y} length={18} />
+        <LowPartition x={0} z={-1} y={y} length={12} color="#d6c3ad" />
+      </group>
+    );
+  }
+  if (levelId === "floor-3") {
+    return (
+      <group>
+        <GlassRun x={1} z={-10} y={y} length={13} />
+        <GlassRun x={1} z={-4} y={y} length={12} />
+        <GlassRun x={-5} z={-7} y={y} length={6} axis="z" />
+        <GlassRun x={13} z={-7} y={y} length={6} axis="z" />
+        <GlassRun x={-17} z={3} y={y} length={13} axis="z" tint="#a8c9cb" />
+      </group>
+    );
+  }
+  if (levelId === "floor-4") {
+    return (
+      <group>
+        <GlassRun x={-13} z={-7} y={y} length={12} axis="z" />
+        <GlassRun x={-7} z={-13} y={y} length={12} />
+        <GlassRun x={6} z={-7} y={y} length={12} axis="z" />
+        <GlassRun x={12} z={-1} y={y} length={12} />
+        <LowPartition x={0} z={6} y={y} length={12} color="#c9b49e" />
+      </group>
+    );
+  }
+  return (
+    <group>
+      <GlassRun x={-7.5} z={-4.5} y={y} length={9} axis="z" height={1.6} tint="#9fcbd0" />
+      <GlassRun x={7.5} z={-4.5} y={y} length={9} axis="z" height={1.6} tint="#9fcbd0" />
+      <GlassRun x={0} z={-9} y={y} length={15} height={1.6} tint="#9fcbd0" />
+    </group>
+  );
+}
+
 function LevelInterior({ levelId, elevation }: { levelId: OfficeLevelId; elevation: number }) {
   const y = elevation + 0.22;
   return (
     <group name={`interior:${levelId}`}>
+      <FloorArchitecture levelId={levelId} y={y} />
       <ElevatorAndStairs y={y} />
       {levelId === "basement" ? (
         <>
