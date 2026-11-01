@@ -8,7 +8,7 @@ import {
   OFFICE_LIGHTING,
   type OrthographicCameraConfig,
 } from "@/lib/office-world/renderer";
-import { SCENE_LAYERS } from "@/lib/office-world/world";
+import { SCENE_LAYERS, type SceneLayerId } from "@/lib/office-world/world";
 
 type OfficeWorldCanvasProps = {
   children?: ReactNode;
