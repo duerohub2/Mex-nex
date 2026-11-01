@@ -9,22 +9,25 @@ type Furniture = { key: string; x: number; y: number; scale: number; depthOffset
 type Agent = { name: string; role: string; status: string; texture: string; x: number; y: number };
 
 const FURNITURE: Furniture[] = [
-  { key: "desk", x: 470, y: 390, scale: 0.2 },
-  { key: "desk", x: 610, y: 470, scale: 0.2 },
-  { key: "desk", x: 750, y: 390, scale: 0.2 },
-  { key: "desk", x: 890, y: 470, scale: 0.2 },
-  { key: "desk", x: 1030, y: 390, scale: 0.2 },
-  { key: "desk", x: 1170, y: 470, scale: 0.2 },
-  { key: "desk", x: 680, y: 690, scale: 0.2 },
-  { key: "desk", x: 820, y: 770, scale: 0.2 },
-  { key: "desk", x: 960, y: 690, scale: 0.2 },
+  // Engineering: two paired workstations, aligned to the isometric floor.
+  { key: "desk", x: 410, y: 430, scale: 0.2 },
+  { key: "desk", x: 535, y: 500, scale: 0.2 },
+  // Research and meeting support.
+  { key: "desk", x: 700, y: 430, scale: 0.2 },
+  { key: "desk", x: 825, y: 500, scale: 0.2 },
+  // Creative studio.
+  { key: "desk", x: 1080, y: 430, scale: 0.2 },
+  { key: "desk", x: 1205, y: 500, scale: 0.2 },
+  // Operations and shared hot desks.
+  { key: "desk", x: 1040, y: 690, scale: 0.2 },
+  { key: "desk", x: 1165, y: 760, scale: 0.2 },
 ];
 
 const AGENTS: Agent[] = [
-  { name: "NEX", role: "Engineering", status: "Mengerjakan task", texture: "dev-front", x: 470, y: 455 },
-  { name: "MIRA", role: "Research", status: "Menganalisis", texture: "dev-side", x: 750, y: 455 },
-  { name: "ATLAS", role: "Operations", status: "Siaga", texture: "dev-two", x: 1030, y: 455 },
-  { name: "KIRA", role: "Creative", status: "Mendesain", texture: "employee", x: 820, y: 755 },
+  { name: "NEX", role: "Engineering", status: "Mengerjakan task", texture: "dev-front", x: 410, y: 500 },
+  { name: "MIRA", role: "Research", status: "Menganalisis", texture: "dev-side", x: 700, y: 500 },
+  { name: "KIRA", role: "Creative", status: "Mendesain", texture: "employee", x: 1080, y: 500 },
+  { name: "ATLAS", role: "Operations", status: "Siaga", texture: "dev-two", x: 1040, y: 760 },
 ];
 
 export function PhaserOfficeCanvas({ className }: Props) {
@@ -59,6 +62,7 @@ export function PhaserOfficeCanvas({ className }: Props) {
 
         create() {
           this.cameras.main.setBackgroundColor("#dce8e2");
+          this.cameras.main.roundPixels = true;
           this.world = this.add.container(0, 0);
           this.drawRoom();
           this.placeFurniture();
@@ -146,12 +150,12 @@ export function PhaserOfficeCanvas({ className }: Props) {
           this.polygon([{x:390,y:665},{x:540,y:582},{x:690,y:665},{x:540,y:748}], 0xc5b7a2, 0.9, 0xe2d6c3);
           this.polygon([{x:710,y:665},{x:840,y:594},{x:970,y:665},{x:840,y:736}], 0xe2d2b6, 0.9, 0xf1e5d2);
 
-          this.label("ENGINEERING", 500, 355);
-          this.label("MEETING ROOM", 820, 405);
-          this.label("CREATIVE STUDIO", 1160, 355);
-          this.label("LOUNGE", 540, 650);
+          this.label("ENGINEERING", 465, 365);
+          this.label("RESEARCH HUB", 700, 365);
+          this.label("CREATIVE STUDIO", 1125, 365);
+          this.label("LOUNGE", 500, 650);
           this.label("PANTRY", 840, 645);
-          this.label("OPERATIONS", 1260, 585);
+          this.label("OPERATIONS", 1130, 625);
 
           // Low glass partitions: straight segments with deliberate door gaps.
           this.polygon([{x:735,y:440},{x:755,y:429},{x:755,y:515},{x:735,y:526}], 0x8db7ae, 0.42, 0x5c827d);
@@ -213,6 +217,7 @@ export function PhaserOfficeCanvas({ className }: Props) {
               this.time.delayedCall(2400, () => detail.destroy());
             });
             this.world.add(group);
+            group.setDepth(agent.y + 80);
             this.tweens.add({ targets: sprite, y: -3, duration: 1300, yoyo: true, repeat: -1, ease: "Sine.easeInOut" });
           });
         }
