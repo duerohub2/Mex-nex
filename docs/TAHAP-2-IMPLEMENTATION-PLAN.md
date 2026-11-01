@@ -42,9 +42,12 @@ Review threat model, privacy, biaya, data lifecycle, mobile fallback; pastikan d
 - [x] API/event contract dan state machine ditulis.
 - [x] Approval, security, A2A, audit, replay, budget principles ditulis.
 - [x] Urutan implementasi dan risiko migrasi ditulis.
-- [ ] Audit source code detail dan inventory file-to-domain selesai.
-- [ ] Database engine/schema fisik diverifikasi dari implementasi aktual.
-- [ ] API routes dan WebSocket behavior diverifikasi terhadap source/tests.
+- [x] Audit awal source dan inventory file-to-domain parsial dicatat dalam [Audit Source Awal](TAHAP-2-AUDIT-SOURCE-AWAL.md).
+- [x] Storage aktual yang diperiksa diverifikasi sebagai JSON file lokal (.data/office.json version 2 dan .data/ai-sessions.json), bukan asumsi SQL.
+- [x] API utama yang diperiksa diverifikasi: /api/office, /api/ai, /api/office/presence, dan gateway WS /api/gateway/ws.
+- [ ] Audit seluruh operasi/response API, tool execution, event bridge, dan seluruh persistence files selesai.
+- [ ] Kesesuaian filesystem persistence dan custom WebSocket server pada deployment Vercel diverifikasi.
+- [ ] Keputusan arsitektur final disetujui setelah audit lengkap.
 - [ ] Keputusan arsitektur final disetujui setelah audit.
 - [ ] CI test/typecheck/build dijalankan pada commit terakhir dan hasil dicatat.
 
