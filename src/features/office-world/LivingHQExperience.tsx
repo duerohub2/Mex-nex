@@ -58,7 +58,7 @@ export function LivingHQExperience() {
           camera={camera}
           interactive
           scene={{
-            "building-shell": <OfficeBuilding visibleLevels={visibleLevels} />,
+            "building-shell": <OfficeBuilding visibleLevels={visibleLevels} interiorMode={activeLevel !== null} />,
             interiors: <OfficeInteriors visibleLevels={visibleLevels} />,
           }}
         />
