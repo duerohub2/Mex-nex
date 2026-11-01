@@ -1,143 +1,132 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1000" viewBox="0 0 1600 1000">
 <defs>
- <linearGradient id="floor" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#e6cba7"/><stop offset=".48" stop-color="#c99d72"/><stop offset="1" stop-color="#9e7356"/></linearGradient>
- <linearGradient id="wood" x2="0" y2="1"><stop stop-color="#c99161"/><stop offset="1" stop-color="#86563d"/></linearGradient>
- <linearGradient id="glass" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#e5fbff" stop-opacity=".78"/><stop offset=".38" stop-color="#8fc4d1" stop-opacity=".38"/><stop offset="1" stop-color="#315b6d" stop-opacity=".68"/></linearGradient>
- <linearGradient id="wall" x2="0" y2="1"><stop stop-color="#f4e8d5"/><stop offset="1" stop-color="#bda58d"/></linearGradient>
- <linearGradient id="metal" x2="1" y2="1"><stop stop-color="#53636b"/><stop offset=".5" stop-color="#202e38"/><stop offset="1" stop-color="#101a23"/></linearGradient>
- <linearGradient id="screen" x2="0" y2="1"><stop stop-color="#9ce8f2"/><stop offset="1" stop-color="#27566b"/></linearGradient>
- <linearGradient id="seat" x2="0" y2="1"><stop stop-color="#d7a17c"/><stop offset="1" stop-color="#895d4d"/></linearGradient>
- <radialGradient id="light"><stop stop-color="#fff4ce" stop-opacity=".8"/><stop offset="1" stop-color="#fff4ce" stop-opacity="0"/></radialGradient>
- <filter id="shadow" x="-30%" y="-30%" width="170%" height="180%"><feGaussianBlur stdDeviation="16"/></filter>
- <filter id="soft" x="-30%" y="-30%" width="170%" height="180%"><feGaussianBlur stdDeviation="5"/></filter>
- <pattern id="grain" width="90" height="26" patternUnits="userSpaceOnUse"><path d="M0 7h90M0 20h90" stroke="#704b37" stroke-opacity=".13" stroke-width="2"/><path d="M18 0v26M67 0v26" stroke="#fff0d8" stroke-opacity=".08"/></pattern>
+ <linearGradient id="floor" x2="0.9" y2="1"><stop stop-color="#e9d8bd"/><stop offset="1" stop-color="#c6a985"/></linearGradient>
+ <linearGradient id="wall" x2="0" y2="1"><stop stop-color="#f6ead8"/><stop offset="1" stop-color="#cbb69a"/></linearGradient>
+ <linearGradient id="wood" x2="0" y2="1"><stop stop-color="#d9a878"/><stop offset="1" stop-color="#a66f48"/></linearGradient>
+ <linearGradient id="glass" x2="1" y2="1"><stop stop-color="#d9f3f0" stop-opacity=".7"/><stop offset="1" stop-color="#6d9e9d" stop-opacity=".34"/></linearGradient>
+ <linearGradient id="screen" x2="0" y2="1"><stop stop-color="#243f50"/><stop offset="1" stop-color="#102633"/></linearGradient>
+ <filter id="shadow" x="-30%" y="-30%" width="170%" height="180%"><feGaussianBlur stdDeviation="10"/></filter>
+ <pattern id="plank" width="72" height="22" patternUnits="userSpaceOnUse"><path d="M0 1H72M0 21H72" stroke="#8d684d" stroke-opacity=".16" stroke-width="2"/></pattern>
+ <g id="desk">
+  <path d="M-65 0 0 -35 65 0 0 36Z" fill="#765039" opacity=".28" transform="translate(0 18)"/>
+  <path d="M-65 -8 0 -44 65 -8 0 28Z" fill="url(#wood)" stroke="#80573b" stroke-width="4"/>
+  <path d="M-48 -9 0 -35 48 -9 0 17Z" fill="#e6bd91"/>
+  <path d="M-45 -50 0 -75 38 -55 -7 -30Z" fill="#182e3a" stroke="#314b55" stroke-width="4"/>
+  <path d="M-39 -50 0 -71 31 -55 -8 -34Z" fill="#75b5ba"/>
+  <path d="M-7 -30V-8" stroke="#d6e1d8" stroke-width="3"/>
+  <path d="M-48 5V47M45 4V44" stroke="#73543d" stroke-width="7"/>
+ </g>
+ <g id="chair">
+  <path d="M-16 -10 0 -19 17 -10 0 0Z" fill="#547a7b"/>
+  <path d="M-16 -10V16L0 25V0Z" fill="#34575d"/><path d="M0 0 17 -10V16L0 25Z" fill="#29464d"/>
+  <path d="M-8 23V34M10 20V31" stroke="#35484b" stroke-width="4"/>
+ </g>
+ <g id="plant">
+  <path d="M-17 0 0 -9 17 0 0 10Z" fill="#a66f4c"/><path d="M-17 0 0 10V31L-17 21Z" fill="#80543c"/><path d="M0 10 17 0V21L0 31Z" fill="#684632"/>
+  <path d="M0 1Q-24 -35 -9 -59Q4 -42 0 1M0 1Q26 -42 17 -62Q-2 -42 0 1M0 1Q-5 -60 9 -77Q17 -46 0 1" fill="#4c805e" stroke="#37654b" stroke-width="3"/>
+ </g>
 </defs>
-<!-- ambient shadow -->
-<ellipse cx="820" cy="785" rx="610" ry="115" fill="#263d43" opacity=".23" filter="url(#shadow)"/>
-<!-- floating architectural floor slab -->
-<path d="M185 570 790 245 1415 570 806 910Z" fill="#6f5544" opacity=".55" transform="translate(0 25)"/>
-<path d="M185 545 790 220 1415 545 806 885Z" fill="url(#floor)" stroke="#594638" stroke-width="9"/>
-<path d="M185 545 790 220 1415 545 806 885Z" fill="url(#grain)" opacity=".85"/>
-<!-- parquet / tile inlay -->
-<g stroke="#8d684f" stroke-opacity=".38" stroke-width="3" fill="none">
- <path d="M286 600 891 275M387 655 992 330M488 710 1093 385M589 765 1194 440M690 820 1295 495"/>
- <path d="M689 275 1314 600M588 330 1213 655M487 385 1112 710M386 440 1011 765M285 495 910 820"/>
+<!-- soft grounding shadow and floating slab -->
+<ellipse cx="805" cy="820" rx="590" ry="92" fill="#30464a" opacity=".2" filter="url(#shadow)"/>
+<path d="M180 560 800 220 1420 560 800 910Z" fill="#78583f" opacity=".5" transform="translate(0 20)"/>
+<path d="M180 545 800 205 1420 545 800 895Z" fill="url(#floor)" stroke="#76583f" stroke-width="9"/>
+<path d="M180 545 800 205 1420 545 800 895Z" fill="url(#plank)" opacity=".8"/>
+<!-- back walls -->
+<path d="M180 545 800 205 800 82 180 420Z" fill="url(#wall)" stroke="#6d5947" stroke-width="9"/>
+<path d="M800 205 1420 545 1420 420 800 82Z" fill="#e7d7c1" stroke="#6d5947" stroke-width="9"/>
+<!-- wall panel rhythm -->
+<g stroke="#b59b7c" stroke-width="5" opacity=".8" fill="none">
+ <path d="M300 479V354M430 408V283M560 337V212M690 266V141"/>
+ <path d="M910 265V142M1050 342V218M1190 418V294M1330 495V370"/>
 </g>
-<!-- rear wall and side wall -->
-<path d="M285 490 790 220 790 55 285 325Z" fill="url(#wall)" stroke="#55463b" stroke-width="9"/>
-<path d="M790 220 1330 500 1330 335 790 55Z" fill="#d6c2a9" stroke="#55463b" stroke-width="9"/>
-<!-- back wall panels -->
-<g stroke="#8e7964" stroke-width="5" fill="none" opacity=".85">
- <path d="M380 440V275M500 376V210M620 312V146M730 254V88"/>
- <path d="M300 355 790 95M300 408 790 148"/>
-</g>
-<!-- large glass facade right side -->
-<path d="M790 220 1330 500 1330 335 790 55Z" fill="url(#glass)" stroke="#233a48" stroke-width="12"/>
-<g stroke="#243c49" stroke-width="12" fill="none">
- <path d="M900 112V277M1035 182V347M1170 252V417M1300 320V485"/>
- <path d="M790 220 1330 500"/>
-</g>
-<g stroke="#e8fbff" stroke-opacity=".62" stroke-width="5" fill="none">
- <path d="M818 90 818 210M845 103 845 224M935 130 935 258M1070 200 1070 328M1205 270 1205 398"/>
-</g>
-<!-- glass door -->
-<path d="M1120 391 1287 478 1287 322 1120 236Z" fill="#b9e3e9" fill-opacity=".26" stroke="#263e4b" stroke-width="8"/>
-<path d="M1264 454 1264 361" stroke="#d5c09b" stroke-width="8"/>
-<!-- ceiling suspended beams and lights -->
+<!-- company feature sign -->
+<path d="M370 414 650 260 650 350 370 504Z" fill="#263e49" stroke="#1b3039" stroke-width="6"/>
+<path d="M405 417 620 298" stroke="#e9b77f" stroke-width="5"/>
+<text x="510" y="390" fill="#fff0d8" font-family="Arial" font-size="27" font-weight="700" text-anchor="middle" transform="rotate(-29 510 390)">MEX—NEX</text>
+<text x="515" y="423" fill="#a9d2cc" font-family="Arial" font-size="12" letter-spacing="4" text-anchor="middle" transform="rotate(-29 515 423)">LIVING HQ</text>
+<!-- zone floor rugs -->
+<path d="M270 565 470 455 675 565 475 676Z" fill="#9fb1a0" opacity=".68" stroke="#e9ddc9" stroke-width="5"/>
+<path d="M575 565 800 442 1025 565 800 690Z" fill="#c3b49b" opacity=".48" stroke="#e9ddc9" stroke-width="5"/>
+<path d="M925 565 1125 455 1325 565 1125 676Z" fill="#9aafb0" opacity=".62" stroke="#e9ddc9" stroke-width="5"/>
+<path d="M580 745 800 625 1020 745 800 865Z" fill="#d8c5a7" opacity=".62" stroke="#eadbc3" stroke-width="5"/>
+<!-- lounge zone left: sofa and coffee table -->
 <g>
- <path d="M345 296 790 58M790 58 1258 300" stroke="#33434b" stroke-width="16" fill="none"/>
- <path d="M430 277 430 310M620 176 620 209M900 121 900 154M1100 226 1100 259" stroke="#394b54" stroke-width="7"/>
- <ellipse cx="430" cy="316" rx="70" ry="35" fill="url(#light)"/><ellipse cx="620" cy="215" rx="70" ry="35" fill="url(#light)"/>
- <ellipse cx="900" cy="160" rx="70" ry="35" fill="url(#light)"/><ellipse cx="1100" cy="265" rx="70" ry="35" fill="url(#light)"/>
+ <path d="M285 574 370 527 510 600 425 648Z" fill="#7c5145" opacity=".28" transform="translate(0 15)"/>
+ <path d="M285 548 370 501 510 574 425 621Z" fill="#b97868" stroke="#754d45" stroke-width="6"/>
+ <path d="M300 544 370 506 493 570 423 609Z" fill="#e3a18c"/>
+ <path d="M300 544 300 585 423 650 423 609Z" fill="#a96358"/>
+ <path d="M423 609 493 570 493 610 423 650Z" fill="#8c554c"/>
+ <path d="M340 540 370 524 414 547 384 563Z" fill="#f0c4ad"/>
+ <path d="M445 635 500 605 555 634 500 665Z" fill="#b8865e" stroke="#805b40" stroke-width="4"/>
+ <path d="M465 625 500 606 535 625 500 645Z" fill="#ead8b9"/>
+ <use href="#plant" transform="translate(250 570) scale(.9)"/>
 </g>
-<!-- feature wall / company sign -->
-<path d="M390 360 700 194 700 315 390 482Z" fill="#263d49" stroke="#1b2d37" stroke-width="7"/>
-<path d="M430 365 660 242" stroke="#e6b37f" stroke-width="7"/>
-<text x="545" y="340" fill="#fff1d9" font-family="Arial,sans-serif" font-size="34" font-weight="700" text-anchor="middle" transform="rotate(-28 545 340)">MEX—NEX</text>
-<text x="550" y="380" fill="#9fcbd1" font-family="Arial,sans-serif" font-size="15" letter-spacing="5" text-anchor="middle" transform="rotate(-28 550 380)">LIVING HQ</text>
-<!-- rug -->
-<path d="M520 620 800 470 1080 615 800 765Z" fill="#39525b" opacity=".78" stroke="#d8c2a5" stroke-width="7"/>
-<path d="M550 620 800 486 1050 616 800 748Z" fill="none" stroke="#d7a77d" stroke-width="4" opacity=".8"/>
-<!-- conference table -->
-<path d="M635 550 830 445 1015 540 820 650Z" fill="#634633" opacity=".35" transform="translate(0 24)"/>
-<path d="M635 525 830 420 1015 515 820 625Z" fill="url(#wood)" stroke="#563b2d" stroke-width="8"/>
-<path d="M635 525 820 625 820 651 635 552Z" fill="#714a35"/>
-<path d="M820 625 1015 515 1015 542 820 651Z" fill="#4d3429"/>
-<path d="M670 520 830 435 980 512" stroke="#e8bd8e" stroke-opacity=".55" stroke-width="5" fill="none"/>
-<!-- laptop and papers -->
-<path d="M770 500 836 464 902 498 836 535Z" fill="#172a36" stroke="#a7cbd0" stroke-width="4"/>
-<path d="M778 495 836 465 892 495 835 525Z" fill="url(#screen)"/>
-<path d="M910 530 958 505 978 516 930 542Z" fill="#f4e7d4" stroke="#b69a7c" stroke-width="3"/>
-<!-- workstations left -->
+<!-- engineering workstations, aligned on a single row -->
 <g>
- <path d="M320 575 440 510 560 570 440 637Z" fill="#573d30" opacity=".35" transform="translate(0 18)"/>
- <path d="M320 557 440 492 560 552 440 620Z" fill="url(#wood)" stroke="#59402f" stroke-width="6"/>
- <path d="M350 560 440 512 530 557 440 605Z" fill="#d3a276"/>
- <path d="M400 500 470 463 520 488 450 527Z" fill="#263945" stroke="#172832" stroke-width="5"/>
- <path d="M407 497 470 465 512 486 450 520Z" fill="url(#screen)"/>
- <path d="M434 526 449 518 466 527 451 535Z" fill="#263b47"/>
- <path d="M360 595 360 675M520 585 520 665" stroke="#47372d" stroke-width="12"/>
+ <use href="#desk" transform="translate(690 485) scale(.88)"/><use href="#chair" transform="translate(690 550)"/>
+ <use href="#desk" transform="translate(850 575) scale(.88)"/><use href="#chair" transform="translate(850 640)"/>
+ <use href="#desk" transform="translate(1010 485) scale(.88)"/><use href="#chair" transform="translate(1010 550)"/>
 </g>
+<!-- meeting area: clear table and six seats -->
 <g>
- <path d="M350 430 470 365 590 425 470 490Z" fill="#634633" opacity=".3" transform="translate(0 18)"/>
- <path d="M350 412 470 347 590 407 470 475Z" fill="url(#wood)" stroke="#59402f" stroke-width="6"/>
- <path d="M430 354 495 319 545 345 480 381Z" fill="#263945" stroke="#172832" stroke-width="5"/>
- <path d="M437 352 495 322 537 344 480 373Z" fill="url(#screen)"/>
- <path d="M385 454 385 520M555 445 555 510" stroke="#47372d" stroke-width="11"/>
+ <path d="M630 350 800 257 970 350 800 445Z" fill="#79563d" opacity=".25" transform="translate(0 18)"/>
+ <path d="M630 330 800 237 970 330 800 423Z" fill="url(#wood)" stroke="#80583d" stroke-width="6"/>
+ <path d="M665 330 800 256 935 330 800 404Z" fill="#e5c39c"/>
+ <path d="M775 292 825 265 870 289 820 316Z" fill="#203b49" stroke="#f0dfc6" stroke-width="3"/>
+ <use href="#chair" transform="translate(625 337) scale(.85)"/><use href="#chair" transform="translate(800 225) scale(.85)"/><use href="#chair" transform="translate(976 337) scale(.85)"/>
+ <use href="#chair" transform="translate(690 440) scale(.85)"/><use href="#chair" transform="translate(910 440) scale(.85)"/>
 </g>
-<!-- executive lounge sofa -->
+<!-- creative studio right: large shared table, neat seats -->
 <g>
- <path d="M1000 670 1130 600 1285 680 1155 755Z" fill="#273d46" opacity=".35" transform="translate(0 22)"/>
- <path d="M1000 635 1000 570 1130 500 1285 580 1285 650 1155 720Z" fill="#8d5d4b" stroke="#503a33" stroke-width="8"/>
- <path d="M1000 570 1130 500 1285 580 1155 650Z" fill="url(#seat)" stroke="#563b34" stroke-width="7"/>
- <path d="M1035 576 1130 525 1248 585 1154 636Z" fill="#d6a27c"/>
- <path d="M1000 570 1035 576 1035 652 1000 635Z" fill="#754b40"/>
- <path d="M1248 585 1285 580 1285 650 1248 671Z" fill="#70493e"/>
- <path d="M1050 650 1050 695M1245 665 1245 708" stroke="#3e3430" stroke-width="12"/>
+ <path d="M1070 565 1185 502 1300 562 1185 625Z" fill="#77513a" opacity=".25" transform="translate(0 15)"/>
+ <path d="M1070 548 1185 485 1300 545 1185 608Z" fill="#c18c60" stroke="#805a3d" stroke-width="5"/>
+ <path d="M1095 546 1185 497 1275 545 1185 593Z" fill="#e8c59c"/>
+ <path d="M1145 535 1185 513 1225 534 1185 556Z" fill="#233d4b" stroke="#dce7dd" stroke-width="3"/>
+ <use href="#chair" transform="translate(1085 625) scale(.85)"/><use href="#chair" transform="translate(1185 660) scale(.85)"/><use href="#chair" transform="translate(1290 610) scale(.85)"/>
+ <path d="M1260 365 1360 420 1360 465 1260 410Z" fill="#203945" stroke="#172d37" stroke-width="5"/>
+ <path d="M1273 374 1348 415" stroke="#78b7bd" stroke-width="5"/>
 </g>
-<!-- side coffee table -->
-<path d="M1065 770 1130 735 1194 768 1129 804Z" fill="#8f6043" stroke="#543c2f" stroke-width="5"/>
-<path d="M1090 785 1090 820M1170 780 1170 815" stroke="#503b31" stroke-width="9"/>
-<path d="M1100 753 1130 737 1160 753 1130 770Z" fill="#e6d5bd"/>
-<!-- plants, pots and foliage -->
+<!-- pantry at front, intentionally separated from desks -->
 <g>
- <path d="M250 660 292 637 336 659 294 684Z" fill="#9b6747"/><path d="M250 660 294 684 294 725 250 701Z" fill="#754b36"/><path d="M294 684 336 659 336 700 294 725Z" fill="#5d3e31"/>
- <g fill="#4e7958" stroke="#34563e" stroke-width="5"><ellipse cx="291" cy="602" rx="42" ry="74"/><ellipse cx="252" cy="622" rx="35" ry="53"/><ellipse cx="330" cy="621" rx="34" ry="55"/><ellipse cx="288" cy="560" rx="31" ry="50"/></g>
- <path d="M292 649 291 582M291 613 253 585M293 622 328 584" stroke="#9cbd83" stroke-width="5" fill="none"/>
+ <path d="M650 760 800 678 950 760 800 842Z" fill="#e7d9c1" stroke="#b99b78" stroke-width="5"/>
+ <path d="M690 755 800 695 910 755 800 815Z" fill="#b47d55" stroke="#805b40" stroke-width="5"/>
+ <path d="M740 743 800 710 860 743 800 776Z" fill="#eee1ca"/>
+ <path d="M780 728 800 717 820 728 800 740Z" fill="#6e9c93"/>
+ <path d="M700 790V830M900 790V830" stroke="#79583f" stroke-width="8"/>
+ <path d="M955 710 1000 685 1045 710 1000 735Z" fill="#8a6044" stroke="#694a36" stroke-width="4"/>
+ <path d="M970 705 1000 688 1030 705 1000 722Z" fill="#e9ddc7"/>
+ <use href="#plant" transform="translate(1110 735) scale(.8)"/>
 </g>
+<!-- glass partitions: only three clean aligned divider segments -->
+<g fill="url(#glass)" stroke="#446b70" stroke-width="7">
+ <path d="M555 450 555 555 585 572 585 467Z"/><path d="M585 467 585 572 745 660 745 555Z"/>
+ <path d="M1045 465 1045 560 1075 577 1075 482Z"/><path d="M1075 482 1075 577 1230 662 1230 567Z"/>
+ <path d="M700 205 700 285 730 302 730 222Z"/><path d="M730 222 730 302 900 395 900 315Z"/>
+</g>
+<g stroke="#eaf8f1" stroke-width="4" opacity=".6" fill="none">
+ <path d="M568 466 568 548M598 483 598 563M718 221 718 282M1060 480 1060 552M1090 497 1090 568"/>
+</g>
+<!-- overhead screens and acoustic panels -->
 <g>
- <path d="M1320 665 1350 649 1381 665 1350 683Z" fill="#9b6747"/><path d="M1320 665 1350 683 1350 715 1320 697Z" fill="#754b36"/><path d="M1350 683 1381 665 1381 698 1350 715Z" fill="#5d3e31"/>
- <g fill="#4d7958" stroke="#34563e" stroke-width="4"><ellipse cx="1350" cy="620" rx="35" ry="61"/><ellipse cx="1320" cy="635" rx="29" ry="43"/><ellipse cx="1380" cy="636" rx="28" ry="42"/></g>
+ <path d="M910 130 1030 195 1030 275 910 210Z" fill="url(#screen)" stroke="#172d38" stroke-width="7"/>
+ <path d="M930 157 1008 199M930 176 985 206" stroke="#6db4b7" stroke-width="4"/>
+ <path d="M1100 232 1205 290 1205 350 1100 292Z" fill="#243e4b" stroke="#172d38" stroke-width="6"/>
+ <path d="M1120 258 1185 294M1120 276 1165 302" stroke="#75b8bb" stroke-width="4"/>
+ <g fill="#b78b67"><path d="M760 115 785 101 785 195 760 209Z"/><path d="M800 94 825 108 825 202 800 188Z"/><path d="M840 116 865 130 865 224 840 210Z"/></g>
 </g>
-<!-- chairs -->
-<g fill="#344a55" stroke="#1d2d36" stroke-width="6">
- <path d="M590 602 620 586 653 604 623 621Z"/><path d="M590 602 590 650 623 667 623 621Z"/><path d="M623 621 653 604 653 652 623 667Z"/><path d="M605 658 605 690M642 655 642 686" stroke-width="9"/>
- <path d="M860 674 892 657 925 675 893 693Z"/><path d="M860 674 860 720 893 739 893 693Z"/><path d="M893 693 925 675 925 722 893 739Z"/><path d="M875 729 875 758M914 725 914 754" stroke-width="9"/>
+<!-- ceiling pendant lights -->
+<g stroke="#65716a" stroke-width="5" fill="none"><path d="M475 260V315M800 120V180M1130 300V355"/></g>
+<g fill="#f8e8b7" stroke="#d0b98e" stroke-width="4"><path d="M425 315 525 315 505 333 445 333Z"/><path d="M750 180 850 180 830 198 770 198Z"/><path d="M1080 355 1180 355 1160 373 1100 373Z"/></g>
+<!-- wayfinding labels -->
+<g font-family="Arial,sans-serif" font-size="16" font-weight="700" letter-spacing="2" fill="#6b5948">
+ <text x="400" y="490" text-anchor="middle">LOUNGE</text>
+ <text x="820" y="470" text-anchor="middle">ENGINEERING</text>
+ <text x="800" y="215" text-anchor="middle">MEETING ROOM</text>
+ <text x="1190" y="475" text-anchor="middle">CREATIVE STUDIO</text>
+ <text x="800" y="855" text-anchor="middle">PANTRY</text>
 </g>
-<!-- two stylized human agents, seated/standing -->
-<g>
- <!-- standing agent -->
- <ellipse cx="745" cy="720" rx="43" ry="15" fill="#273c40" opacity=".22" filter="url(#soft)"/>
- <path d="M721 657 713 707 735 718 751 671Z" fill="#344c65" stroke="#1e2c3b" stroke-width="5"/>
- <path d="M752 658 773 704 755 717 734 673Z" fill="#2d4058" stroke="#1e2c3b" stroke-width="5"/>
- <path d="M716 600 775 600 790 662 748 681 705 656Z" fill="#b96e4e" stroke="#694435" stroke-width="6"/>
- <path d="M715 613 685 651 701 665 735 635M778 615 801 650 785 663 755 638" fill="none" stroke="#d59a76" stroke-width="17" stroke-linecap="round"/>
- <ellipse cx="744" cy="566" rx="37" ry="42" fill="#c98d6a" stroke="#694435" stroke-width="6"/>
- <path d="M709 558Q709 515 750 520Q786 523 780 560L770 548 748 541 720 552Z" fill="#29343b"/>
- <circle cx="733" cy="568" r="4" fill="#26333a"/><circle cx="757" cy="568" r="4" fill="#26333a"/><path d="M737 586Q746 592 755 585" stroke="#7d473b" stroke-width="3" fill="none"/>
- <!-- seated agent -->
- <ellipse cx="1150" cy="590" rx="42" ry="14" fill="#273c40" opacity=".22" filter="url(#soft)"/>
- <path d="M1125 528 1175 526 1191 575 1154 595 1115 569Z" fill="#547b83" stroke="#29434a" stroke-width="5"/>
- <path d="M1120 550 1089 581 1101 593 1142 566M1173 550 1200 577 1189 591 1158 569" stroke="#d5a07c" stroke-width="15" fill="none" stroke-linecap="round"/>
- <ellipse cx="1150" cy="494" rx="33" ry="37" fill="#d7a17e" stroke="#77503e" stroke-width="5"/>
- <path d="M1118 488Q1114 450 1153 452Q1186 456 1182 491L1168 475 1144 472 1125 486Z" fill="#41352e"/>
- <circle cx="1140" cy="495" r="4" fill="#26333a"/><circle cx="1162" cy="495" r="4" fill="#26333a"/>
-</g>
-<!-- glass reflections / floor shadows -->
-<path d="M815 112 1015 215M1080 250 1285 355M835 150 1000 235" stroke="#f2ffff" stroke-width="10" stroke-opacity=".2"/>
-<g opacity=".23" fill="#1b3039" filter="url(#soft)"><ellipse cx="460" cy="681" rx="100" ry="20"/><ellipse cx="750" cy="740" rx="60" ry="18"/><ellipse cx="1150" cy="780" rx="130" ry="25"/></g>
-<!-- front slab fascia -->
-<path d="M185 545 806 885 806 914 185 574Z" fill="#80604a" stroke="#4f4035" stroke-width="5"/>
-<path d="M806 885 1415 545 1415 574 806 914Z" fill="#5e493b" stroke="#4f4035" stroke-width="5"/>
-<path d="M240 562 805 871" stroke="#c9a47e" stroke-width="5" opacity=".65"/>
+<!-- front fascia -->
+<path d="M180 545 800 895 800 923 180 575Z" fill="#9b7655" stroke="#6f523e" stroke-width="5"/>
+<path d="M800 895 1420 545 1420 575 800 923Z" fill="#795a42" stroke="#604733" stroke-width="5"/>
+<path d="M260 570 800 875M880 875 1360 605" stroke="#d7b58d" stroke-width="5" opacity=".65"/>
 </svg>
