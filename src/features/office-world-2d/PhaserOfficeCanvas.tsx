@@ -9,10 +9,10 @@ type Furniture = { key: string; x: number; y: number; scale: number; depthOffset
 type LiveAgent = { agentId: string; name: string; state: "idle" | "working" | "meeting" | "error" };
 const AGENT_SPRITES = ["agent-nex", "agent-mira", "agent-atlas", "agent-kira"] as const;
 const AGENT_STATIONS = [
-  { x: 420, y: 425 }, { x: 555, y: 425 },
-  { x: 720, y: 425 }, { x: 855, y: 425 },
-  { x: 1020, y: 425 }, { x: 1155, y: 425 },
-  { x: 935, y: 600 }, { x: 1045, y: 600 },
+  { x: 410, y: 330 }, { x: 530, y: 330 },
+  { x: 720, y: 330 }, { x: 850, y: 330 },
+  { x: 1030, y: 330 }, { x: 1160, y: 330 },
+  { x: 700, y: 500 }, { x: 900, y: 500 },
 ];
 const STATE_LABEL: Record<LiveAgent["state"], string> = {
   idle: "IDLE", working: "BEKERJA", meeting: "MEETING", error: "ERROR",
@@ -21,16 +21,19 @@ const STATE_COLOR: Record<LiveAgent["state"], number> = {
   idle: 0x7b9287, working: 0x4f9b72, meeting: 0x5688b8, error: 0xc75b4d,
 };
 const FURNITURE: Furniture[] = [
-  // Three upper work departments, two stations per department.
-  { key: "desk", x: 420, y: 425, scale: 0.15 },
-  { key: "desk", x: 555, y: 425, scale: 0.15 },
-  { key: "desk", x: 720, y: 425, scale: 0.15 },
-  { key: "desk", x: 855, y: 425, scale: 0.15 },
-  { key: "desk", x: 1020, y: 425, scale: 0.15 },
-  { key: "desk", x: 1155, y: 425, scale: 0.15 },
-  // Operations is the only lower work bay.
-  { key: "desk", x: 935, y: 600, scale: 0.145 },
-  { key: "desk", x: 1045, y: 600, scale: 0.145 },
+  // Engineering and research
+  { key: "desk", x: 405, y: 330, scale: 0.13 },
+  { key: "desk", x: 530, y: 330, scale: 0.13 },
+  { key: "desk", x: 710, y: 330, scale: 0.13 },
+  { key: "desk", x: 835, y: 330, scale: 0.13 },
+  // Creative studio
+  { key: "desk", x: 1020, y: 330, scale: 0.13 },
+  { key: "desk", x: 1145, y: 330, scale: 0.13 },
+  // Operations and QA
+  { key: "desk", x: 700, y: 505, scale: 0.13 },
+  { key: "desk", x: 830, y: 505, scale: 0.13 },
+  { key: "desk", x: 960, y: 505, scale: 0.13 },
+  { key: "desk", x: 1090, y: 505, scale: 0.13 },
 ];
 
 export function PhaserOfficeCanvas({ className }: Props) {
@@ -127,75 +130,132 @@ export function PhaserOfficeCanvas({ className }: Props) {
         }
 
         private drawRoom() {
-          // Enclosed isometric floor with a clear central circulation spine.
-          this.polygon([{x:800,y:105},{x:1450,y:455},{x:800,y:815},{x:150,y:455}],0x8e6c4d,1,0x6e523d);
-          this.polygon([{x:800,y:78},{x:1415,y:410},{x:800,y:745},{x:185,y:410}],0xe8dbc4,1,0x9a7b5c);
+          // One expansive enclosed office floor: a single continuous building,
+          // subdivided into many functional rooms around a generous circulation hall.
+          this.polygon(
+            [{x:800,y:105},{x:1450,y:455},{x:800,y:815},{x:150,y:455}],
+            0x8e6c4d,1,0x6e523d
+          );
+          this.polygon(
+            [{x:800,y:78},{x:1415,y:410},{x:800,y:745},{x:185,y:410}],
+            0xe8dbc4,1,0x9a7b5c
+          );
 
-          // Subtle floor grid, clipped visually by the diamond silhouette.
+          // Warm floor tiles and subtle construction grid.
           for(let i=-8;i<=8;i++){
             const y=410+i*20, half=Math.max(0,615-Math.abs(i)*38);
-            this.line([{x:800-half,y},{x:800+half,y}],0xb59b7c,1,0.16);
+            this.line([{x:800-half,y},{x:800+half,y}],0xb59b7c,1,0.13);
           }
           for(let i=-12;i<=12;i++){
             const x=800+i*48, reach=Math.max(0,330-Math.abs(i)*24);
-            this.line([{x,y:410-reach},{x,y:410+reach}],0xb59b7c,1,0.13);
+            this.line([{x,y:410-reach},{x,y:410+reach}],0xb59b7c,1,0.11);
           }
 
-          // Back walls and branded reception wall.
+          // Enclosed perimeter walls, windows, and reception identity wall.
           this.polygon([{x:185,y:410},{x:800,y:78},{x:800,y:22},{x:185,y:354}],0xf4ead9,1,0x9a7b5c);
           this.polygon([{x:800,y:78},{x:1415,y:410},{x:1415,y:354},{x:800,y:22}],0xe9dac3,1,0x9a7b5c);
           this.line([{x:185,y:354},{x:800,y:22},{x:1415,y:354}],0x795b43,7,1);
-          this.polygon([{x:315,y:300},{x:485,y:208},{x:485,y:265},{x:315,y:357}],0x294650,1,0x1b343d);
-          this.label("MEX—NEX",400,286,"#fff0d9","20px");
+          // Repeating window panels on both outer walls.
+          for(let i=0;i<5;i++){
+            const x=280+i*92, y=303-i*50;
+            this.polygon([{x,y},{x:x+58,y:y-31},{x:x+58,y:y+2},{x,y:y+33}],0x9bbdc0,0.8,0x66878a);
+          }
+          for(let i=0;i<5;i++){
+            const x=930+i*90, y=148+i*49;
+            this.polygon([{x,y},{x:x+55,y:y+30},{x:x+55,y:y+62},{x,y:y+32}],0x9bbdc0,0.8,0x66878a);
+          }
+          this.polygon([{x:270,y:315},{x:430,y:228},{x:430,y:282},{x:270,y:369}],0x294650,1,0x1b343d);
+          this.label("MEX—NEX",350,295,"#fff0d9","19px");
 
-          // Six compact zones placed wholly inside the room footprint.
-          // Upper row: focused work. Lower row: shared facilities and operations.
-          const zones = [
-            { p:[{x:330,y:385},{x:500,y:295},{x:670,y:385},{x:500,y:475}], c:0xc7d4b9, t:"ENGINEERING", x:500, y:330 },
-            { p:[{x:630,y:385},{x:800,y:295},{x:970,y:385},{x:800,y:475}], c:0xd8c9ad, t:"RESEARCH", x:800, y:330 },
-            { p:[{x:930,y:385},{x:1100,y:295},{x:1270,y:385},{x:1100,y:475}], c:0xc2d5d0, t:"CREATIVE STUDIO", x:1100, y:330 },
-            { p:[{x:445,y:590},{x:590,y:515},{x:735,y:590},{x:590,y:665}], c:0xd2c2ad, t:"LOUNGE", x:590, y:555 },
-            { p:[{x:655,y:590},{x:800,y:515},{x:945,y:590},{x:800,y:665}], c:0xe0d2b8, t:"PANTRY", x:800, y:555 },
-            { p:[{x:865,y:590},{x:1010,y:515},{x:1155,y:590},{x:1010,y:665}], c:0xc8d4c9, t:"OPERATIONS", x:1010, y:555 },
+          // Ten dedicated rooms. The open central hall keeps the plan readable.
+          const rooms = [
+            { id:"RECEPTION", p:[{x:265,y:425},{x:385,y:360},{x:505,y:425},{x:385,y:490}], color:0xd7c5a9, x:385,y:416 },
+            { id:"ENGINEERING", p:[{x:365,y:315},{x:490,y:248},{x:615,y:315},{x:490,y:382}], color:0xc7d4b9, x:490,y:292 },
+            { id:"RESEARCH LAB", p:[{x:675,y:315},{x:800,y:248},{x:925,y:315},{x:800,y:382}], color:0xd8c9ad, x:800,y:292 },
+            { id:"CREATIVE STUDIO", p:[{x:985,y:315},{x:1110,y:248},{x:1235,y:315},{x:1110,y:382}], color:0xc2d5d0, x:1110,y:292 },
+            { id:"MEETING ROOM", p:[{x:455,y:475},{x:585,y:405},{x:715,y:475},{x:585,y:545}], color:0xd6c9b9, x:585,y:455 },
+            { id:"COLLABORATION", p:[{x:690,y:465},{x:800,y:405},{x:910,y:465},{x:800,y:525}], color:0xeee4d2, x:800,y:455 },
+            { id:"CEO OFFICE", p:[{x:885,y:475},{x:1015,y:405},{x:1145,y:475},{x:1015,y:545}], color:0xd5c9b3, x:1015,y:455 },
+            { id:"LOUNGE", p:[{x:365,y:590},{x:490,y:522},{x:615,y:590},{x:490,y:658}], color:0xd2c2ad, x:490,y:570 },
+            { id:"PANTRY", p:[{x:675,y:600},{x:800,y:532},{x:925,y:600},{x:800,y:668}], color:0xe0d2b8, x:800,y:580 },
+            { id:"OPERATIONS + QA", p:[{x:985,y:590},{x:1110,y:522},{x:1235,y:590},{x:1110,y:658}], color:0xc8d4c9, x:1110,y:570 },
           ];
-          zones.forEach((z) => {
-            this.polygon(z.p, z.c, 0.96, 0xb7a68d);
-            this.label(z.t, z.x, z.y, "#425b50", "12px");
+          rooms.forEach((room) => {
+            this.polygon(room.p,room.color,0.98,0xb7a68d);
+            this.label(room.id,room.x,room.y,"#425b50","11px");
           });
 
-          // Open central collaboration area separates work bays from shared facilities.
-          this.polygon(
-            [{x:675,y:490},{x:800,y:425},{x:925,y:490},{x:800,y:555}],
-            0xeee4d2, 0.98, 0xcbb99f
-          );
-          this.label("COLLABORATION",800,480,"#7b6854","11px");
+          // Room partitions: low glass walls and door gaps, not opaque blocks.
+          const partitions = [
+            [[615,315],[650,296],[650,390],[615,409]],
+            [[950,315],[985,296],[985,390],[950,409]],
+            [[620,470],[650,454],[650,555],[620,571]],
+            [[950,470],[980,454],[980,555],[950,571]],
+            [[600,590],[625,576],[625,660],[600,674]],
+            [[975,590],[1000,576],[1000,660],[975,674]],
+          ];
+          partitions.forEach((pts) => {
+            const [a,b,d,e]=pts;
+            this.polygon(
+              [{x:a[0],y:a[1]},{x:b[0],y:b[1]},{x:d[0],y:d[1]},{x:e[0],y:e[1]}],
+              0x8db7ae,0.22,0x688d85
+            );
+          });
 
-          // Minimal glass dividers only at the edges of the upper work bays.
-          this.polygon([{x:665,y:365},{x:677,y:359},{x:677,y:440},{x:665,y:446}],0x8db7ae,0.24,0x688d85);
-          this.polygon([{x:923,y:365},{x:935,y:359},{x:935,y:440},{x:923,y:446}],0x8db7ae,0.24,0x688d85);
-
-          const board=this.add.image(1260,285,"tasks").setScale(0.15).setDepth(285);
-          this.world.add(board);
-          [0,1,2].forEach(i=>this.polygon(
-            [{x:590+i*34,y:145+i*18},{x:612+i*34,y:133+i*18},{x:612+i*34,y:190+i*18},{x:590+i*34,y:202+i*18}],
-            0xb78b68,0.9
-          ));
+          // Central circulation spine, reception desk and wayfinding.
+          this.line([{x:385,y:490},{x:585,y:545},{x:800,y:555},{x:1015,y:545},{x:1110,y:522}],0xb08f6c,4,0.55);
+          this.label("MAIN HALL",800,515,"#8a735d","10px");
+          const taskBoard=this.add.image(1280,300,"tasks").setScale(0.14).setDepth(300);
+          this.world.add(taskBoard);
+          [0,1,2,3].forEach(i=>{
+            this.polygon(
+              [{x:570+i*34,y:150+i*18},{x:592+i*34,y:138+i*18},{x:592+i*34,y:193+i*18},{x:570+i*34,y:205+i*18}],
+              0xb78b68,0.9
+            );
+          });
         }
 
         private placeFurniture() {
           [...FURNITURE].sort((a,b)=>a.y-b.y).forEach(item=>{
-            const desk=this.add.image(item.x,item.y,item.key).setScale(item.scale).setOrigin(0.5,0.82).setDepth(item.y);
+            const desk=this.add.image(item.x,item.y,item.key)
+              .setScale(item.scale).setOrigin(0.5,0.82).setDepth(item.y);
             this.world.add(desk);
           });
-          const whiteboard=this.add.image(285,305,"whiteboard").setScale(0.14).setDepth(305);
-          const coffee=this.add.image(800,625,"coffee").setScale(0.13).setDepth(625);
-          const plants=[
-            this.add.image(225,455,"plant").setScale(0.12).setDepth(455),
-            this.add.image(1370,455,"plant").setScale(0.12).setDepth(455),
-            this.add.image(1360,295,"plant").setScale(0.11).setDepth(295),
-            this.add.image(590,675,"plant").setScale(0.10).setDepth(675),
+
+          // Shared facilities and visual clutter: reception, meeting, lounge, pantry,
+          // executive office, research, and operations support.
+          const props = [
+            this.add.image(330,445,"whiteboard").setScale(0.105).setDepth(445),
+            this.add.image(570,495,"whiteboard").setScale(0.095).setDepth(495),
+            this.add.image(800,635,"coffee").setScale(0.12).setDepth(635),
+            this.add.image(1080,610,"coffee").setScale(0.09).setDepth(610),
+            this.add.image(450,620,"plant").setScale(0.10).setDepth(620),
+            this.add.image(650,375,"plant").setScale(0.085).setDepth(375),
+            this.add.image(950,375,"plant").setScale(0.085).setDepth(375),
+            this.add.image(1260,485,"plant").setScale(0.10).setDepth(485),
+            this.add.image(1320,330,"plant").setScale(0.10).setDepth(330),
+            this.add.image(280,500,"plant").setScale(0.09).setDepth(500),
           ];
-          this.world.add([whiteboard,coffee,...plants]);
+          this.world.add(props);
+
+          // Extra built-in counters, storage and meeting table drawn as crisp pixel shapes.
+          const details=this.add.graphics();
+          details.fillStyle(0x8c7158,1);
+          details.fillPoints([
+            new Phaser.Geom.Point(720,575),new Phaser.Geom.Point(800,535),
+            new Phaser.Geom.Point(880,575),new Phaser.Geom.Point(800,615),
+          ],true);
+          details.fillStyle(0xf0dfc5,1);
+          details.fillPoints([
+            new Phaser.Geom.Point(740,570),new Phaser.Geom.Point(800,540),
+            new Phaser.Geom.Point(860,570),new Phaser.Geom.Point(800,600),
+          ],true);
+          details.fillStyle(0x6d8790,1);
+          details.fillPoints([
+            new Phaser.Geom.Point(1110,640),new Phaser.Geom.Point(1150,618),
+            new Phaser.Geom.Point(1190,640),new Phaser.Geom.Point(1150,662),
+          ],true);
+          this.world.add(details);
         }
 
         /**
