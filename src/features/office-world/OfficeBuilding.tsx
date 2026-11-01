@@ -5,6 +5,7 @@ import { OFFICE_LEVELS, type OfficeLevelId } from "@/lib/office-world/world";
 type OfficeBuildingProps = {
   visibleLevels?: readonly OfficeLevelId[];
   showStructure?: boolean;
+  interiorMode?: boolean;
 };
 
 const MATERIALS = {
@@ -102,6 +103,7 @@ function WindowBands({ elevation, height }: { elevation: number; height: number 
 export function OfficeBuilding({
   visibleLevels,
   showStructure = true,
+  interiorMode = false,
 }: OfficeBuildingProps) {
   const selected = new Set(visibleLevels ?? OFFICE_LEVELS.map((level) => level.id));
 
@@ -113,7 +115,7 @@ export function OfficeBuilding({
           <group key={level.id} name={`building-level:${level.id}`}>
             <FloorPlate elevation={level.elevation} rooftop={isRoof} />
             {showStructure ? <StructuralFrame elevation={level.elevation} height={level.height} /> : null}
-            {!isRoof ? (
+            {!isRoof && !interiorMode ? (
               <>
                 <BackAndSideWalls elevation={level.elevation} height={level.height} />
                 <WindowBands elevation={level.elevation} height={level.height} />
@@ -129,10 +131,10 @@ export function OfficeBuilding({
           </group>
         );
       })}
-      <group name="building-core-placeholder">
+      {!interiorMode ? <group name="building-core-placeholder">
         <Box position={[0, 7, -7.5]} size={[5.2, 25, 5.2]} color={MATERIALS.dark} opacity={0.92} />
         <Box position={[0, 7, -4.82]} size={[3.6, 23, 0.12]} color={MATERIALS.accent} opacity={0.9} />
-      </group>
+      </group> : null}
     </group>
   );
 }
