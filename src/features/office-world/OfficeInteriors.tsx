@@ -111,6 +111,33 @@ function DepartmentSign({ x, z, y, labelColor = C.orange }: { x: number; z: numb
   );
 }
 
+
+function Sofa({ x, z, y, color = "#b97858" }: { x: number; z: number; y: number; color?: string }) {
+  return <group position={[x, y, z]}>
+    <Block position={[0, 0.38, 0]} size={[3.2, 0.55, 1.15]} color={color}/>
+    <Block position={[0, 0.82, -0.42]} size={[3.2, 0.75, 0.28]} color={color}/>
+    {[-1.35, 1.35].map((side) => <Block key={side} position={[side, 0.72, 0]} size={[0.35, 0.8, 1.2]} color={C.darkWood}/>)}
+  </group>;
+}
+
+function Bookcase({ x, z, y }: { x: number; z: number; y: number }) {
+  return <group position={[x, y, z]}>
+    <Block position={[0, 1.45, 0]} size={[2.4, 2.9, 0.45]} color={C.darkWood}/>
+    {[0.55, 1.35, 2.15].map((height, row) => <group key={row}>
+      <Block position={[0, height, 0.25]} size={[2.25, 0.08, 0.08]} color={C.wood}/>
+      {[-0.75, -0.25, 0.3, 0.78].map((x, i) => <Block key={i} position={[x, height+0.24, 0.12]} size={[0.28, 0.42+(i%2)*0.12, 0.22]} color={i%2 ? C.orange : C.screen}/>)}
+    </group>)}
+  </group>;
+}
+
+function CoffeeStation({ x, z, y }: { x: number; z: number; y: number }) {
+  return <group position={[x, y, z]}>
+    <Block position={[0, 0.62, 0]} size={[1.8, 1.2, 1.1]} color={C.wood}/>
+    <Block position={[0, 1.38, -0.12]} size={[0.72, 0.42, 0.58]} color={C.metal}/>
+    <Block position={[0.5, 1.1, 0.48]} size={[0.3, 0.12, 0.3]} color={C.cream}/>
+  </group>;
+}
+
 function LevelInterior({ levelId, elevation }: { levelId: OfficeLevelId; elevation: number }) {
   const y = elevation + 0.22;
   return (
@@ -121,7 +148,7 @@ function LevelInterior({ levelId, elevation }: { levelId: OfficeLevelId; elevati
           {[ -10, -6, -2, 2 ].map((x) => <ServerRack key={x} x={x} z={-1} y={y} />)}
           <Block position={[9, y + 0.7, 1]} size={[8, 1.4, 5]} color={C.concrete} />
           <DepartmentSign x={-5} z={-5} y={y} />
-          <Plant x={15} z={9} y={y} />
+          <Plant x={15} z={9} y={y} />\n          <Bookcase x={9} z={-7} y={y} />\n          <CoffeeStation x={-13} z={6} y={y} />
         </>
       ) : levelId === "floor-1" ? (
         <>
@@ -131,7 +158,7 @@ function LevelInterior({ levelId, elevation }: { levelId: OfficeLevelId; elevati
           <Desk x={7} z={-3} y={y} />
           <DepartmentSign x={0} z={-12} y={y} />
           <Plant x={-14} z={8} y={y} />
-          <Plant x={14} z={8} y={y} />
+          <Plant x={14} z={8} y={y} />\n          <Sofa x={9} z={8} y={y} />\n          <CoffeeStation x={-13} z={7} y={y} />
         </>
       ) : levelId === "floor-2" ? (
         <>
@@ -139,14 +166,14 @@ function LevelInterior({ levelId, elevation }: { levelId: OfficeLevelId; elevati
           {[-10, -4, 4, 10].map((x) => <Desk key={x} x={x} z={7} y={y} />)}
           <DepartmentSign x={0} z={-12} y={y} />
           <Plant x={-15} z={10} y={y} />
-          <Plant x={15} z={10} y={y} />
+          <Plant x={15} z={10} y={y} />\n          <Bookcase x={-15} z={-7} y={y} />\n          <Sofa x={0} z={-8} y={y} color="#668b86" />
         </>
       ) : levelId === "floor-3" ? (
         <>
           {[-10, -4, 4, 10].map((x) => <Desk key={x} x={x} z={-1} y={y} />)}
           <MeetingTable x={0} z={8} y={y} seats={6} />
           <DepartmentSign x={0} z={-12} y={y} labelColor={C.screen} />
-          <Plant x={-15} z={9} y={y} />
+          <Plant x={-15} z={9} y={y} />\n          <Bookcase x={15} z={-8} y={y} />\n          <CoffeeStation x={-13} z={7} y={y} />
         </>
       ) : levelId === "floor-4" ? (
         <>
@@ -155,7 +182,7 @@ function LevelInterior({ levelId, elevation }: { levelId: OfficeLevelId; elevati
           <Block position={[9, y + 0.65, 5]} size={[6, 1.3, 3.2]} color={C.cream} />
           <DepartmentSign x={0} z={-12} y={y} />
           <Plant x={-14} z={9} y={y} />
-          <Plant x={14} z={9} y={y} />
+          <Plant x={14} z={9} y={y} />\n          <Sofa x={9} z={8} y={y} color="#7f8e9b" />\n          <Bookcase x={-14} z={-8} y={y} />
         </>
       ) : (
         <>
