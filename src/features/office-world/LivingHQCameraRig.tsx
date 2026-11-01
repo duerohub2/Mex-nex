@@ -22,8 +22,6 @@ export function LivingHQCameraRig({ config }: { config: OrthographicCameraConfig
     camera.position.lerp(targetPosition.current, 0.055);
     camera.zoom = THREE.MathUtils.lerp(camera.zoom, targetZoom.current, 0.055);
     camera.updateProjectionMatrix();
-    const lookTarget = new THREE.Vector3();
-    camera.getWorldDirection(lookTarget);
     if ("lookAt" in camera) camera.lookAt(targetLookAt.current);
     const orbit = controls as { target?: THREE.Vector3; update?: () => void } | null;
     if (orbit?.target) {
