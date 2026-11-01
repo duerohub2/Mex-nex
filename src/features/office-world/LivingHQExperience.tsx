@@ -1,21 +1,11 @@
 "use client";
 
-import { useMemo, useState } from "react";\nimport type { ReactNode } from "react";
-import { OfficeBuilding } from "@/features/office-world/OfficeBuilding";
+import { useMemo, useState } from "react";\nimport { OfficeBuilding } from "@/features/office-world/OfficeBuilding";
 import { OfficeInteriors } from "@/features/office-world/OfficeInteriors";
 import { OfficeWorldCanvas } from "@/features/office-world/OfficeWorldCanvas";
 import { LivingHQEnvironment } from "@/features/office-world/LivingHQEnvironment";
 import { OFFICE_LEVELS, type OfficeLevelId } from "@/lib/office-world/world";
 import { BUILDING_CAMERA_CONFIG, getFloorCameraConfig } from "@/lib/office-world/renderer";
-
-function HeadquartersScene({ visibleLevels }: { visibleLevels: readonly OfficeLevelId[] }) {
-  return (
-    <group scale={1.15}>
-      <OfficeBuilding visibleLevels={visibleLevels} interiorMode />
-      <OfficeInteriors visibleLevels={visibleLevels} />
-    </group>
-  );
-}
 
 const LEVEL_COLORS: Record<OfficeLevelId, string> = {
   basement: "bg-slate-700 text-white",
