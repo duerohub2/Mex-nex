@@ -17,29 +17,31 @@ export function LivingHQCameraRig({ config }: { config: OrthographicCameraConfig
   const targetZoom = useRef(config.zoom);
   const transitioning = useRef(true);
 
+  const [px, py, pz] = config.position;
+  const [tx, ty, tz] = config.target;
+  const zoom = config.zoom;
+
   useEffect(() => {
-    const orbit = controls as (THREE.EventDispatcher & {
-      target?: THREE.Vector3;
-      update?: () => void;
-    }) | null;
+    const orbit = controls as {
+      addEventListener?: (type: string, listener: () => void) => void;
+      removeEventListener?: (type: string, listener: () => void) => void;
+    } | null;
 
     const cancelTransition = () => {
       transitioning.current = false;
     };
 
-    orbit?.addEventListener("start", cancelTransition);
-    return () => orbit?.removeEventListener("start", cancelTransition);
+    orbit?.addEventListener?.("start", cancelTransition);
+    return () => orbit?.removeEventListener?.("start", cancelTransition);
   }, [controls]);
 
   useEffect(() => {
-    targetPosition.current.set(...config.position);
-    targetLookAt.current.set(...config.target);
-    targetZoom.current = config.zoom;
+    targetPosition.current.set(px, py, pz);
+    targetLookAt.current.set(tx, ty, tz);
+    targetZoom.current = zoom;
     transitioning.current = true;
   }, [
-    config.position[0], config.position[1], config.position[2],
-    config.target[0], config.target[1], config.target[2],
-    config.zoom,
+    px, py, pz, tx, ty, tz, zoom,
   ]);
 
   useFrame(() => {
