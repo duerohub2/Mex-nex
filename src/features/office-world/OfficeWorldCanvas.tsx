@@ -113,7 +113,6 @@ export function OfficeWorldCanvas({
             enableDamping
             enableRotate
             enableZoom
-            enablePan
             dampingFactor={0.12}
             minZoom={camera.minZoom}
             maxZoom={camera.maxZoom}
