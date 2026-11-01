@@ -1,217 +1,168 @@
 "use client";
 
-import { useEffect, useRef } from "react";
-
 type Props = { className?: string };
-type Point = { x: number; y: number };
 
 /**
- * Isometric architectural shell for MEX-NEX.
- * This approval pass contains only the floor, perimeter walls, windows and doors.
- * Furniture, agents and decorative props are intentionally excluded.
+ * MEX-NEX architectural approval scene.
+ * A single open-front isometric office shell; no furniture, agents or loose props.
  */
 export function PhaserOfficeCanvas({ className }: Props) {
-  const hostRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    let disposed = false;
-    let game: import("phaser").Game | null = null;
-
-    void import("phaser").then((Phaser) => {
-      if (disposed || !hostRef.current) return;
-
-      class ArchitectureScene extends Phaser.Scene {
-        private world!: Phaser.GameObjects.Container;
-        private dragPoint?: Point;
-
-        constructor() {
-          super("mex-nex-isometric-architecture");
-        }
-
-        create() {
-          this.cameras.main.setBackgroundColor("#111827");
-          this.cameras.main.roundPixels = true;
-          this.world = this.add.container(0, 0);
-          this.drawRoom();
-          this.cameras.main.setBounds(0, 0, 1400, 900);
-          this.fitCamera();
-
-          this.input.on("pointerdown", (pointer: import("phaser").Input.Pointer) => {
-            this.dragPoint = { x: pointer.x, y: pointer.y };
-          });
-          const stopDrag = () => { this.dragPoint = undefined; };
-          this.input.on("pointerup", stopDrag);
-          this.input.on("pointerupoutside", stopDrag);
-          this.input.on("pointermove", (pointer: import("phaser").Input.Pointer) => {
-            if (!this.dragPoint || !pointer.isDown) return;
-            this.cameras.main.scrollX -= (pointer.x - this.dragPoint.x) / this.cameras.main.zoom;
-            this.cameras.main.scrollY -= (pointer.y - this.dragPoint.y) / this.cameras.main.zoom;
-            this.dragPoint = { x: pointer.x, y: pointer.y };
-          });
-          this.input.on("wheel", (_p: unknown, _o: unknown, _dx: number, dy: number) => {
-            this.cameras.main.setZoom(Phaser.Math.Clamp(this.cameras.main.zoom - dy * 0.001, 0.38, 1.35));
-          });
-          this.scale.on("resize", () => this.fitCamera());
-        }
-
-        private poly(points: Point[], fill: number, stroke = 0x263342, width = 3, alpha = 1) {
-          const g = this.add.graphics();
-          g.fillStyle(fill, alpha);
-          g.fillPoints(points.map((p) => new Phaser.Geom.Point(p.x, p.y)), true);
-          g.lineStyle(width, stroke, 1);
-          g.strokePoints(points.map((p) => new Phaser.Geom.Point(p.x, p.y)), true);
-          this.world.add(g);
-          return g;
-        }
-
-        private line(a: Point, b: Point, color = 0x5b6572, width = 2, alpha = 1) {
-          const g = this.add.graphics();
-          g.lineStyle(width, color, alpha);
-          g.lineBetween(a.x, a.y, b.x, b.y);
-          this.world.add(g);
-        }
-
-        private drawRoom() {
-          // Deep studio backdrop and soft ground shadow.
-          this.poly(
-            [{x:700,y:155},{x:1260,y:435},{x:700,y:735},{x:140,y:435}],
-            0x0b1220, 0x0b1220, 1
-          );
-
-          // Thick raised foundation and one broad continuous timber floor.
-          this.poly(
-            [{x:700,y:160},{x:1210,y:415},{x:700,y:690},{x:190,y:415}],
-            0x594638, 0x302a2b, 9
-          );
-          this.poly(
-            [{x:700,y:139},{x:1210,y:394},{x:700,y:669},{x:190,y:394}],
-            0xc18b5b, 0x553d32, 5
-          );
-          this.poly(
-            [{x:700,y:151},{x:1185,y:394},{x:700,y:650},{x:215,y:394}],
-            0xd7ad7c, 0x9b704f, 2
-          );
-
-          // Floorboard seams follow the isometric perspective.
-          for (let i = 1; i < 15; i++) {
-            const t = i / 15;
-            this.line(
-              {x:215 + 970 * t, y:394 + 0 * t},
-              {x:700 + 0 * t, y:650 - 256 * t},
-              0x9d7656, 1, 0.55
-            );
-          }
-          for (let i = 1; i < 12; i++) {
-            const t = i / 12;
-            this.line(
-              {x:700 - 485 * t, y:394 + 256 * t},
-              {x:700 + 485 * t, y:394 + 256 * t},
-              0xa77d5a, 1, 0.35
-            );
-          }
-
-          // Back wall (left half in the isometric view), raised above the floor.
-          this.poly(
-            [{x:190,y:394},{x:700,y:139},{x:700,y: -18},{x:190,y:237}],
-            0x9fb8c2, 0x344653, 5
-          );
-          // Right/back wall.
-          this.poly(
-            [{x:700,y:139},{x:1210,y:394},{x:1210,y:237},{x:700,y:-18}],
-            0x879eaa, 0x344653, 5
-          );
-
-          // Large glass window bays on the left wall.
-          const leftWindows = [
-            [{x:245,y:366},{x:350,y:313},{x:350,y:155},{x:245,y:208}],
-            [{x:365,y:306},{x:470,y:253},{x:470,y:95},{x:365,y:148}],
-            [{x:485,y:246},{x:590,y:193},{x:590,y:35},{x:485,y:88}],
-          ];
-          leftWindows.forEach((pts, i) => {
-            this.poly(pts, i % 2 ? 0x7ec8df : 0x9bd9e8, 0x344e5d, 4, 0.88);
-            this.line(pts[0], pts[2], 0xe4f7ff, 2, 0.7);
-            this.line(pts[1], pts[3], 0x527e91, 2, 0.65);
-          });
-
-          // Window sill and vertical mullions.
-          this.line({x:232,y:372},{x:602,y:187},0x314653,7);
-          this.line({x:232,y:365},{x:602,y:180},0xd5e6e8,2);
-          [355,475].forEach((x) => this.line({x,y:310-(x-365)*0.5},{x,y:152-(x-365)*0.5},0x344e5d,5));
-
-          // Glass panels on the right wall, leaving a solid section for a door.
-          const rightWindows = [
-            [{x:735,y:157},{x:840,y:210},{x:840,y:52},{x:735,y:-1}],
-            [{x:855,y:217},{x:960,y:270},{x:960,y:112},{x:855,y:59}],
-            [{x:975,y:277},{x:1080,y:330},{x:1080,y:172},{x:975,y:119}],
-          ];
-          rightWindows.forEach((pts) => {
-            this.poly(pts, 0x83c9dd, 0x344e5d, 4, 0.86);
-            this.line(pts[0], pts[2], 0xe8faff, 2, 0.7);
-          });
-          this.line({x:720,y:164},{x:1090,y:349},0x344653,7);
-          this.line({x:720,y:157},{x:1090,y:342},0xd5e6e8,2);
-
-          // Solid door bay and simple door opening on the right wall.
-          this.poly(
-            [{x:1095,y:337},{x:1190,y:385},{x:1190,y:228},{x:1095,y:180}],
-            0x687d88, 0x344653, 4
-          );
-          this.poly(
-            [{x:1110,y:327},{x:1174,y:359},{x:1174,y:245},{x:1110,y:213}],
-            0x79533f, 0x342b2a, 3
-          );
-          this.line({x:1157,y:318},{x:1157,y:300},0xe7c68d,4);
-
-          // Clean interior partition walls define zones without filling them.
-          // Openings are intentionally left between each partition.
-          const partitions: Point[][] = [
-            [{x:420,y:410},{x:560,y:340},{x:560,y:355},{x:420,y:425}],
-            [{x:840,y:355},{x:980,y:425},{x:980,y:440},{x:840,y:370}],
-            [{x:365,y:490},{x:505,y:560},{x:505,y:575},{x:365,y:505}],
-            [{x:895,y:575},{x:1035,y:505},{x:1035,y:520},{x:895,y:590}],
-          ];
-          partitions.forEach((p) => this.poly(p, 0xb8c6c8, 0x56636a, 3));
-          // Low wall caps add readable architectural depth.
-          this.line({x:420,y:410},{x:560,y:340},0xe7eeee,2);
-          this.line({x:840,y:355},{x:980,y:425},0xe7eeee,2);
-          this.line({x:365,y:490},{x:505,y:560},0xe7eeee,2);
-          this.line({x:895,y:575},{x:1035,y:505},0xe7eeee,2);
-
-          // Front edge remains visually open to reveal the entire interior.
-          this.line({x:190,y:394},{x:700,y:650},0x3a3030,5);
-          this.line({x:700,y:650},{x:1210,y:394},0x3a3030,5);
-        }
-
-        private fitCamera() {
-          if (!this.world) return;
-          const scale = Math.min(this.scale.width / 1400, this.scale.height / 900);
-          this.cameras.main.setZoom(Phaser.Math.Clamp(scale * 1.08, 0.38, 1.15));
-          this.cameras.main.centerOn(700, 350);
-        }
-      }
-
-      game = new Phaser.Game({
-        type: Phaser.AUTO,
-        parent: hostRef.current,
-        backgroundColor: "#111827",
-        scale: { mode: Phaser.Scale.RESIZE, width: "100%", height: "100%" },
-        render: { antialias: false, pixelArt: true, roundPixels: true },
-        scene: [ArchitectureScene],
-        banner: false,
-      });
-    });
-
-    return () => {
-      disposed = true;
-      game?.destroy(true);
-    };
-  }, []);
-
   return (
-    <div
-      ref={hostRef}
-      className={className ?? "h-full min-h-[520px] w-full overflow-hidden"}
-      aria-label="Model arsitektur isometrik kantor MEX-NEX"
-    />
+    <div className={className ?? "h-full min-h-[520px] w-full overflow-hidden"}>
+      <svg
+        viewBox="0 0 1200 760"
+        role="img"
+        aria-label="Bangunan kantor MEX-NEX bergaya isometrik dengan lantai kayu, dinding, jendela kaca, dan pintu"
+        className="h-full w-full select-none"
+        preserveAspectRatio="xMidYMid meet"
+      >
+        <defs>
+          <linearGradient id="studioBg" x2="0" y2="1">
+            <stop stopColor="#10192b" />
+            <stop offset="1" stopColor="#080d18" />
+          </linearGradient>
+          <linearGradient id="leftWall" x2="1" y2="0.8">
+            <stop stopColor="#dce8e8" />
+            <stop offset=".55" stopColor="#a9c2c8" />
+            <stop offset="1" stopColor="#7896a2" />
+          </linearGradient>
+          <linearGradient id="rightWall" x2="0" y2="1">
+            <stop stopColor="#b9cbd0" />
+            <stop offset="1" stopColor="#718b99" />
+          </linearGradient>
+          <linearGradient id="glass" x2="1" y2="1">
+            <stop stopColor="#d9f6ff" />
+            <stop offset=".28" stopColor="#8fd6ef" />
+            <stop offset=".72" stopColor="#5b9fc1" />
+            <stop offset="1" stopColor="#d7f4f7" />
+          </linearGradient>
+          <linearGradient id="glassShade" x2="0" y2="1">
+            <stop stopColor="#f3ffff" stopOpacity=".8" />
+            <stop offset="1" stopColor="#4c91b7" stopOpacity=".12" />
+          </linearGradient>
+          <linearGradient id="woodEdge" x2="0" y2="1">
+            <stop stopColor="#a86e45" />
+            <stop offset="1" stopColor="#573a2e" />
+          </linearGradient>
+          <linearGradient id="doorWood" x2="1" y2="1">
+            <stop stopColor="#9a6548" />
+            <stop offset="1" stopColor="#593b35" />
+          </linearGradient>
+          <pattern id="wood" width="120" height="34" patternUnits="userSpaceOnUse" patternTransform="skewY(-26)">
+            <rect width="120" height="34" fill="#d8b18a" />
+            <path d="M0 2H120 M0 31H120" stroke="#b98761" strokeWidth="1.5" opacity=".7" />
+            <path d="M18 0V34 M84 0V34" stroke="#bd906d" strokeWidth="1" opacity=".5" />
+            <path d="M4 12h35 m28 9h39" stroke="#f1d3ad" strokeWidth="1" opacity=".65" />
+          </pattern>
+          <pattern id="wallGrain" width="34" height="34" patternUnits="userSpaceOnUse">
+            <path d="M0 33H34" stroke="#fff" strokeOpacity=".12" />
+            <circle cx="6" cy="8" r="1" fill="#fff" opacity=".14" />
+          </pattern>
+          <filter id="shadow" x="-30%" y="-30%" width="160%" height="170%">
+            <feGaussianBlur stdDeviation="16" />
+          </filter>
+          <clipPath id="floorClip">
+            <polygon points="600,155 1080,395 600,635 120,395" />
+          </clipPath>
+          <clipPath id="leftGlassClip">
+            <polygon points="178,365 280,314 280,177 178,228" />
+          </clipPath>
+          <clipPath id="rightGlassClip">
+            <polygon points="650,180 748,229 748,92 650,43" />
+          </clipPath>
+        </defs>
+
+        <rect width="1200" height="760" fill="url(#studioBg)" />
+        <circle cx="600" cy="370" r="420" fill="#20334b" opacity=".22" />
+        <ellipse cx="600" cy="650" rx="520" ry="70" fill="#02050b" opacity=".7" filter="url(#shadow)" />
+
+        {/* Thick foundation and timber floor */}
+        <polygon points="600,155 1080,395 600,670 120,395" fill="url(#woodEdge)" stroke="#302c32" strokeWidth="12" strokeLinejoin="round" />
+        <polygon points="600,135 1080,375 600,650 120,375" fill="#8c6147" stroke="#d7b18a" strokeWidth="5" strokeLinejoin="round" />
+        <polygon points="600,148 1057,376 600,637 143,376" fill="url(#wood)" stroke="#76523d" strokeWidth="3" strokeLinejoin="round" />
+        <g clipPath="url(#floorClip)" opacity=".58">
+          {Array.from({ length: 18 }, (_, i) => (
+            <path key={i} d={`M${90 + i * 60} 120 L${90 + i * 60} 690`} stroke="#8e6449" strokeWidth="2" />
+          ))}
+          {Array.from({ length: 15 }, (_, i) => (
+            <path key={i} d={`M80 ${205 + i * 31} L1120 ${205 + i * 31}`} stroke="#f7d9b5" strokeWidth="1.5" opacity=".48" />
+          ))}
+        </g>
+        <path d="M600 148L1057 376L600 637L143 376Z" fill="none" stroke="#f5d8b4" strokeWidth="3" opacity=".55" />
+
+        {/* Rear walls: left plane and right plane */}
+        <polygon points="120,375 600,135 600, -65 120,175" fill="url(#leftWall)" stroke="#334957" strokeWidth="8" strokeLinejoin="round" />
+        <polygon points="600,135 1080,375 1080,175 600,-65" fill="url(#rightWall)" stroke="#334957" strokeWidth="8" strokeLinejoin="round" />
+        <polygon points="120,375 600,135 600,-65 120,175" fill="url(#wallGrain)" opacity=".65" />
+        <polygon points="600,135 1080,375 1080,175 600,-65" fill="url(#wallGrain)" opacity=".5" />
+
+        {/* Left wall panoramic windows */}
+        <g stroke="#314a59" strokeWidth="9" strokeLinejoin="round">
+          <polygon points="164,353 268,301 268,164 164,216" fill="url(#glass)" />
+          <polygon points="286,292 390,240 390,103 286,155" fill="url(#glass)" />
+          <polygon points="408,231 512,179 512,42 408,94" fill="url(#glass)" />
+        </g>
+        <g opacity=".38" fill="#e8fbff">
+          <polygon points="172,345 196,333 196,226 172,238" />
+          <polygon points="294,284 318,272 318,165 294,177" />
+          <polygon points="416,223 440,211 440,104 416,116" />
+        </g>
+        <g stroke="#f0ffff" strokeWidth="3" opacity=".75">
+          <path d="M178 230L178 345 M300 169L300 284 M422 108L422 223" />
+          <path d="M165 217L512 43" strokeWidth="2" opacity=".5" />
+        </g>
+        <g stroke="#304a59" strokeWidth="7">
+          <path d="M280 164V301 M402 103V240 M524 42V179" />
+          <path d="M158 359L524 176" />
+        </g>
+        <g stroke="#e6f7f7" strokeWidth="3" opacity=".9">
+          <path d="M151 368L521 183" />
+          <path d="M274 307L274 160 M396 246L396 99 M518 185L518 38" />
+        </g>
+
+        {/* Right wall window band */}
+        <g stroke="#304a59" strokeWidth="9" strokeLinejoin="round">
+          <polygon points="635,153 735,203 735,66 635,16" fill="url(#glass)" />
+          <polygon points="752,212 852,262 852,125 752,75" fill="url(#glass)" />
+          <polygon points="869,271 969,321 969,184 869,134" fill="url(#glass)" />
+        </g>
+        <g fill="#e8fbff" opacity=".3">
+          <polygon points="642,145 661,155 661,30 642,21" />
+          <polygon points="759,204 778,214 778,89 759,80" />
+          <polygon points="876,263 895,273 895,148 876,139" />
+        </g>
+        <g stroke="#f1ffff" strokeWidth="3" opacity=".7">
+          <path d="M641 20L641 151 M758 79L758 210 M875 138L875 269" />
+          <path d="M631 12L969 181" strokeWidth="2" />
+        </g>
+        <g stroke="#304a59" strokeWidth="7">
+          <path d="M741 69V206 M858 128V265 M975 187V324" />
+          <path d="M628 158L980 334" />
+        </g>
+        <path d="M622 166L987 348" stroke="#e6f7f7" strokeWidth="3" />
+
+        {/* Solid wall return and framed wooden door */}
+        <polygon points="984,327 1062,366 1062,166 984,127" fill="#8ea5ad" stroke="#334957" strokeWidth="7" />
+        <polygon points="997,321 1049,347 1049,194 997,168" fill="url(#doorWood)" stroke="#392f31" strokeWidth="5" />
+        <polygon points="1005,312 1041,330 1041,202 1005,184" fill="none" stroke="#c8956d" strokeWidth="3" />
+        <path d="M1034 270L1034 286" stroke="#f5d49c" strokeWidth="5" strokeLinecap="round" />
+        <path d="M997 168L1049 194" stroke="#e0b18a" strokeWidth="3" />
+
+        {/* Wall baseboards, corner trims and architectural seams */}
+        <path d="M120 375L600 135L1080 375" fill="none" stroke="#304653" strokeWidth="13" />
+        <path d="M128 365L600 129L1072 365" fill="none" stroke="#e5eff0" strokeWidth="3" opacity=".8" />
+        <path d="M600 135V-65" stroke="#314956" strokeWidth="9" />
+        <path d="M600 135V-65" stroke="#e2eff0" strokeWidth="2" opacity=".7" />
+
+        {/* Open front edge: visible layered floor construction */}
+        <path d="M120 375L600 650L1080 375" fill="none" stroke="#3c302d" strokeWidth="10" strokeLinejoin="round" />
+        <path d="M120 375L600 650L1080 375" fill="none" stroke="#e4b98d" strokeWidth="3" opacity=".8" />
+        <path d="M120 395L600 670L1080 395" fill="none" stroke="#2a2529" strokeWidth="5" opacity=".9" />
+
+        {/* Gentle warm light pools, kept part of the architectural lighting */}
+        <polygon points="330,360 600,225 890,370 600,515" fill="#fff0c5" opacity=".08" />
+        <path d="M600 150L600 635" stroke="#fff4d9" strokeWidth="1" opacity=".12" />
+      </svg>
+    </div>
   );
 }
