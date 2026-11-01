@@ -1,4 +1,4 @@
-import { PhaserOfficeCanvas } from "@/src/features/office-world-2d/PhaserOfficeCanvas";
+import { PhaserOfficeCanvas } from "@/features/office-world-2d/PhaserOfficeCanvas";
 
 export const metadata = {
   title: "Denah Bangunan | MEX-NEX",
