@@ -9,7 +9,7 @@ import { OFFICE_LEVELS, type OfficeLevelId } from "@/lib/office-world/world";
 import { BUILDING_CAMERA_CONFIG, getFloorCameraConfig } from "@/lib/office-world/renderer";
 
 export function LivingHQExperience() {
-  const [activeLevel, setActiveLevel] = useState<OfficeLevelId | null>(null);
+  const [activeLevel, setActiveLevel] = useState<OfficeLevelId | null>("floor-2");
   const camera = useMemo(
     () => activeLevel ? getFloorCameraConfig(activeLevel) : BUILDING_CAMERA_CONFIG,
     [activeLevel],
