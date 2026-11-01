@@ -4,7 +4,7 @@
 
 Komponen baru: `src/features/office-world/OfficeInteriors.tsx`.
 
-Seluruh elemen dibuat secara prosedural dengan primitive Three.js melalui React Three Fiber. Komponen mengikuti elevasi dan ID dari `OFFICE_LEVELS`; tidak ada aset eksternal yang lisensinya belum jelas.
+Interior menggunakan pendekatan hybrid. Struktur ruangan, server rack, core lift/tangga, dan signage masih dibuat secara prosedural; furnitur utama kini memakai model GLB yang sudah tersedia di `public/office-assets/models/furniture/`. Komponen mengikuti elevasi dan ID dari `OFFICE_LEVELS`. Detail perubahan aset dicatat di `docs/TAHAP-6-PENINGKATAN-ASET-INTERIOR.md`.
 
 ### Isi per level
 
@@ -19,7 +19,7 @@ Seluruh elemen dibuat secara prosedural dengan primitive Three.js melalui React 
 
 - Placeholder shaft lift dengan panel pintu kaca.
 - Tangga modular berbentuk susunan anak tangga.
-- Komponen furnitur dasar: meja, kursi, monitor, rak server, planter dan signage.
+- Komponen furnitur: meja/kursi/monitor GLB, sofa, meja kopi, pantry, rak buku, tanaman, ditambah rak server dan signage procedural.
 
 ### Integrasi
 
@@ -36,7 +36,7 @@ Seluruh elemen dibuat secara prosedural dengan primitive Three.js melalui React 
 
 ## Batas cakupan
 
-Ini adalah pass pertama interior/fasilitas berbasis geometri. Pembagian ruang dengan dinding detail, aset furnitur final, material khusus tiap departemen, signage teks 3D, dan lift/tangga yang benar-benar berfungsi masih perlu iterasi lanjutan. Belum ada agent/avatar atau aktivitas backend pada ruangan.
+Ini masih pass awal interior/fasilitas hybrid. Dinding detail, material khusus tiap departemen, signage teks 3D, lift/tangga fungsional, audit lisensi aset, dan QA visual tiap lantai masih perlu iterasi lanjutan. Belum ada agent/avatar atau aktivitas backend pada ruangan.
 
 ## Acceptance checklist
 
