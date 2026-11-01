@@ -9,6 +9,7 @@ import {
   type OrthographicCameraConfig,
 } from "@/lib/office-world/renderer";
 import { SCENE_LAYERS, type SceneLayerId } from "@/lib/office-world/world";
+import { LivingHQCameraRig } from "./LivingHQCameraRig";
 
 type OfficeWorldCanvasProps = {
   children?: ReactNode;
@@ -98,6 +99,7 @@ export function OfficeWorldCanvas({
           }}
         />
         <WorldLighting />
+        <LivingHQCameraRig config={camera} />
         <Suspense fallback={null}>
           {SCENE_LAYERS.map((layer) => (
             <group key={layer.id} name={`office-world:${layer.id}`}>
