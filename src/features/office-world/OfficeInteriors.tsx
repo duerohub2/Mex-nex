@@ -123,6 +123,45 @@ function CoffeeStation({ x, z, y }: { x: number; z: number; y: number }) {
   );
 }
 
+
+function StudioSet({ x, z, y }: { x: number; z: number; y: number }) {
+  return (
+    <group>
+      <Block position={[x, y + 0.08, z + 2.4]} size={[12, 0.16, 9]} color="#343b4d" />
+      <Block position={[x, y + 1.9, z - 2.1]} size={[8.5, 3.5, 0.18]} color="#20283b" />
+      <Block position={[x, y + 1.9, z - 1.98]} size={[7.6, 2.65, 0.08]} color="#527b78" />
+      <Block position={[x - 4.8, y + 1.8, z - 0.4]} size={[0.16, 3.5, 3.8]} color="#687985" opacity={0.7} />
+      <Block position={[x + 4.8, y + 1.8, z - 0.4]} size={[0.16, 3.5, 3.8]} color="#687985" opacity={0.7} />
+      <OfficeFurnitureModel model="desk" position={[x - 1.5, y + 0.18, z + 1.2]} scale={2.5} />
+      <OfficeFurnitureModel model="computerScreen" position={[x - 0.7, y + 1.08, z + 0.45]} scale={2.3} />
+      <OfficeFurnitureModel model="chairDesk" position={[x - 0.8, y + 0.1, z + 2.2]} scale={2.05} rotationY={Math.PI} />
+      <group position={[x + 3.2, y + 0.1, z + 0.2]}>
+        <Block position={[0, 1.25, 0]} size={[0.16, 2.5, 0.16]} color={C.metal} />
+        <Block position={[0, 2.55, 0]} size={[1.65, 0.14, 1.65]} color="#e6d7b7" />
+        <Block position={[0, 1.35, -0.55]} size={[0.12, 2.2, 0.12]} color={C.metal} />
+      </group>
+      <Block position={[x - 5.2, y + 1.65, z - 1.4]} size={[0.12, 3.2, 0.12]} color={C.metal} />
+      <Block position={[x - 5.2, y + 3.15, z - 1.4]} size={[1.2, 0.12, 1.2]} color="#f2d58b" />
+    </group>
+  );
+}
+
+function RooftopPool({ x, z, y }: { x: number; z: number; y: number }) {
+  return (
+    <group>
+      <Block position={[x, y + 0.24, z]} size={[15, 0.48, 9]} color="#e8dfd0" />
+      <Block position={[x, y + 0.5, z]} size={[13.8, 0.18, 7.8]} color="#4c91a4" />
+      <Block position={[x, y + 0.61, z]} size={[12.9, 0.06, 6.9]} color="#70c4d2" opacity={0.92} />
+      {[-4.8, 4.8].map((dx) => <Block key={dx} position={[x + dx, y + 0.9, z]} size={[0.12, 0.7, 8.2]} color="#d9d5cb" />)}
+      {[-2.8, 0, 2.8].map((dz) => <Block key={dz} position={[x - 9.4, y + 0.22, z + dz]} size={[3.4, 0.16, 1.45]} color="#f3eee4" />)}
+      <OfficeFurnitureModel model="loungeSofa" position={[x + 9.3, y + 0.08, z - 2.3]} scale={2.1} rotationY={-Math.PI / 2} />
+      <OfficeFurnitureModel model="tableCoffee" position={[x + 8.1, y + 0.08, z + 1.2]} scale={2.1} />
+      <Plant x={x + 8.5} z={z + 4.2} y={y + 0.12} />
+      <Plant x={x - 8.5} z={z - 5.2} y={y + 0.12} />
+    </group>
+  );
+}
+
 function LevelInterior({ levelId, elevation }: { levelId: OfficeLevelId; elevation: number }) {
   const y = elevation + 0.22;
   return (
@@ -181,7 +220,7 @@ function LevelInterior({ levelId, elevation }: { levelId: OfficeLevelId; elevati
           <Block position={[0, y + 0.12, 2]} size={[18, 0.24, 12]} color={C.green} />
           {[-7, 0, 7].map((x) => <Plant key={x} x={x} z={2} y={y + 0.25} />)}
           <Block position={[-10, y + 0.65, -8]} size={[5, 1.3, 2.5]} color={C.cream} />
-          <Block position={[10, y + 0.65, -8]} size={[5, 1.3, 2.5]} color={C.cream} />
+          <Block position={[10, y + 0.65, -8]} size={[5, 1.3, 2.5]} color={C.cream} />\n          <RooftopPool x={0} z={1} y={y} />
         </>
       )}
     </group>
