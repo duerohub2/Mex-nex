@@ -1,6 +1,6 @@
 # MEX-NEX Living HQ — Art Direction 2.5D
 
-**Status:** keputusan produksi visual, 1 November 2026 — revisi konsep single-floor  
+**Status:** keputusan produksi visual, 1 November 2026 — revisi interior-only, single-floor  
 **Target:** browser desktop + Safari iPhone  
 **Renderer:** Phaser 3 sebagai compositor/interaksi 2.5D  
 **Visual reference utama:** video kantor isometrik yang diberikan pemilik proyek. Dokumen visual library lama hanya referensi teknis tambahan.
@@ -16,10 +16,10 @@ Phaser hanya mengatur layer, depth sorting, camera, hit-area, animasi sprite, da
 ## 2. Ciri visual wajib
 
 - Kamera orthographic/isometric tetap; sudut tinggi tiga-perempat, bukan tampak samping datar.
-- Satu lantai kantor besar bergaya cutaway/open-side. Semua departemen, ruang rapat, studio, lounge, pantry, dan area kerja terlihat bersamaan dalam satu komposisi. Tidak ada tumpukan enam lantai pada visual utama.
+- Satu ruang kantor interior besar yang saling terhubung, bergaya cutaway/open-side. Semua departemen, ruang rapat, studio, lounge, pantry, dan area kerja terlihat bersamaan dalam satu komposisi. Seluruh pengalaman berlangsung di dalam ruangan; jangan membangun lingkungan luar.
 - Arsitektur modern: rangka metal gelap, panel kaca besar, mullion tipis, pintu kaca, balkon/railing, slab lantai yang tebal dan terbaca.
 - Interior padat namun tertata: workstation lengkap, monitor, keyboard, kursi, meja rapat, sofa, rak, lampu, tanaman, perangkat teknis.
-- Material memiliki respons visual berbeda: kayu ber-grain, kaca reflektif/transparan, metal, kain, beton, dedaunan, air.
+- Material interior memiliki respons visual berbeda: kayu ber-grain, kaca reflektif/transparan, metal, kain, beton, karpet, perangkat elektronik, dan tanaman indoor.
 - Lighting lembut dan konsisten: ambient occlusion, contact shadow, soft cast shadow, highlight kaca, warm interior light.
 - Agent human bergaya stylized 3D/chibi-modern yang proporsional konsisten, bukan lingkaran atau placeholder.
 - UI label berada di atas world layer dan tidak menjadi bagian dari sprite arsitektur.
@@ -96,7 +96,7 @@ Sebuah build tidak boleh disebut visual milestone selesai kecuali:
 2. Review visual benchmark terhadap video referensi. Jangan lanjut membuat semua lantai jika benchmark belum lolos.
 3. Bangun kit modular arsitektur dan furniture dari benchmark yang disetujui.
 4. Susun satu lantai lengkap sebagai vertical slice.
-5. Susun gedung enam level.
+5. Perluas satu interior kantor penuh tanpa menambahkan lingkungan eksterior.
 6. Tambahkan sprite agent dan animasi.
 7. Integrasikan backend event setelah render/layout stabil.
 8. Optimasi atlas, mobile resolution, dan performance.
