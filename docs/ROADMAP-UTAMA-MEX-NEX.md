@@ -103,7 +103,7 @@ Jalur ini adalah fondasi aplikasi yang sudah ada. Checklist detail dan histori t
 ## Status terkini (1 November 2026)
 
 - B1: **Selesai** — visual reference library dan keputusan visual disetujui.
-- B2: **Dokumen rancangan selesai; audit/validasi teknis penutup masih berjalan** — GDD, TDD, model data, API/event contract, implementation plan, dan source audit tersedia.
+- B2: **Dokumen dan keputusan arsitektur selesai; validasi teknis sebagian lulus** — GDD, TDD, model data, API/event contract, implementation plan, source audit, dan quality workflow tersedia. Build production Vercel lulus untuk commit 51896b5; test/lint/E2E/storage durability masih menunggu bukti.
 - B3–B14: **Belum dimulai**.
 - Deployment Vercel untuk commit `f0f861bc81aca3691bff59bde38846901f5dda18`: status **READY**; SSO protection masih aktif untuk deployment non-custom-domain. Status READY bukan bukti seluruh fitur telah diuji.
 - Penyimpanan kantor dan sesi AI yang diaudit saat ini berupa file JSON lokal. Migrasi production storage belum dilakukan.
