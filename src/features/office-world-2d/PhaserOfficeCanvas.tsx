@@ -6,8 +6,6 @@ type Props = { className?: string };
 
 type IsoPoint = { x: number; y: number };
 type Furniture = { key: string; x: number; y: number; scale: number; depthOffset?: number };
-type Agent = { name: string; role: string; status: string; texture: string; x: number; y: number };
-
 const FURNITURE: Furniture[] = [
   // Engineering: two paired workstations, aligned to the isometric floor.
   { key: "desk", x: 410, y: 430, scale: 0.2 },
@@ -21,13 +19,6 @@ const FURNITURE: Furniture[] = [
   // Operations and shared hot desks.
   { key: "desk", x: 1040, y: 690, scale: 0.2 },
   { key: "desk", x: 1165, y: 760, scale: 0.2 },
-];
-
-const AGENTS: Agent[] = [
-  { name: "NEX", role: "Engineering", status: "Mengerjakan task", texture: "dev-front", x: 410, y: 500 },
-  { name: "MIRA", role: "Research", status: "Menganalisis", texture: "dev-side", x: 700, y: 500 },
-  { name: "KIRA", role: "Creative", status: "Mendesain", texture: "employee", x: 1080, y: 500 },
-  { name: "ATLAS", role: "Operations", status: "Siaga", texture: "dev-two", x: 1040, y: 760 },
 ];
 
 export function PhaserOfficeCanvas({ className }: Props) {
@@ -66,7 +57,6 @@ export function PhaserOfficeCanvas({ className }: Props) {
           this.world = this.add.container(0, 0);
           this.drawRoom();
           this.placeFurniture();
-          this.placeAgents();
           this.setupCamera();
           this.setupInteraction();
           this.scale.on("resize", () => this.fitCamera());
@@ -190,36 +180,6 @@ export function PhaserOfficeCanvas({ className }: Props) {
             this.add.image(1380, 300, "plant").setScale(0.17).setDepth(300),
           ];
           this.world.add([whiteboard, coffee, ...plants]);
-        }
-
-        private placeAgents() {
-          const textures = ["agent-nex", "agent-mira", "agent-atlas", "agent-kira"];
-          AGENTS.forEach((agent, index) => {
-            const group = this.add.container(agent.x, agent.y).setDepth(agent.y + 30);
-            const shadow = this.add.ellipse(0, 4, 48, 15, 0x26342e, 0.26);
-            const sprite = this.add.image(0, 0, textures[index]).setScale(0.17).setOrigin(0.5, 0.86);
-            const name = this.add.text(0, -92, agent.name, {
-              fontFamily: "Arial, sans-serif", fontSize: "15px", fontStyle: "bold",
-              color: "#fff8e9", backgroundColor: "#29454a", padding: {x:7,y:4},
-            }).setOrigin(0.5);
-            const status = this.add.text(0, -68, agent.status, {
-              fontFamily: "Arial, sans-serif", fontSize: "11px",
-              color: "#27433d", backgroundColor: "#e6eddb", padding: {x:6,y:3},
-            }).setOrigin(0.5);
-            group.add([shadow, sprite, name, status]);
-            group.setSize(72, 112);
-            group.setInteractive(new Phaser.Geom.Rectangle(-38, -100, 76, 112), Phaser.Geom.Rectangle.Contains);
-            group.on("pointerdown", () => {
-              const detail = this.add.text(agent.x + 48, agent.y - 30, agent.role, {
-                fontFamily: "Arial, sans-serif", fontSize: "13px", color: "#fff8e9",
-                backgroundColor: "#29454a", padding: {x:9,y:7},
-              }).setDepth(1400);
-              this.time.delayedCall(2400, () => detail.destroy());
-            });
-            this.world.add(group);
-            group.setDepth(agent.y + 80);
-            this.tweens.add({ targets: sprite, y: -3, duration: 1300, yoyo: true, repeat: -1, ease: "Sine.easeInOut" });
-          });
         }
 
         private setupCamera() {
