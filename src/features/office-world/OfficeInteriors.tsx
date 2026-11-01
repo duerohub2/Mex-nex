@@ -1,6 +1,7 @@
 "use client";
 
 import { OFFICE_LEVELS, type OfficeLevelId } from "@/lib/office-world/world";
+import { OfficeFurnitureModel } from "./OfficeFurnitureModel";
 
 type OfficeInteriorsProps = { visibleLevels?: readonly OfficeLevelId[] };
 
@@ -34,27 +35,31 @@ function Block({ position, size, color, opacity = 1 }: {
 
 function Desk({ x, z, y }: { x: number; z: number; y: number }) {
   return (
-    <group position={[x, y, z]}>
-      <Block position={[0, 0.78, 0]} size={[2.2, 0.14, 1.05]} color={C.wood} />
-      <Block position={[-0.88, 0.37, 0]} size={[0.12, 0.75, 0.9]} color={C.metal} />
-      <Block position={[0.88, 0.37, 0]} size={[0.12, 0.75, 0.9]} color={C.metal} />
-      <Block position={[0, 1.23, -0.3]} size={[0.92, 0.58, 0.08]} color={C.metal} />
-      <Block position={[0, 1.23, -0.24]} size={[0.78, 0.42, 0.025]} color={C.screen} />
-      <Block position={[0, 0.28, 1.05]} size={[0.82, 0.12, 0.82]} color={C.chair} />
-      <Block position={[0, 0.58, 1.4]} size={[0.82, 0.65, 0.12]} color={C.chair} />
+    <group>
+      <OfficeFurnitureModel model="desk" position={[x - 1, y + 0.2, z + 0.2]} scale={2.75} />
+      <OfficeFurnitureModel model="computerScreen" position={[x - 0.45, y + 1.12, z - 0.48]} scale={2.65} />
+      <OfficeFurnitureModel model="chairDesk" position={[x - 0.48, y + 0.12, z + 1.12]} scale={2.35} rotationY={Math.PI} />
     </group>
   );
 }
 
 function MeetingTable({ x, z, y, seats = 6 }: { x: number; z: number; y: number; seats?: number }) {
+  const seatsPerSide = Math.ceil(seats / 2);
   return (
-    <group position={[x, y, z]}>
-      <Block position={[0, 0.82, 0]} size={[5.2, 0.18, 2.1]} color={C.darkWood} />
-      {Array.from({ length: seats }, (_, i) => {
-        const side = i % 2 === 0 ? -1 : 1;
-        const row = Math.floor(i / 2);
+    <group>
+      <OfficeFurnitureModel model="table" position={[x - 2.6, y + 0.38, z - 1.05]} scale={[6.2, 2.4, 4.7]} />
+      {Array.from({ length: seats }, (_, index) => {
+        const side = index < seatsPerSide ? -1 : 1;
+        const rowIndex = index % seatsPerSide;
+        const offset = (rowIndex - (seatsPerSide - 1) / 2) * 1.55;
         return (
-          <Block key={i} position={[side * 1.55, 0.38, (row - (Math.ceil(seats / 2) - 1) / 2) * 1.15]} size={[0.82, 0.65, 0.82]} color={C.chair} />
+          <OfficeFurnitureModel
+            key={index}
+            model="chairDesk"
+            position={[x + offset - 0.25, y + 0.08, z + side * 1.72]}
+            scale={2.05}
+            rotationY={side < 0 ? 0 : Math.PI}
+          />
         );
       })}
     </group>
@@ -62,19 +67,7 @@ function MeetingTable({ x, z, y, seats = 6 }: { x: number; z: number; y: number;
 }
 
 function Plant({ x, z, y }: { x: number; z: number; y: number }) {
-  return (
-    <group position={[x, y, z]}>
-      <Block position={[0, 0.28, 0]} size={[0.62, 0.56, 0.62]} color={C.wood} />
-      <mesh position={[0, 1.05, 0]} castShadow>
-        <sphereGeometry args={[0.72, 10, 8]} />
-        <meshStandardMaterial color={C.green} roughness={1} />
-      </mesh>
-      <mesh position={[0.35, 1.42, 0.12]} castShadow>
-        <sphereGeometry args={[0.48, 10, 8]} />
-        <meshStandardMaterial color="#789866" roughness={1} />
-      </mesh>
-    </group>
-  );
+  return <OfficeFurnitureModel model="pottedPlant" position={[x - 0.35, y, z + 0.1]} scale={3.5} />;
 }
 
 function ServerRack({ x, z, y }: { x: number; z: number; y: number }) {
@@ -112,30 +105,22 @@ function DepartmentSign({ x, z, y, labelColor = C.orange }: { x: number; z: numb
 }
 
 
-function Sofa({ x, z, y, color = "#b97858" }: { x: number; z: number; y: number; color?: string }) {
-  return <group position={[x, y, z]}>
-    <Block position={[0, 0.38, 0]} size={[3.2, 0.55, 1.15]} color={color}/>
-    <Block position={[0, 0.82, -0.42]} size={[3.2, 0.75, 0.28]} color={color}/>
-    {[-1.35, 1.35].map((side) => <Block key={side} position={[side, 0.72, 0]} size={[0.35, 0.8, 1.2]} color={C.darkWood}/>)}
-  </group>;
+function Sofa({ x, z, y, color: _color = "#b97858" }: { x: number; z: number; y: number; color?: string }) {
+  return <OfficeFurnitureModel model="loungeSofa" position={[x - 1.55, y + 0.05, z - 0.6]} scale={3.2} />;
 }
 
 function Bookcase({ x, z, y }: { x: number; z: number; y: number }) {
-  return <group position={[x, y, z]}>
-    <Block position={[0, 1.45, 0]} size={[2.4, 2.9, 0.45]} color={C.darkWood}/>
-    {[0.55, 1.35, 2.15].map((height, row) => <group key={row}>
-      <Block position={[0, height, 0.25]} size={[2.25, 0.08, 0.08]} color={C.wood}/>
-      {[-0.75, -0.25, 0.3, 0.78].map((x, i) => <Block key={i} position={[x, height+0.24, 0.12]} size={[0.28, 0.42+(i%2)*0.12, 0.22]} color={i%2 ? C.orange : C.screen}/>)}
-    </group>)}
-  </group>;
+  return <OfficeFurnitureModel model="bookcaseClosed" position={[x - 0.65, y, z - 0.2]} scale={3.2} />;
 }
 
 function CoffeeStation({ x, z, y }: { x: number; z: number; y: number }) {
-  return <group position={[x, y, z]}>
-    <Block position={[0, 0.62, 0]} size={[1.8, 1.2, 1.1]} color={C.wood}/>
-    <Block position={[0, 1.38, -0.12]} size={[0.72, 0.42, 0.58]} color={C.metal}/>
-    <Block position={[0.5, 1.1, 0.48]} size={[0.3, 0.12, 0.3]} color={C.cream}/>
-  </group>;
+  return (
+    <group>
+      <OfficeFurnitureModel model="kitchenCabinet" position={[x - 0.65, y, z - 0.25]} scale={3.1} />
+      <OfficeFurnitureModel model="kitchenCoffeeMachine" position={[x - 0.28, y + 1.35, z - 0.2]} scale={2.7} />
+      <OfficeFurnitureModel model="kitchenFridgeSmall" position={[x + 1.1, y, z - 0.25]} scale={2.8} />
+    </group>
+  );
 }
 
 function LevelInterior({ levelId, elevation }: { levelId: OfficeLevelId; elevation: number }) {
@@ -158,7 +143,10 @@ function LevelInterior({ levelId, elevation }: { levelId: OfficeLevelId; elevati
           <Desk x={7} z={-3} y={y} />
           <DepartmentSign x={0} z={-12} y={y} />
           <Plant x={-14} z={8} y={y} />
-          <Plant x={14} z={8} y={y} />\n          <Sofa x={9} z={8} y={y} />\n          <CoffeeStation x={-13} z={7} y={y} />
+          <Plant x={14} z={8} y={y} />\n          <Sofa x={9} z={8} y={y} />
+          <OfficeFurnitureModel model="loungeDesignChair" position={[5.5, y + 0.08, 8.5]} scale={2.8} rotationY={Math.PI / 2} />
+          <OfficeFurnitureModel model="tableCoffee" position={[8.2, y + 0.1, 8.1]} scale={2.7} />
+          <OfficeFurnitureModel model="lampRoundFloor" position={[11.5, y, 7.3]} scale={3.1} />\n          <CoffeeStation x={-13} z={7} y={y} />
         </>
       ) : levelId === "floor-2" ? (
         <>
@@ -167,6 +155,8 @@ function LevelInterior({ levelId, elevation }: { levelId: OfficeLevelId; elevati
           <DepartmentSign x={0} z={-12} y={y} />
           <Plant x={-15} z={10} y={y} />
           <Plant x={15} z={10} y={y} />\n          <Bookcase x={-15} z={-7} y={y} />\n          <Sofa x={0} z={-8} y={y} color="#668b86" />
+          <OfficeFurnitureModel model="loungeDesignChair" position={[-4.2, y + 0.08, -7.2]} scale={2.8} rotationY={-Math.PI / 2} />
+          <OfficeFurnitureModel model="tableCoffee" position={[0.2, y + 0.1, -8.1]} scale={2.5} />
         </>
       ) : levelId === "floor-3" ? (
         <>
@@ -182,7 +172,9 @@ function LevelInterior({ levelId, elevation }: { levelId: OfficeLevelId; elevati
           <Block position={[9, y + 0.65, 5]} size={[6, 1.3, 3.2]} color={C.cream} />
           <DepartmentSign x={0} z={-12} y={y} />
           <Plant x={-14} z={9} y={y} />
-          <Plant x={14} z={9} y={y} />\n          <Sofa x={9} z={8} y={y} color="#7f8e9b" />\n          <Bookcase x={-14} z={-8} y={y} />
+          <Plant x={14} z={9} y={y} />\n          <Sofa x={9} z={8} y={y} color="#7f8e9b" />
+          <OfficeFurnitureModel model="loungeDesignChair" position={[5.5, y + 0.08, 8.5]} scale={2.8} rotationY={Math.PI / 2} />
+          <OfficeFurnitureModel model="tableCoffee" position={[8.2, y + 0.1, 8.1]} scale={2.7} />\n          <Bookcase x={-14} z={-8} y={y} />
         </>
       ) : (
         <>
