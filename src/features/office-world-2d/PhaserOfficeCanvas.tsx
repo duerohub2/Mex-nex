@@ -10,7 +10,7 @@ export function PhaserOfficeCanvas({ className }: Props) {
   return (
     <div className={className ?? "h-full min-h-[520px] w-full overflow-hidden"}>
       <svg
-        viewBox="0 0 1200 760"
+        viewBox="55 -85 1090 780"
         role="img"
         aria-label="Bangunan kantor MEX-NEX bergaya isometrik dengan lantai kayu, dinding, jendela kaca, dan pintu"
         className="h-full w-full select-none"
