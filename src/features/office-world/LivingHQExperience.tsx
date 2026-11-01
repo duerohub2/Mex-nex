@@ -8,6 +8,15 @@ import { LivingHQEnvironment } from "@/features/office-world/LivingHQEnvironment
 import { OFFICE_LEVELS, type OfficeLevelId } from "@/lib/office-world/world";
 import { BUILDING_CAMERA_CONFIG, getFloorCameraConfig } from "@/lib/office-world/renderer";
 
+function HeadquartersScene({ visibleLevels }: { visibleLevels: readonly OfficeLevelId[] }) {
+  return (
+    <group scale={1.15}>
+      <OfficeBuilding visibleLevels={visibleLevels} interiorMode />
+      <OfficeInteriors visibleLevels={visibleLevels} />
+    </group>
+  );
+}
+
 const LEVEL_COLORS: Record<OfficeLevelId, string> = {
   basement: "bg-slate-700 text-white",
   "floor-1": "bg-amber-600 text-white",
@@ -58,7 +67,8 @@ export function LivingHQExperience() {
 
       <section className="relative min-h-0 flex-1 overflow-hidden">
         <OfficeWorldCanvas camera={camera} className="h-full min-h-[420px] w-full">
-          <LivingHQEnvironment />\n          <HeadquartersScene visibleLevels={visibleLevels} />
+          <LivingHQEnvironment />
+          <HeadquartersScene visibleLevels={visibleLevels} />
         </OfficeWorldCanvas>
         <div className="pointer-events-none absolute inset-0">
           <div className="absolute bottom-3 left-3 max-w-[min(92%,560px)] rounded-xl border border-white/70 bg-[#fff8e9]/95 px-3 py-2 shadow-lg backdrop-blur-sm">
