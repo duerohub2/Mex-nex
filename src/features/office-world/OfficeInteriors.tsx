@@ -172,7 +172,9 @@ function LevelInterior({ levelId, elevation }: { levelId: OfficeLevelId; elevati
           {[ -10, -6, -2, 2 ].map((x) => <ServerRack key={x} x={x} z={-1} y={y} />)}
           <Block position={[9, y + 0.7, 1]} size={[8, 1.4, 5]} color={C.concrete} />
           <DepartmentSign x={-5} z={-5} y={y} />
-          <Plant x={15} z={9} y={y} />\n          <Bookcase x={9} z={-7} y={y} />\n          <CoffeeStation x={-13} z={6} y={y} />
+          <Plant x={15} z={9} y={y} />
+          <Bookcase x={9} z={-7} y={y} />
+          <CoffeeStation x={-13} z={6} y={y} />
         </>
       ) : levelId === "floor-1" ? (
         <>
@@ -182,10 +184,12 @@ function LevelInterior({ levelId, elevation }: { levelId: OfficeLevelId; elevati
           <Desk x={7} z={-3} y={y} />
           <DepartmentSign x={0} z={-12} y={y} />
           <Plant x={-14} z={8} y={y} />
-          <Plant x={14} z={8} y={y} />\n          <Sofa x={9} z={8} y={y} />
+          <Plant x={14} z={8} y={y} />
+          <Sofa x={9} z={8} y={y} />
           <OfficeFurnitureModel model="loungeDesignChair" position={[5.5, y + 0.08, 8.5]} scale={2.8} rotationY={Math.PI / 2} />
           <OfficeFurnitureModel model="tableCoffee" position={[8.2, y + 0.1, 8.1]} scale={2.7} />
-          <OfficeFurnitureModel model="lampRoundFloor" position={[11.5, y, 7.3]} scale={3.1} />\n          <CoffeeStation x={-13} z={7} y={y} />
+          <OfficeFurnitureModel model="lampRoundFloor" position={[11.5, y, 7.3]} scale={3.1} />
+          <CoffeeStation x={-13} z={7} y={y} />
         </>
       ) : levelId === "floor-2" ? (
         <>
@@ -193,7 +197,9 @@ function LevelInterior({ levelId, elevation }: { levelId: OfficeLevelId; elevati
           {[-10, -4, 4, 10].map((x) => <Desk key={x} x={x} z={7} y={y} />)}
           <DepartmentSign x={0} z={-12} y={y} />
           <Plant x={-15} z={10} y={y} />
-          <Plant x={15} z={10} y={y} />\n          <Bookcase x={-15} z={-7} y={y} />\n          <Sofa x={0} z={-8} y={y} color="#668b86" />
+          <Plant x={15} z={10} y={y} />
+          <Bookcase x={-15} z={-7} y={y} />
+          <Sofa x={0} z={-8} y={y} color="#668b86" />
           <OfficeFurnitureModel model="loungeDesignChair" position={[-4.2, y + 0.08, -7.2]} scale={2.8} rotationY={-Math.PI / 2} />
           <OfficeFurnitureModel model="tableCoffee" position={[0.2, y + 0.1, -8.1]} scale={2.5} />
         </>
@@ -202,7 +208,10 @@ function LevelInterior({ levelId, elevation }: { levelId: OfficeLevelId; elevati
           {[-10, -4, 4, 10].map((x) => <Desk key={x} x={x} z={-1} y={y} />)}
           <MeetingTable x={0} z={8} y={y} seats={6} />
           <DepartmentSign x={0} z={-12} y={y} labelColor={C.screen} />
-          <Plant x={-15} z={9} y={y} />\n          <Bookcase x={15} z={-8} y={y} />\n          <CoffeeStation x={-13} z={7} y={y} />
+          <Plant x={-15} z={9} y={y} />
+          <Bookcase x={15} z={-8} y={y} />
+          <CoffeeStation x={-13} z={7} y={y} />
+          <StudioSet x={7} z={-5} y={y} />
         </>
       ) : levelId === "floor-4" ? (
         <>
@@ -211,16 +220,19 @@ function LevelInterior({ levelId, elevation }: { levelId: OfficeLevelId; elevati
           <Block position={[9, y + 0.65, 5]} size={[6, 1.3, 3.2]} color={C.cream} />
           <DepartmentSign x={0} z={-12} y={y} />
           <Plant x={-14} z={9} y={y} />
-          <Plant x={14} z={9} y={y} />\n          <Sofa x={9} z={8} y={y} color="#7f8e9b" />
+          <Plant x={14} z={9} y={y} />
+          <Sofa x={9} z={8} y={y} color="#7f8e9b" />
           <OfficeFurnitureModel model="loungeDesignChair" position={[5.5, y + 0.08, 8.5]} scale={2.8} rotationY={Math.PI / 2} />
-          <OfficeFurnitureModel model="tableCoffee" position={[8.2, y + 0.1, 8.1]} scale={2.7} />\n          <Bookcase x={-14} z={-8} y={y} />
+          <OfficeFurnitureModel model="tableCoffee" position={[8.2, y + 0.1, 8.1]} scale={2.7} />
+          <Bookcase x={-14} z={-8} y={y} />
         </>
       ) : (
         <>
           <Block position={[0, y + 0.12, 2]} size={[18, 0.24, 12]} color={C.green} />
           {[-7, 0, 7].map((x) => <Plant key={x} x={x} z={2} y={y + 0.25} />)}
           <Block position={[-10, y + 0.65, -8]} size={[5, 1.3, 2.5]} color={C.cream} />
-          <Block position={[10, y + 0.65, -8]} size={[5, 1.3, 2.5]} color={C.cream} />\n          <RooftopPool x={0} z={1} y={y} />
+          <Block position={[10, y + 0.65, -8]} size={[5, 1.3, 2.5]} color={C.cream} />
+          <RooftopPool x={0} z={1} y={y} />
         </>
       )}
     </group>
