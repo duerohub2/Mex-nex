@@ -215,11 +215,13 @@ function FloorArchitecture({ levelId, y }: { levelId: OfficeLevelId; y: number }
   if (levelId === "floor-2") {
     return (
       <group>
-        <GlassRun x={-17} z={-4} y={y} length={18} axis="z" />
-        <GlassRun x={-8} z={-12} y={y} length={18} />
-        <GlassRun x={8} z={-4} y={y} length={18} axis="z" />
-        <GlassRun x={8} z={5} y={y} length={18} />
-        <LowPartition x={0} z={-1} y={y} length={12} color="#d6c3ad" />
+        {/* One connected headquarters: transparent room dividers keep every department visible. */}
+        <GlassRun x={-6.5} z={-8.5} y={y} length={10} />
+        <GlassRun x={-12} z={-3.5} y={y} length={9} axis="z" />
+        <GlassRun x={7} z={-8.5} y={y} length={10} />
+        <GlassRun x={13} z={-3.5} y={y} length={9} axis="z" />
+        <GlassRun x={0} z={2.5} y={y} length={13} />
+        <LowPartition x={-1} z={10.5} y={y} length={9} color="#d6c3ad" />
       </group>
     );
   }
@@ -286,15 +288,34 @@ function LevelInterior({ levelId, elevation }: { levelId: OfficeLevelId; elevati
         </>
       ) : levelId === "floor-2" ? (
         <>
-          {[-10, -4, 4, 10].map((x) => <Desk key={x} x={x} z={1} y={y} />)}
-          {[-10, -4, 4, 10].map((x) => <Desk key={x} x={x} z={7} y={y} />)}
-          <DepartmentSign x={0} z={-12} y={y} />
-          <Plant x={-15} z={10} y={y} />
-          <Plant x={15} z={10} y={y} />
-          <Bookcase x={-15} z={-7} y={y} />
-          <Sofa x={0} z={-8} y={y} color="#668b86" />
-          <OfficeFurnitureModel model="loungeDesignChair" position={[-4.2, y + 0.08, -7.2]} scale={2.8} rotationY={-Math.PI / 2} />
-          <OfficeFurnitureModel model="tableCoffee" position={[0.2, y + 0.1, -8.1]} scale={2.5} />
+          {/* Engineering workstations in the open central bay */}
+          {[-8, -2, 4].map((x) => <Desk key={`work-a-${x}`} x={x} z={0.2} y={y} />)}
+          {[-8, -2, 4].map((x) => <Desk key={`work-b-${x}`} x={x} z={5.2} y={y} />)}
+          <DepartmentSign x={-1} z={-12} y={y} />
+
+          {/* Executive / meeting room at the back-right */}
+          <MeetingTable x={9} z={-8} y={y} seats={6} />
+          <Bookcase x={15} z={-12} y={y} />
+
+          {/* Creative studio at the back-left */}
+          <StudioSet x={-11} z={-8} y={y} />
+
+          {/* Lounge and reception at the front-left */}
+          <Sofa x={-12} z={10} y={y} color="#668b86" />
+          <OfficeFurnitureModel model="loungeDesignChair" position={[-7.2, y + 0.08, 10.2]} scale={2.5} rotationY={-Math.PI / 2} />
+          <OfficeFurnitureModel model="tableCoffee" position={[-10.2, y + 0.1, 10.1]} scale={2.2} />
+          <OfficeFurnitureModel model="lampRoundFloor" position={[-15.2, y, 8.2]} scale={2.6} />
+
+          {/* Pantry and informal collaboration at the front-right */}
+          <CoffeeStation x={12} z={10} y={y} />
+          <OfficeFurnitureModel model="tableRound" position={[6.5, y + 0.12, 10.4]} scale={2.1} />
+          <OfficeFurnitureModel model="chairModernCushion" position={[4.5, y + 0.08, 10.4]} scale={2.1} />
+          <OfficeFurnitureModel model="chairModernCushion" position={[8.5, y + 0.08, 10.4]} scale={2.1} rotationY={Math.PI} />
+
+          <Plant x={-16} z={-1} y={y} />
+          <Plant x={16} z={-1} y={y} />
+          <Plant x={-16} z={12} y={y} />
+          <Plant x={16} z={12} y={y} />
         </>
       ) : levelId === "floor-3" ? (
         <>
