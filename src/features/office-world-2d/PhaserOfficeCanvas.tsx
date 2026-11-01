@@ -6,6 +6,20 @@ type Props = { className?: string };
 
 type IsoPoint = { x: number; y: number };
 type Furniture = { key: string; x: number; y: number; scale: number; depthOffset?: number };
+type LiveAgent = { agentId: string; name: string; state: "idle" | "working" | "meeting" | "error" };
+const AGENT_SPRITES = ["agent-nex", "agent-mira", "agent-atlas", "agent-kira"] as const;
+const AGENT_STATIONS = [
+  { x: 420, y: 425 }, { x: 555, y: 425 },
+  { x: 720, y: 425 }, { x: 855, y: 425 },
+  { x: 1020, y: 425 }, { x: 1155, y: 425 },
+  { x: 935, y: 600 }, { x: 1045, y: 600 },
+];
+const STATE_LABEL: Record<LiveAgent["state"], string> = {
+  idle: "IDLE", working: "BEKERJA", meeting: "MEETING", error: "ERROR",
+};
+const STATE_COLOR: Record<LiveAgent["state"], number> = {
+  idle: 0x7b9287, working: 0x4f9b72, meeting: 0x5688b8, error: 0xc75b4d,
+};
 const FURNITURE: Furniture[] = [
   // Three upper work departments, two stations per department.
   { key: "desk", x: 420, y: 425, scale: 0.15 },
@@ -32,6 +46,10 @@ export function PhaserOfficeCanvas({ className }: Props) {
       class LivingHQScene extends Phaser.Scene {
         private dragPoint?: { x: number; y: number };
         private world!: Phaser.GameObjects.Container;
+        private agentsLayer!: Phaser.GameObjects.Container;
+        private presenceLabel!: Phaser.GameObjects.Text;
+        private lastPresenceSignature = "";
+        private presenceTimer?: Phaser.Time.TimerEvent;
 
         constructor() {
           super("mex-nex-living-hq-2d");
@@ -55,6 +73,18 @@ export function PhaserOfficeCanvas({ className }: Props) {
           this.world = this.add.container(0, 0);
           this.drawRoom();
           this.placeFurniture();
+          this.agentsLayer = this.add.container(0, 0);
+          this.world.add(this.agentsLayer);
+          this.presenceLabel = this.add.text(800, 710, "MENGHUBUNGKAN DATA AGENT…", {
+            fontFamily: "Arial, sans-serif", fontSize: "12px", fontStyle: "bold",
+            color: "#52665f", backgroundColor: "#f4ead8", padding: { x: 10, y: 6 },
+            letterSpacing: 1,
+          }).setOrigin(0.5);
+          this.world.add(this.presenceLabel);
+          this.refreshLiveAgents();
+          this.presenceTimer = this.time.addEvent({
+            delay: 8000, loop: true, callback: () => this.refreshLiveAgents(),
+          });
           this.setupCamera();
           this.setupInteraction();
           this.scale.on("resize", () => this.fitCamera());
@@ -166,6 +196,91 @@ export function PhaserOfficeCanvas({ className }: Props) {
             this.add.image(590,675,"plant").setScale(0.10).setDepth(675),
           ];
           this.world.add([whiteboard,coffee,...plants]);
+        }
+
+        /**
+         * B7: render only agents returned by the configured remote gateway.
+         * Local demo presence is intentionally excluded because its status is simulated.
+         */
+        private async refreshLiveAgents() {
+          try {
+            const response = await fetch("/api/office/presence?source=remote_gateway", {
+              cache: "no-store",
+              headers: { Accept: "application/json" },
+            });
+            if (!response.ok) throw new Error(`Presence API ${response.status}`);
+            const payload = (await response.json()) as { agents?: unknown };
+            const rawAgents = Array.isArray(payload.agents) ? payload.agents : [];
+            const agents: LiveAgent[] = rawAgents.flatMap((entry) => {
+              if (!entry || typeof entry !== "object") return [];
+              const value = entry as Record<string, unknown>;
+              if (typeof value.agentId !== "string" || !value.agentId.trim()) return [];
+              const state = value.state === "working" || value.state === "meeting" || value.state === "error"
+                ? value.state
+                : "idle";
+              return [{
+                agentId: value.agentId.trim(),
+                name: typeof value.name === "string" && value.name.trim() ? value.name.trim() : value.agentId.trim(),
+                state,
+              }];
+            });
+            const signature = JSON.stringify(agents);
+            if (signature !== this.lastPresenceSignature) {
+              this.lastPresenceSignature = signature;
+              this.renderLiveAgents(agents);
+            }
+            this.presenceLabel.setText(
+              agents.length > 0
+                ? `${agents.length} AGENT TERHUBUNG · STATUS DARI GATEWAY`
+                : "BELUM ADA AGENT DARI GATEWAY"
+            );
+            this.presenceLabel.setColor(agents.length > 0 ? "#426b55" : "#806c55");
+          } catch {
+            this.presenceLabel.setText("GATEWAY TIDAK TERHUBUNG · AVATAR TIDAK DITAMPILKAN");
+            this.presenceLabel.setColor("#a34f43");
+            if (this.lastPresenceSignature !== "offline") {
+              this.lastPresenceSignature = "offline";
+              this.renderLiveAgents([]);
+            }
+          }
+        }
+
+        private renderLiveAgents(agents: LiveAgent[]) {
+          this.agentsLayer.removeAll(true);
+          agents.slice(0, AGENT_STATIONS.length).forEach((agent, index) => {
+            const station = AGENT_STATIONS[index];
+            const actor = this.add.container(station.x, station.y - 38);
+            const sprite = this.add.image(0, 0, AGENT_SPRITES[index % AGENT_SPRITES.length])
+              .setScale(0.17)
+              .setOrigin(0.5, 0.82);
+            const name = this.add.text(0, -48, agent.name.slice(0, 18), {
+              fontFamily: "Arial, sans-serif", fontSize: "11px", fontStyle: "bold",
+              color: "#29454a", backgroundColor: "#fff8e9", padding: { x: 5, y: 3 },
+            }).setOrigin(0.5, 1);
+            const status = this.add.text(0, 9, STATE_LABEL[agent.state], {
+              fontFamily: "Arial, sans-serif", fontSize: "9px", fontStyle: "bold",
+              color: "#ffffff", backgroundColor: `#${STATE_COLOR[agent.state].toString(16).padStart(6, "0")}`,
+              padding: { x: 5, y: 3 },
+            }).setOrigin(0.5, 0);
+            actor.add([sprite, name, status]);
+            actor.setDepth(station.y + 10);
+            this.agentsLayer.add(actor);
+            this.tweens.add({
+              targets: sprite,
+              y: agent.state === "working" ? -2 : 2,
+              duration: agent.state === "working" ? 520 : 1100,
+              yoyo: true,
+              repeat: -1,
+              ease: "Sine.easeInOut",
+            });
+          });
+          if (agents.length > AGENT_STATIONS.length) {
+            const overflow = this.add.text(800, 680, `+${agents.length - AGENT_STATIONS.length} AGENT LAINNYA`, {
+              fontFamily: "Arial, sans-serif", fontSize: "10px", fontStyle: "bold",
+              color: "#52665f", backgroundColor: "#f4ead8", padding: { x: 7, y: 4 },
+            }).setOrigin(0.5);
+            this.agentsLayer.add(overflow);
+          }
         }
 
         private setupCamera() {
