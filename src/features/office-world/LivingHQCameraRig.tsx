@@ -20,7 +20,7 @@ export function LivingHQCameraRig({ config }: { config: OrthographicCameraConfig
 
   useFrame(() => {
     camera.position.lerp(targetPosition.current, 0.055);
-    camera.zoom = THREE.MathUtils.lerp(camera.zoom, targetZoom.current, 0.055);
+    // R3F camera animation is an intentional imperative render-loop update.\n    // eslint-disable-next-line react-hooks/immutability\n    camera.zoom = THREE.MathUtils.lerp(camera.zoom, targetZoom.current, 0.055);
     camera.updateProjectionMatrix();
     if ("lookAt" in camera) camera.lookAt(targetLookAt.current);
     const orbit = controls as { target?: THREE.Vector3; update?: () => void } | null;
