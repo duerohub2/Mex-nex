@@ -128,10 +128,11 @@ export type CameraPreset = Readonly<{
 /** Orthographic camera preset for a readable isometric building overview. */
 export const BUILDING_OVERVIEW_CAMERA: CameraPreset = Object.freeze({
   position: Object.freeze({ x: 34, y: 29, z: 34 }),
-  target: Object.freeze({ x: 0, y: 7, z: 0 }),
-  zoom: 24,
-  minZoom: 12,
-  maxZoom: 42,
+  target: Object.freeze({ x: 0, y: 7.5, z: 0 }),
+  // Portrait mobile screens need a much wider overview framing.
+  zoom: 6.5,
+  minZoom: 4,
+  maxZoom: 12,
 });
 
 /** Per-floor camera target; camera position is derived by the renderer. */
