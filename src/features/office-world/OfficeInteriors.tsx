@@ -163,6 +163,30 @@ function RooftopPool({ x, z, y }: { x: number; z: number; y: number }) {
 }
 
 
+function GlassPanel({ position, size, tint }: {
+  position: [number, number, number];
+  size: [number, number, number];
+  tint: string;
+}) {
+  return (
+    <mesh position={position} castShadow receiveShadow>
+      <boxGeometry args={size} />
+      <meshPhysicalMaterial
+        color={tint}
+        metalness={0.08}
+        roughness={0.12}
+        transmission={0.48}
+        thickness={0.08}
+        ior={1.46}
+        transparent
+        opacity={0.62}
+        depthWrite={false}
+        envMapIntensity={1.15}
+      />
+    </mesh>
+  );
+}
+
 function GlassRun({ x, z, y, length, axis = "x", height = 3.1, tint = "#9fcbd0" }: {
   x: number; z: number; y: number; length: number; axis?: "x" | "z"; height?: number; tint?: string;
 }) {
@@ -173,13 +197,50 @@ function GlassRun({ x, z, y, length, axis = "x", height = 3.1, tint = "#9fcbd0" 
   const postCount = Math.max(2, Math.floor(length / 2.4) + 1);
   return (
     <group>
-      <Block position={[x, y + height / 2, z]} size={panelSize} color={tint} opacity={0.24} />
+      <GlassPanel position={[x, y + height / 2, z]} size={panelSize} tint={tint} />
       <Block position={[x, y + 0.08, z]} size={alongX ? [length, 0.16, 0.2] : [0.2, 0.16, length]} color={C.metal} />
       <Block position={[x, y + height, z]} size={alongX ? [length, 0.12, 0.2] : [0.2, 0.12, length]} color={C.metal} />
       {Array.from({ length: postCount }, (_, i) => {
         const offset = -length / 2 + (length * i) / (postCount - 1);
         return <Block key={i} position={alongX ? [x + offset, y + height / 2, z] : [x, y + height / 2, z + offset]} size={[0.1, height + 0.08, 0.16]} color={C.metal} />;
       })}
+      {/* Slim vertical pull handles make the glass partitions read as real office doors. */}
+      <Block
+        position={alongX ? [x + length * 0.22, y + 1.45, z + 0.105] : [x + 0.105, y + 1.45, z + length * 0.22]}
+        size={alongX ? [0.055, 0.72, 0.055] : [0.055, 0.72, 0.055]}
+        color="#d7e0df"
+      />
+    </group>
+  );
+}
+
+function CeilingLight({ x, z, y, length = 4.2 }: { x: number; z: number; y: number; length?: number }) {
+  return (
+    <group position={[x, y + 3.45, z]}>
+      <Block position={[0, 0.08, 0]} size={[length, 0.08, 0.16]} color="#66747a" />
+      <mesh position={[0, 0.015, 0]} castShadow>
+        <boxGeometry args={[length - 0.18, 0.035, 0.12]} />
+        <meshStandardMaterial color="#fff4d9" emissive="#ffe6b5" emissiveIntensity={0.72} roughness={0.32} />
+      </mesh>
+      <Block position={[-length * 0.38, 0.22, 0]} size={[0.035, 0.28, 0.035]} color={C.metal} />
+      <Block position={[length * 0.38, 0.22, 0]} size={[0.035, 0.28, 0.035]} color={C.metal} />
+    </group>
+  );
+}
+
+function FloorInlays({ y }: { y: number }) {
+  return (
+    <group>
+      {/* Warm timber walkways and acoustic carpet zones distinguish the departments. */}
+      <Block position={[-10.8, y + 0.19, 0.5]} size={[10.6, 0.035, 22.8]} color="#9b7356" />
+      <Block position={[1.2, y + 0.19, 0.5]} size={[11.8, 0.035, 22.8]} color="#c6b39a" />
+      <Block position={[10.2, y + 0.19, -8.2]} size={[12.8, 0.04, 8.4]} color="#667c7a" />
+      <Block position={[-10.5, y + 0.2, -8.1]} size={[11.2, 0.04, 8.5]} color="#394354" />
+      <Block position={[-11.2, y + 0.23, 10.1]} size={[10.8, 0.045, 6.2]} color="#8a9b8d" />
+      <Block position={[10.8, y + 0.23, 10.1]} size={[10.5, 0.045, 6.2]} color="#d8c6a9" />
+      {[-15, -10, -5, 0, 5, 10, 15].map((x) => (
+        <Block key={x} position={[x, y + 0.215, -0.5]} size={[0.035, 0.012, 18.8]} color="#e8ded0" opacity={0.55} />
+      ))}
     </group>
   );
 }
@@ -261,6 +322,17 @@ function LevelInterior({ levelId, elevation }: { levelId: OfficeLevelId; elevati
   return (
     <group name={`interior:${levelId}`}>
       <FloorArchitecture levelId={levelId} y={y} />
+      {levelId === "floor-2" ? (
+        <>
+          <FloorInlays y={y} />
+          <CeilingLight x={-10} z={0} y={y} length={5.2} />
+          <CeilingLight x={0} z={0} y={y} length={5.2} />
+          <CeilingLight x={8} z={-7} y={y} length={4.4} />
+          <CeilingLight x={-11} z={-8} y={y} length={4.4} />
+          <CeilingLight x={-10} z={10} y={y} length={3.4} />
+          <CeilingLight x={10} z={10} y={y} length={3.4} />
+        </>
+      ) : null}
       <ElevatorAndStairs y={y} />
       {levelId === "basement" ? (
         <>
