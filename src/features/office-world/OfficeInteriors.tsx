@@ -262,15 +262,19 @@ function CeilingLight({ x, z, y, length = 4.2 }: { x: number; z: number; y: numb
 function FloorInlays({ y }: { y: number }) {
   return (
     <group>
-      {/* Warm timber walkways and acoustic carpet zones distinguish the departments. */}
-      <Block position={[-10.8, y + 0.19, 0.5]} size={[10.6, 0.035, 22.8]} color="#9b7356" />
-      <Block position={[1.2, y + 0.19, 0.5]} size={[11.8, 0.035, 22.8]} color="#c6b39a" />
-      <Block position={[10.2, y + 0.19, -8.2]} size={[12.8, 0.04, 8.4]} color="#667c7a" />
-      <Block position={[-10.5, y + 0.2, -8.1]} size={[11.2, 0.04, 8.5]} color="#394354" />
-      <Block position={[-11.2, y + 0.23, 10.1]} size={[10.8, 0.045, 6.2]} color="#8a9b8d" />
-      <Block position={[10.8, y + 0.23, 10.1]} size={[10.5, 0.045, 6.2]} color="#d8c6a9" />
-      {[-15, -10, -5, 0, 5, 10, 15].map((x) => (
-        <Block key={x} position={[x, y + 0.215, -0.5]} size={[0.035, 0.012, 18.8]} color="#e8ded0" opacity={0.55} />
+      {/* A complete interior floor treatment: warm circulation spine and distinct department carpets. */}
+      <Block position={[0, y + 0.19, 0]} size={[5.2, 0.055, 25.5]} color="#d7c8b5" />
+      <Block position={[-10.5, y + 0.2, -7.8]} size={[12.2, 0.07, 10.2]} color="#52636a" />
+      <Block position={[2.7, y + 0.2, -8]} size={[9.4, 0.07, 10]} color="#b8a18b" />
+      <Block position={[11.2, y + 0.2, -6.8]} size={[10.8, 0.07, 12.2]} color="#667f7a" />
+      <Block position={[-10.5, y + 0.2, 8.2]} size={[12.2, 0.07, 8.4]} color="#8d9c8d" />
+      <Block position={[10.5, y + 0.2, 8.2]} size={[12.2, 0.07, 8.4]} color="#d8c6a9" />
+      <Block position={[0, y + 0.24, 0]} size={[1.25, 0.025, 24]} color="#f3e6d4" />
+      {[-15, -10, -5, 5, 10, 15].map((x) => (
+        <Block key={x} position={[x, y + 0.24, 0]} size={[0.045, 0.018, 24]} color="#f1e8dc" opacity={0.48} />
+      ))}
+      {[-12, -4, 4, 12].map((z) => (
+        <Block key={z} position={[0, y + 0.245, z]} size={[33, 0.018, 0.045]} color="#f1e8dc" opacity={0.5} />
       ))}
     </group>
   );
@@ -307,10 +311,18 @@ function FloorArchitecture({ levelId, y }: { levelId: OfficeLevelId; y: number }
   if (levelId === "floor-2") {
     return (
       <group>
-        {/* Open-plan HQ: only short glass dividers define private rooms; the centre stays clear. */}
-        <GlassRun x={-12.5} z={-7.5} y={y} length={6.5} axis="z" height={2.5} />
-        <GlassRun x={9.5} z={-7.5} y={y} length={6.5} axis="z" height={2.5} />
-        <LowPartition x={0} z={-12.5} y={y} length={8} color="#d6c3ad" />
+        {/* Full interior redesign: framed department suites, acoustic walls and a clear central boulevard. */}
+        <LowPartition x={-10.8} z={-13.1} y={y} length={11.8} color="#394a52" />
+        <LowPartition x={-16.5} z={-7.8} y={y} length={10.2} axis="z" color="#394a52" />
+        <GlassRun x={-4.8} z={-8.1} y={y} length={9.5} axis="z" height={2.65} tint="#a9cbd0" />
+        <GlassRun x={-10.8} z={-2.9} y={y} length={11.5} height={2.65} tint="#a9cbd0" />
+        <LowPartition x={5.1} z={-13.1} y={y} length={10.5} color="#8c7059" />
+        <GlassRun x={5.1} z={-7.5} y={y} length={11.2} axis="z" height={2.75} tint="#b7d4d3" />
+        <GlassRun x={11.1} z={-1.8} y={y} length={8.5} height={2.75} tint="#b7d4d3" />
+        <LowPartition x={-10.8} z={3.7} y={y} length={11.8} color="#789087" />
+        <LowPartition x={10.8} z={3.7} y={y} length={11.8} color="#b28a66" />
+        <GlassRun x={-16.5} z={8.1} y={y} length={8.4} axis="z" height={2.2} tint="#b7d4d3" />
+        <GlassRun x={16.5} z={8.1} y={y} length={8.4} axis="z" height={2.2} tint="#b7d4d3" />
       </group>
     );
   }
@@ -388,46 +400,70 @@ function LevelInterior({ levelId, elevation }: { levelId: OfficeLevelId; elevati
         </>
       ) : levelId === "floor-2" ? (
         <>
-          {/* Engineering workstations in the open central bay */}
-          {[-8, -2, 4].map((x) => <Desk key={`work-a-${x}`} x={x} z={0.2} y={y} />)}
-          {[-8, -2, 4].map((x) => <Desk key={`work-b-${x}`} x={x} z={5.2} y={y} />)}
-          <DepartmentSign x={-1} z={-12} y={y} />
+          {/* ENGINEERING: six properly aligned workstations, dual rows, shared aisle. */}
+          {[-13, -8, -3].map((x) => <Desk key={`eng-a-${x}`} x={x} z={-5.4} y={y} />)}
+          {[-13, -8, -3].map((x) => <Desk key={`eng-b-${x}`} x={x} z={-0.4} y={y} />)}
+          <DepartmentSign x={-10.5} z={-12.4} y={y} labelColor="#5d9aa0" />
+          <WallDisplay x={-10.5} z={-13.55} y={y + 2.35} width={5.8} height={2.15} />
+          <Bookcase x={-16} z={-2.5} y={y} />
+          <Plant x={-16} z={-11} y={y} />
 
-          {/* Executive / meeting room at the back-right */}
-          <MeetingTable x={9} z={-8} y={y} seats={6} />
-          <Bookcase x={15} z={-12} y={y} />
-          <OfficeFurnitureModel model="tableCoffee" position={[14.8, y + 0.1, -4.2]} scale={1.7} />
-          <Plant x={16} z={-6} y={y} />
-          <WallDisplay x={7.2} z={-13.55} y={y + 2.55} width={4.8} height={2.55} />
-          <AcousticWallPanel x={15.4} z={-13.48} y={y + 2.3} width={2.1} height={2.7} />
+          {/* CREATIVE STUDIO: enclosed acoustic suite with editing desks and review screen. */}
+          <Desk x={-13.2} z={6.1} y={y} />
+          <Desk x={-8.2} z={6.1} y={y} />
+          <Desk x={-13.2} z={10.5} y={y} />
+          <WallDisplay x={-10.7} z={13.35} y={y + 2.2} width={5.5} height={2.0} rotationY={Math.PI} />
+          <AcousticWallPanel x={-16.7} z={7.5} y={y + 2.0} width={1.6} height={2.1} rotationY={Math.PI / 2} />
+          <AcousticWallPanel x={-5.2} z={7.5} y={y + 2.0} width={1.6} height={2.1} rotationY={Math.PI / 2} />
+          <DepartmentSign x={-10.5} z={4.2} y={y} labelColor="#b77b54" />
 
-          {/* Creative studio: compact paired desks with a single presentation wall. */}
-          <Desk x={-13.2} z={-7.4} y={y} />
-          <Desk x={-8.2} z={-7.4} y={y} />
-          <WallDisplay x={-11} z={-13.55} y={y + 2.45} width={4.6} height={2.2} />
-          <AcousticWallPanel x={-17.25} z={-7.2} y={y + 2.05} width={1.5} height={2.1} rotationY={Math.PI / 2} />
+          {/* EXECUTIVE MEETING: boardroom with eight seats, display and presentation wall. */}
+          <MeetingTable x={7.1} z={-8.2} y={y} seats={8} />
+          <WallDisplay x={7.1} z={-13.55} y={y + 2.45} width={5.2} height={2.3} />
+          <Bookcase x={15.2} z={-11.8} y={y} />
+          <Plant x={15.2} z={-5.2} y={y} />
+          <DepartmentSign x={7.1} z={-12.5} y={y} labelColor="#c78b55" />
 
-          {/* Lounge and reception at the front-left */}
-          <Sofa x={-12} z={10} y={y} color="#668b86" />
-          <OfficeFurnitureModel model="loungeDesignChair" position={[-7.2, y + 0.08, 10.2]} scale={2.5} rotationY={-Math.PI / 2} />
-          <OfficeFurnitureModel model="tableCoffee" position={[-10.2, y + 0.1, 10.1]} scale={2.2} />
-          <OfficeFurnitureModel model="lampRoundFloor" position={[-15.2, y, 8.2]} scale={2.6} />
+          {/* R&D LAB: server equipment, monitoring display and test bench. */}
+          <ServerRack x={14.1} z={0.2} y={y} />
+          <ServerRack x={14.1} z={3.1} y={y} />
+          <ServerRack x={10.8} z={0.2} y={y} />
+          <WallDisplay x={16.1} z={1.6} y={y + 2.35} width={3.2} height={1.8} rotationY={Math.PI / 2} />
+          <Desk x={7.3} z={1.0} y={y} />
+          <DepartmentSign x={11.2} z={-3.2} y={y} labelColor="#5b8b7d" />
 
-          {/* Pantry and informal collaboration at the front-right */}
-          <CoffeeStation x={12} z={10} y={y} />
-          <OfficeFurnitureModel model="tableRound" position={[6.5, y + 0.12, 10.4]} scale={2.1} />
-          <OfficeFurnitureModel model="chairModernCushion" position={[4.5, y + 0.08, 10.4]} scale={2.1} />
-          <OfficeFurnitureModel model="chairModernCushion" position={[8.5, y + 0.08, 10.4]} scale={2.1} rotationY={Math.PI} />
+          {/* LOUNGE: reception sofa, paired armchairs, coffee table and plants. */}
+          <Sofa x={5.8} z={8.4} y={y} color="#668b86" />
+          <OfficeFurnitureModel model="loungeDesignChair" position={[11.2, y + 0.08, 8.1]} scale={2.5} rotationY={-Math.PI / 2} />
+          <OfficeFurnitureModel model="loungeDesignChair" position={[11.2, y + 0.08, 11.1]} scale={2.5} rotationY={-Math.PI / 2} />
+          <OfficeFurnitureModel model="tableCoffee" position={[8.6, y + 0.1, 9.7]} scale={2.2} />
+          <OfficeFurnitureModel model="lampRoundFloor" position={[4.3, y, 11.2]} scale={2.6} />
+          <Plant x={14.8} z={12} y={y} />
+          <DepartmentSign x={8.6} z={5.0} y={y} labelColor="#78947b" />
 
-          {/* Technology / R&D nook with equipment and status wall. */}
-          <ServerRack x={14.5} z={0.4} y={y} />
-          <ServerRack x={14.5} z={3.2} y={y} />
-          <WallDisplay x={16.2} z={-0.4} y={y + 2.35} width={3.1} height={1.75} rotationY={Math.PI / 2} />
-          <Bookcase x={-16} z={-4.5} y={y} />
-          <Plant x={-16} z={-1} y={y} />
-          <Plant x={16} z={-1} y={y} />
+          {/* PANTRY: fitted kitchen wall, fridge, coffee bar and dining table. */}
+          <CoffeeStation x={-1.2} z={10.4} y={y} />
+          <OfficeFurnitureModel model="tableRound" position={[2.8, y + 0.12, 9.5]} scale={2.1} />
+          <OfficeFurnitureModel model="chairModernCushion" position={[0.4, y + 0.08, 9.5]} scale={2.0} />
+          <OfficeFurnitureModel model="chairModernCushion" position={[5.2, y + 0.08, 9.5]} scale={2.0} rotationY={Math.PI} />
+          <Plant x={-4.0} z={12} y={y} />
+          <DepartmentSign x={1.9} z={5.0} y={y} labelColor="#d19b59" />
+
+          {/* Shared central collaboration island; intentionally keeps the circulation spine open. */}
+          <OfficeFurnitureModel model="table" position={[0.1, y + 0.35, -1.0]} scale={[2.8, 1.2, 1.9]} />
+          <OfficeFurnitureModel model="chairModernCushion" position={[-1.8, y + 0.08, -1.0]} scale={1.8} />
+          <OfficeFurnitureModel model="chairModernCushion" position={[2.0, y + 0.08, -1.0]} scale={1.8} rotationY={Math.PI} />
+          <Plant x={-2.2} z={3.1} y={y} />
+          <Plant x={2.4} z={3.1} y={y} />
+
+          {/* Interior lighting grid and wall-mounted wayfinding. */}
+          <CeilingLight x={-10.5} z={-6.5} y={y} length={5.5} />
+          <CeilingLight x={-10.5} z={8.4} y={y} length={5.0} />
+          <CeilingLight x={7.5} z={-8.2} y={y} length={5.2} />
+          <CeilingLight x={11.2} z={1.2} y={y} length={4.2} />
+          <CeilingLight x={1.8} z={9.2} y={y} length={4.0} />
+          <CeilingLight x={0} z={-2.4} y={y} length={4.6} />
           <Plant x={-16} z={12} y={y} />
-          <Plant x={16} z={12} y={y} />
         </>
       ) : levelId === "floor-3" ? (
         <>
