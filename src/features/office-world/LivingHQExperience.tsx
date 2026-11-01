@@ -8,15 +8,6 @@ import { LivingHQEnvironment } from "@/features/office-world/LivingHQEnvironment
 import { OFFICE_LEVELS, type OfficeLevelId } from "@/lib/office-world/world";
 import { BUILDING_CAMERA_CONFIG, getFloorCameraConfig } from "@/lib/office-world/renderer";
 
-function HeadquartersScene({ visibleLevels }: { visibleLevels: readonly OfficeLevelId[] }) {
-  return (
-    <group scale={1.15}>
-      <OfficeBuilding visibleLevels={visibleLevels} interiorMode />
-      <OfficeInteriors visibleLevels={visibleLevels} />
-    </group>
-  );
-}
-
 const LEVEL_COLORS: Record<OfficeLevelId, string> = {
   basement: "bg-slate-700 text-white",
   "floor-1": "bg-amber-600 text-white",
@@ -28,7 +19,7 @@ const LEVEL_COLORS: Record<OfficeLevelId, string> = {
 
 export function LivingHQExperience() {
   const [selectedLevel, setSelectedLevel] = useState<OfficeLevelId | null>(null);
-  const visibleLevels = useMemo(
+  const visibleLevels = useMemo<readonly OfficeLevelId[]>(
     () => (selectedLevel ? [selectedLevel] : OFFICE_LEVELS.map((level) => level.id)),
     [selectedLevel],
   );
@@ -66,10 +57,15 @@ export function LivingHQExperience() {
       </nav>
 
       <section className="relative min-h-0 flex-1 overflow-hidden">
-        <OfficeWorldCanvas camera={camera} className="h-full min-h-[420px] w-full">
-          <LivingHQEnvironment />
-          <HeadquartersScene visibleLevels={visibleLevels} />
-        </OfficeWorldCanvas>
+        <OfficeWorldCanvas
+          camera={camera}
+          className="h-full min-h-[420px] w-full"
+          scene={{
+            environment: <LivingHQEnvironment />,
+            "building-shell": <group scale={1.15}><OfficeBuilding visibleLevels={visibleLevels} interiorMode /></group>,
+            interiors: <group scale={1.15}><OfficeInteriors visibleLevels={visibleLevels} /></group>,
+          }}
+        />
         <div className="pointer-events-none absolute inset-0">
           <div className="absolute bottom-3 left-3 max-w-[min(92%,560px)] rounded-xl border border-white/70 bg-[#fff8e9]/95 px-3 py-2 shadow-lg backdrop-blur-sm">
             <p className="text-[10px] font-extrabold uppercase tracking-[0.16em] text-[#b96d42]">
@@ -79,12 +75,11 @@ export function LivingHQExperience() {
               {selectedLevel ? "Jelajahi interior lantai ini dengan geser dan zoom." : "Pilih salah satu lantai untuk melihat interior secara dekat."}
             </p>
           </div>
+          <div className="absolute right-3 top-3 rounded-lg border border-white/70 bg-[#fff8e9]/95 px-3 py-2 text-[10px] font-semibold text-[#405b52] shadow-lg sm:text-xs">
+            Geser untuk menjelajah · Scroll untuk zoom
+          </div>
         </div>
       </section>
-      <div className="hidden">
-        <OfficeBuilding visibleLevels={visibleLevels} interiorMode />
-        <OfficeInteriors visibleLevels={visibleLevels} />
-      </div>
     </main>
   );
 }
