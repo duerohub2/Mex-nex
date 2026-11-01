@@ -104,7 +104,7 @@ Jalur ini adalah fondasi aplikasi yang sudah ada. Checklist detail dan histori t
 
 - B1: **Selesai** — visual reference library dan keputusan visual disetujui.
 - B2: **Dokumen dan keputusan arsitektur selesai; validasi teknis sebagian lulus** — GDD, TDD, model data, API/event contract, implementation plan, source audit, dan quality workflow tersedia. Build production Vercel lulus untuk commit 51896b5; test/lint/E2E/storage durability masih menunggu bukti.
-- B3: **Implementasi kontrak awal** — world model renderer-agnostic telah ditambahkan: koordinat meter, enam level, bounds, kamera overview isometrik, scene layers, dan manifest aset per lantai. Unit test ditambahkan tetapi belum dijalankan. Lighting renderer, integrasi scene, CI, dan uji iPhone belum tervalidasi; tahap belum selesai.\n- B4–B14: **Belum dimulai**.
+- B3: **SELESAI** — world model enam level, kamera orthographic/isometrik, lighting config, scene graph, reusable R3F canvas shell, fallback WebGL, 10 unit tests, lint, dan production build tervalidasi. Full suite masih memiliki 3 kegagalan onboarding yang tidak terkait; typecheck penuh masih memiliki error di dua test lama. Profiling iPhone ditetapkan untuk B14.\n- B4–B14: **Belum dimulai**.
 - Deployment Vercel untuk commit `f0f861bc81aca3691bff59bde38846901f5dda18`: status **READY**; SSO protection masih aktif untuk deployment non-custom-domain. Status READY bukan bukti seluruh fitur telah diuji.
 - Penyimpanan kantor dan sesi AI yang diaudit saat ini berupa file JSON lokal. Migrasi production storage belum dilakukan.
 
@@ -116,5 +116,5 @@ Jalur ini adalah fondasi aplikasi yang sudah ada. Checklist detail dan histori t
 - [Kontrak API dan event](MEX-NEX-API-EVENT-CONTRACT.md)
 - [Rencana Tahap 2](TAHAP-2-IMPLEMENTATION-PLAN.md)
 - [Audit source awal](TAHAP-2-AUDIT-SOURCE-AWAL.md)
-- [Fondasi 3D Tahap 3](TAHAP-3-FONDASI-3D-WORLD-MODEL.md)\n- [Referensi visual Tahap 1](visual-reference-library/TAHAP-1-REFERENSI-VISUAL.md)
+- [Fondasi 3D Tahap 3](TAHAP-3-FONDASI-3D-WORLD-MODEL.md)\n- [Renderer Living HQ](../src/features/office-world/OfficeWorldCanvas.tsx)\n- [Referensi visual Tahap 1](visual-reference-library/TAHAP-1-REFERENSI-VISUAL.md)
 - [Roadmap fondasi](roadmap.md)
