@@ -2,6 +2,10 @@
 
 MEX-NEX adalah ekosistem kantor virtual AI Agent yang menggabungkan fondasi aplikasi lokal, backend kantor, dan antarmuka kantor virtual 2D/3D. Proyek dapat dikembangkan dari komputer maupun Android melalui Termux, dengan batasan performa perangkat.
 
+## Roadmap utama
+
+Roadmap pengembangan menyeluruh MEX-NEX Living Headquarters (14 tahap), status, dependensi, risiko, dan kriteria selesai tersedia di [Roadmap Utama MEX-NEX](docs/ROADMAP-UTAMA-MEX-NEX.md). Roadmap fondasi historis Tahap 1–7 tetap tersedia di [docs/roadmap.md](docs/roadmap.md).
+
 ## Isi repositori
 
 - app/ — aplikasi dan fondasi kantor MEX-NEX.
