@@ -1,18 +1,19 @@
 # Aset Karakter MEX-NEX
 
-Folder ini adalah lokasi aset karakter yang siap diakses oleh aplikasi Next.js dari URL `/office-assets/characters/`.
+## Versi aktif: `v2-transparent`
 
-## Struktur
+Batch PNG terbaru dari Google Flow sudah ditempatkan pada folder publik Next.js. File PNG menggunakan alpha transparency, sehingga bisa dipakai langsung sebagai sprite tanpa penghapusan latar saat runtime.
 
-- `agents/base/`: 20 gambar karakter Agent untuk sprite berdiri.
-- `personal/avatar-owner.jpg`: avatar pribadi pemilik MEX-NEX.
-- `reference-sheets/`: 21 lembar referensi arah karakter.
-- `manifest.json`: indeks aset dan jalur file.
+### Struktur
+- `v2-transparent/agents/`: 20 karakter Agent.
+- `v2-transparent/personal/avatar-owner.png`: avatar pribadi pemilik MEX-NEX.
+- `v2-transparent/pose-sheets/`: dua lembar pose referensi (contoh Agent dan avatar pemilik).
+- `v2-transparent/activity-sheets/`: dua lembar aktivitas referensi.
+- `v2-transparent/reference-sheets/`: lembar referensi arah karakter unik.
+- `v2-transparent/extras/`: karakter alternatif dan referensi visual kantor.
 
-## Catatan integrasi
-
-1. File sumber asli tetap disimpan utuh di `assets/branding/` sebagai arsip upload.
-2. Gambar sumber berbentuk JPG. Pola kotak-kotak pada sebagian gambar tercetak sebagai piksel latar dan bukan transparansi alpha.
-3. Renderer perlu melakukan penghapusan latar berbasis warna yang terhubung ke tepi gambar sebelum memakai gambar sebagai sprite.
-4. Reference sheet dipakai sebagai dokumentasi visual; jangan dirender langsung sebagai sprite di kantor.
-5. Activity sheet belum menjadi file terpisah dalam batch upload ini. Aset aktivitas dapat ditambahkan setelah tersedia di repository.
+### Catatan
+1. Semua upload sumber di folder `assets/` dipertahankan utuh.
+2. Aset JPG generasi lama tetap tersedia sebagai arsip v1.
+3. Character sheet dan activity sheet tetap disimpan utuh. Pemisahan panel menjadi sprite individual dilakukan pada pipeline atlas/animasi berikutnya.
+4. Preview menggunakan PNG transparan terbaru. Route utama `/office` tidak diubah.

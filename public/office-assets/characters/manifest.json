@@ -1,309 +1,335 @@
 {
-  "version": 1,
-  "title": "MEX-NEX Character Assets",
-  "style": "2D pixel art; Indonesian office characters with varied batik clothing",
+  "schemaVersion": 2,
+  "activeSet": "v2-transparent",
   "notes": [
-    "Files under assets/branding remain as the untouched upload archive.",
-    "JPG preview images may have checkerboard backgrounds baked into the pixels; do not assume they contain alpha transparency.",
-    "Use agents/base for in-office standing sprites. Reference sheets are design references, not runtime sprites.",
-    "Activity sheets are not included in this upload batch yet."
+    "The current PNG files use RGBA alpha transparency.",
+    "All source uploads in /assets remain unchanged.",
+    "Previous JPG files remain available as legacy v1 references.",
+    "Pose and activity sheets are full-sheet references and have not been split into individual animation frames."
   ],
-  "personalAvatar": {
-    "id": "owner-avatar",
-    "label": "Avatar Pemilik MEX-NEX",
-    "src": "/office-assets/characters/personal/avatar-owner.jpg",
-    "source": "assets/branding/Male_pixel_art_avatar_character_e9294e43_2K.jpg",
-    "format": "jpg",
-    "background": "review-needed"
-  },
   "agents": [
     {
       "id": "agent-01-analyst",
-      "label": "analyst",
-      "src": "/office-assets/characters/agents/base/agent-01-analyst.jpg",
-      "source": "assets/branding/Analyst_character_pixel_art_stan…_7ec0673e.jpg",
-      "format": "jpg",
-      "background": "review-needed"
+      "name": "ANALYST",
+      "role": "Research",
+      "src": "/office-assets/characters/v2-transparent/agents/agent-01-analyst.png",
+      "source": "assets/Analyst_character_pixel_art_stan__7ec0673e-removebg-preview.png",
+      "recommendedInitialActivity": "idle",
+      "anchor": "bottom-center"
     },
     {
       "id": "agent-02-office-admin",
-      "label": "office admin",
-      "src": "/office-assets/characters/agents/base/agent-02-office-admin.jpg",
-      "source": "assets/branding/Character_standing_in_virtual_of…_0763bfc9_2K.jpg",
-      "format": "jpg",
-      "background": "review-needed"
+      "name": "ADMIN",
+      "role": "Office Administration",
+      "src": "/office-assets/characters/v2-transparent/agents/agent-02-office-admin.png",
+      "source": "assets/Character_standing_in_virtual_of__0763bfc9_2K-removebg-preview.png",
+      "recommendedInitialActivity": "idle",
+      "anchor": "bottom-center"
     },
     {
       "id": "agent-03-designer",
-      "label": "designer",
-      "src": "/office-assets/characters/agents/base/agent-03-designer.jpg",
-      "source": "assets/branding/Designer_character_standing_neut…_a8d7c842_2K.jpg",
-      "format": "jpg",
-      "background": "review-needed"
+      "name": "DESIGNER",
+      "role": "Design",
+      "src": "/office-assets/characters/v2-transparent/agents/agent-03-designer.png",
+      "source": "assets/Designer_character_standing_neut__a8d7c842_2K-removebg-preview.png",
+      "recommendedInitialActivity": "idle",
+      "anchor": "bottom-center"
     },
     {
       "id": "agent-04-it-support",
-      "label": "it support",
-      "src": "/office-assets/characters/agents/base/agent-04-it-support.jpg",
-      "source": "assets/branding/IT_support_employee_character_de…_dd60fc86_2K.jpg",
-      "format": "jpg",
-      "background": "review-needed"
+      "name": "IT SUPPORT",
+      "role": "IT Support",
+      "src": "/office-assets/characters/v2-transparent/agents/agent-04-it-support.png",
+      "source": "assets/IT_support_employee_character_de__dd60fc86_2K-removebg-preview.png",
+      "recommendedInitialActivity": "idle",
+      "anchor": "bottom-center"
     },
     {
       "id": "agent-05-general-staff",
-      "label": "general staff",
-      "src": "/office-assets/characters/agents/base/agent-05-general-staff.jpg",
-      "source": "assets/branding/Male_office_employee_pixel_chara…_18602d36.jpg",
-      "format": "jpg",
-      "background": "review-needed"
+      "name": "STAFF",
+      "role": "General Office",
+      "src": "/office-assets/characters/v2-transparent/agents/agent-05-general-staff.png",
+      "source": "assets/Male_office_employee_pixel_chara__18602d36-removebg-preview.png",
+      "recommendedInitialActivity": "idle",
+      "anchor": "bottom-center"
     },
     {
       "id": "agent-06-technical-specialist",
-      "label": "technical specialist",
-      "src": "/office-assets/characters/agents/base/agent-06-technical-specialist.jpg",
-      "source": "assets/branding/Man_creating_game_character_design_8610232c_2K.jpg",
-      "format": "jpg",
-      "background": "review-needed"
+      "name": "TECH",
+      "role": "Technical Specialist",
+      "src": "/office-assets/characters/v2-transparent/agents/agent-06-technical-specialist.png",
+      "source": "assets/Man_creating_game_character_design_8610232c_2K-removebg-preview.png",
+      "recommendedInitialActivity": "idle",
+      "anchor": "bottom-center"
     },
     {
       "id": "agent-07-engineering",
-      "label": "engineering",
-      "src": "/office-assets/characters/agents/base/agent-07-engineering.jpg",
-      "source": "assets/branding/Man_designing_virtual_character_b770566d_2K.jpg",
-      "format": "jpg",
-      "background": "review-needed"
+      "name": "ENGINEER",
+      "role": "Engineering",
+      "src": "/office-assets/characters/v2-transparent/agents/agent-07-engineering.png",
+      "source": "assets/Man_designing_virtual_character_b770566d_2K-removebg-preview.png",
+      "recommendedInitialActivity": "idle",
+      "anchor": "bottom-center"
     },
     {
       "id": "agent-08-operations",
-      "label": "operations",
-      "src": "/office-assets/characters/agents/base/agent-08-operations.jpg",
-      "source": "assets/branding/Man_in_batik_shirt_standing_e6e94d26.jpg",
-      "format": "jpg",
-      "background": "review-needed"
+      "name": "OPERATIONS",
+      "role": "Operations",
+      "src": "/office-assets/characters/v2-transparent/agents/agent-08-operations.png",
+      "source": "assets/Man_in_batik_shirt_standing_e6e94d26-removebg-preview.png",
+      "recommendedInitialActivity": "idle",
+      "anchor": "bottom-center"
     },
     {
       "id": "agent-09-engineering-assistant",
-      "label": "engineering assistant",
-      "src": "/office-assets/characters/agents/base/agent-09-engineering-assistant.jpg",
-      "source": "assets/branding/Man_standing_in_batik_shirt_bda47860.jpg",
-      "format": "jpg",
-      "background": "review-needed"
+      "name": "DEV OPS",
+      "role": "Engineering Support",
+      "src": "/office-assets/characters/v2-transparent/agents/agent-09-engineering-assistant.png",
+      "source": "assets/Man_standing_in_batik_shirt_bda47860-removebg-preview.png",
+      "recommendedInitialActivity": "idle",
+      "anchor": "bottom-center"
     },
     {
       "id": "agent-10-finance",
-      "label": "finance",
-      "src": "/office-assets/characters/agents/base/agent-10-finance.jpg",
-      "source": "assets/branding/Man_wearing_batik_shirt_standing_6f119ac7_2K.jpg",
-      "format": "jpg",
-      "background": "review-needed"
+      "name": "FINANCE",
+      "role": "Finance",
+      "src": "/office-assets/characters/v2-transparent/agents/agent-10-finance.png",
+      "source": "assets/Man_wearing_batik_shirt_standing_6f119ac7_2K-removebg-preview.png",
+      "recommendedInitialActivity": "idle",
+      "anchor": "bottom-center"
     },
     {
       "id": "agent-11-compliance",
-      "label": "compliance",
-      "src": "/office-assets/characters/agents/base/agent-11-compliance.jpg",
-      "source": "assets/branding/Man_wearing_batik_shirt_standing_e6cd0770.jpg",
-      "format": "jpg",
-      "background": "review-needed"
+      "name": "COMPLIANCE",
+      "role": "Compliance",
+      "src": "/office-assets/characters/v2-transparent/agents/agent-11-compliance.png",
+      "source": "assets/Man_wearing_batik_shirt_standing_e6cd0770-removebg-preview.png",
+      "recommendedInitialActivity": "idle",
+      "anchor": "bottom-center"
     },
     {
       "id": "agent-12-office-worker",
-      "label": "office worker",
-      "src": "/office-assets/characters/agents/base/agent-12-office-worker.jpg",
-      "source": "assets/branding/Office_worker_character_design_f5896400.jpg",
-      "format": "jpg",
-      "background": "review-needed"
+      "name": "OFFICE OPS",
+      "role": "Office Operations",
+      "src": "/office-assets/characters/v2-transparent/agents/agent-12-office-worker.png",
+      "source": "assets/Office_worker_character_design_f5896400-removebg-preview.png",
+      "recommendedInitialActivity": "idle",
+      "anchor": "bottom-center"
     },
     {
       "id": "agent-13-compliance-specialist",
-      "label": "compliance specialist",
-      "src": "/office-assets/characters/agents/base/agent-13-compliance-specialist.jpg",
-      "source": "assets/branding/Pixel_art_compliance_employee_ch…_049caa92_2K.jpg",
-      "format": "jpg",
-      "background": "review-needed"
+      "name": "QA",
+      "role": "Quality Assurance",
+      "src": "/office-assets/characters/v2-transparent/agents/agent-13-compliance-specialist.png",
+      "source": "assets/Pixel_art_compliance_employee_ch__049caa92_2K-removebg-preview.png",
+      "recommendedInitialActivity": "idle",
+      "anchor": "bottom-center"
     },
     {
       "id": "agent-14-employee",
-      "label": "employee",
-      "src": "/office-assets/characters/agents/base/agent-14-employee.jpg",
-      "source": "assets/branding/Pixel_art_employee_character_design_ab3c6c34_2K.jpg",
-      "format": "jpg",
-      "background": "review-needed"
+      "name": "AGENT 14",
+      "role": "Team Member",
+      "src": "/office-assets/characters/v2-transparent/agents/agent-14-employee.png",
+      "source": "assets/Pixel_art_employee_character_design_ab3c6c34_2K-removebg-preview.png",
+      "recommendedInitialActivity": "idle",
+      "anchor": "bottom-center"
     },
     {
       "id": "agent-15-marketing",
-      "label": "marketing",
-      "src": "/office-assets/characters/agents/base/agent-15-marketing.jpg",
-      "source": "assets/branding/Pixel_art_marketing_employee_131f1675_2K.jpg",
-      "format": "jpg",
-      "background": "review-needed"
+      "name": "MARKETING",
+      "role": "Marketing",
+      "src": "/office-assets/characters/v2-transparent/agents/agent-15-marketing.png",
+      "source": "assets/Pixel_art_marketing_employee_131f1675_2K-removebg-preview.png",
+      "recommendedInitialActivity": "idle",
+      "anchor": "bottom-center"
     },
     {
       "id": "agent-16-manager",
-      "label": "manager",
-      "src": "/office-assets/characters/agents/base/agent-16-manager.jpg",
-      "source": "assets/branding/Pixel_art_office_manager_character_735d4a9b.jpg",
-      "format": "jpg",
-      "background": "review-needed"
+      "name": "MANAGER",
+      "role": "Management",
+      "src": "/office-assets/characters/v2-transparent/agents/agent-16-manager.png",
+      "source": "assets/Pixel_art_office_manager_character_735d4a9b-removebg-preview.png",
+      "recommendedInitialActivity": "idle",
+      "anchor": "bottom-center"
     },
     {
       "id": "agent-17-receptionist",
-      "label": "receptionist",
-      "src": "/office-assets/characters/agents/base/agent-17-receptionist.jpg",
-      "source": "assets/branding/Pixel_receptionist_character_sta…_14dae9a4_2K.jpg",
-      "format": "jpg",
-      "background": "review-needed"
+      "name": "RECEPTION",
+      "role": "Reception",
+      "src": "/office-assets/characters/v2-transparent/agents/agent-17-receptionist.png",
+      "source": "assets/Pixel_receptionist_character_sta__14dae9a4_2K-removebg-preview.png",
+      "recommendedInitialActivity": "idle",
+      "anchor": "bottom-center"
     },
     {
       "id": "agent-18-documentation",
-      "label": "documentation",
-      "src": "/office-assets/characters/agents/base/agent-18-documentation.jpg",
-      "source": "assets/branding/Woman_creating_documentation_pix…_89e6ade0_2K.jpg",
-      "format": "jpg",
-      "background": "review-needed"
+      "name": "DOCS",
+      "role": "Documentation",
+      "src": "/office-assets/characters/v2-transparent/agents/agent-18-documentation.png",
+      "source": "assets/Woman_creating_documentation_pix__89e6ade0_2K-removebg-preview.png",
+      "recommendedInitialActivity": "idle",
+      "anchor": "bottom-center"
     },
     {
       "id": "agent-19-creative",
-      "label": "creative",
-      "src": "/office-assets/characters/agents/base/agent-19-creative.jpg",
-      "source": "assets/branding/Woman_creating_pixel_art_character_0f9a041a.jpg",
-      "format": "jpg",
-      "background": "review-needed"
+      "name": "CREATIVE",
+      "role": "Creative",
+      "src": "/office-assets/characters/v2-transparent/agents/agent-19-creative.png",
+      "source": "assets/Woman_creating_pixel_art_character_0f9a041a-removebg-preview.png",
+      "recommendedInitialActivity": "idle",
+      "anchor": "bottom-center"
     },
     {
       "id": "agent-20-product-design",
-      "label": "product design",
-      "src": "/office-assets/characters/agents/base/agent-20-product-design.jpg",
-      "source": "assets/branding/Woman_designing_pixel_art_character_efa0da5b_2K.jpg",
-      "format": "jpg",
-      "background": "review-needed"
+      "name": "PRODUCT",
+      "role": "Product Design",
+      "src": "/office-assets/characters/v2-transparent/agents/agent-20-product-design.png",
+      "source": "assets/Woman_designing_pixel_art_character_efa0da5b_2K-removebg-preview.png",
+      "recommendedInitialActivity": "idle",
+      "anchor": "bottom-center"
+    }
+  ],
+  "ownerAvatar": {
+    "id": "owner-avatar",
+    "name": "DUERO",
+    "role": "Pemilik MEX-NEX",
+    "src": "/office-assets/characters/v2-transparent/personal/avatar-owner.png",
+    "source": "assets/Male_pixel_art_avatar_character_e9294e43_2K-removebg-preview.png",
+    "anchor": "bottom-center"
+  },
+  "poseSheets": [
+    {
+      "id": "agent-sample",
+      "src": "/office-assets/characters/v2-transparent/pose-sheets/agent-sample.png",
+      "source": "assets/Character_pose_sheet_creation_a2b70951-removebg-preview.png"
+    },
+    {
+      "id": "owner-avatar",
+      "src": "/office-assets/characters/v2-transparent/pose-sheets/owner-avatar.png",
+      "source": "assets/Creating_character_pose_sheet_765106b2_2K-removebg-preview.png"
+    }
+  ],
+  "activitySheets": [
+    {
+      "id": "agent-sample",
+      "src": "/office-assets/characters/v2-transparent/activity-sheets/agent-sample.png",
+      "source": "assets/Character_pixel_art_activity_sheet_1433757d-removebg-preview.png"
+    },
+    {
+      "id": "owner-avatar",
+      "src": "/office-assets/characters/v2-transparent/activity-sheets/owner-avatar.png",
+      "source": "assets/Creating_pixel_art_activity_sheet_0849f941_2K-removebg-preview.png"
     }
   ],
   "referenceSheets": [
     {
       "id": "reference-01",
-      "src": "/office-assets/characters/reference-sheets/reference-01.jpg",
-      "source": "assets/branding/Character_sheet_front_and_back_d2aed19a.jpg",
-      "format": "jpg"
+      "src": "/office-assets/characters/v2-transparent/reference-sheets/reference-01.png",
+      "source": "assets/Character_sheet_front_views_26ac5b93-removebg-preview.png"
     },
     {
       "id": "reference-02",
-      "src": "/office-assets/characters/reference-sheets/reference-02.jpg",
-      "source": "assets/branding/Character_sheet_front_views_26ac5b93.jpg",
-      "format": "jpg"
+      "src": "/office-assets/characters/v2-transparent/reference-sheets/reference-02.png",
+      "source": "assets/Character_sheet_front_views_f188399a-removebg-preview.png"
     },
     {
       "id": "reference-03",
-      "src": "/office-assets/characters/reference-sheets/reference-03.jpg",
-      "source": "assets/branding/Character_sheet_front_views_f188399a.jpg",
-      "format": "jpg"
+      "src": "/office-assets/characters/v2-transparent/reference-sheets/reference-03.png",
+      "source": "assets/Character_sheet_multi-angle_views_85f2041b-removebg-preview.png"
     },
     {
       "id": "reference-04",
-      "src": "/office-assets/characters/reference-sheets/reference-04.jpg",
-      "source": "assets/branding/Character_sheet_multi-angle_views_85f2041b.jpg",
-      "format": "jpg"
+      "src": "/office-assets/characters/v2-transparent/reference-sheets/reference-04.png",
+      "source": "assets/Character_sheet_multiple_angles_05d681b9-removebg-preview.png"
     },
     {
       "id": "reference-05",
-      "src": "/office-assets/characters/reference-sheets/reference-05.jpg",
-      "source": "assets/branding/Character_sheet_multiple_angles_05d681b9.jpg",
-      "format": "jpg"
+      "src": "/office-assets/characters/v2-transparent/reference-sheets/reference-05.png",
+      "source": "assets/Character_sheet_multiple_angles_2b13dee5-removebg-preview.png"
     },
     {
       "id": "reference-06",
-      "src": "/office-assets/characters/reference-sheets/reference-06.jpg",
-      "source": "assets/branding/Character_sheet_multiple_angles_2b13dee5.jpg",
-      "format": "jpg"
+      "src": "/office-assets/characters/v2-transparent/reference-sheets/reference-06.png",
+      "source": "assets/Character_sheet_multiple_angles_3ff74b0c-removebg-preview (1).png"
     },
     {
       "id": "reference-07",
-      "src": "/office-assets/characters/reference-sheets/reference-07.jpg",
-      "source": "assets/branding/Character_sheet_multiple_angles_3ff74b0c.jpg",
-      "format": "jpg"
+      "src": "/office-assets/characters/v2-transparent/reference-sheets/reference-07.png",
+      "source": "assets/Character_sheet_multiple_angles_98d7f730-removebg-preview.png"
     },
     {
       "id": "reference-08",
-      "src": "/office-assets/characters/reference-sheets/reference-08.jpg",
-      "source": "assets/branding/Character_sheet_multiple_angles_98d7f730.jpg",
-      "format": "jpg"
+      "src": "/office-assets/characters/v2-transparent/reference-sheets/reference-08.png",
+      "source": "assets/Character_sheet_multiple_views_1922a30d_2K-removebg-preview.png"
     },
     {
       "id": "reference-09",
-      "src": "/office-assets/characters/reference-sheets/reference-09.jpg",
-      "source": "assets/branding/Character_sheet_multiple_views_1922a30d_2K.jpg",
-      "format": "jpg"
+      "src": "/office-assets/characters/v2-transparent/reference-sheets/reference-09.png",
+      "source": "assets/Character_sheet_multiple_views_4a783b37-removebg-preview.png"
     },
     {
       "id": "reference-10",
-      "src": "/office-assets/characters/reference-sheets/reference-10.jpg",
-      "source": "assets/branding/Character_sheet_multiple_views_4a783b37.jpg",
-      "format": "jpg"
+      "src": "/office-assets/characters/v2-transparent/reference-sheets/reference-10.png",
+      "source": "assets/Character_sheet_multiple_views_72160146-removebg-preview.png"
     },
     {
       "id": "reference-11",
-      "src": "/office-assets/characters/reference-sheets/reference-11.jpg",
-      "source": "assets/branding/Character_sheet_multiple_views_72160146.jpg",
-      "format": "jpg"
+      "src": "/office-assets/characters/v2-transparent/reference-sheets/reference-11.png",
+      "source": "assets/Character_sheet_views_16f25a10-removebg-preview.png"
     },
     {
       "id": "reference-12",
-      "src": "/office-assets/characters/reference-sheets/reference-12.jpg",
-      "source": "assets/branding/Character_sheet_multiple_views_e259a6de.jpg",
-      "format": "jpg"
+      "src": "/office-assets/characters/v2-transparent/reference-sheets/reference-12.png",
+      "source": "assets/Character_sheet_views_2b775ce1-removebg-preview.png"
     },
     {
       "id": "reference-13",
-      "src": "/office-assets/characters/reference-sheets/reference-13.jpg",
-      "source": "assets/branding/Character_sheet_views_16f25a10.jpg",
-      "format": "jpg"
+      "src": "/office-assets/characters/v2-transparent/reference-sheets/reference-13.png",
+      "source": "assets/Character_sheet_views_50a4cd72-removebg-preview.png"
     },
     {
       "id": "reference-14",
-      "src": "/office-assets/characters/reference-sheets/reference-14.jpg",
-      "source": "assets/branding/Character_sheet_views_2b775ce1.jpg",
-      "format": "jpg"
+      "src": "/office-assets/characters/v2-transparent/reference-sheets/reference-14.png",
+      "source": "assets/Character_sheet_views_6d897683-removebg-preview.png"
     },
     {
       "id": "reference-15",
-      "src": "/office-assets/characters/reference-sheets/reference-15.jpg",
-      "source": "assets/branding/Character_sheet_views_50a4cd72.jpg",
-      "format": "jpg"
+      "src": "/office-assets/characters/v2-transparent/reference-sheets/reference-15.png",
+      "source": "assets/Character_sheet_views_863e0f4f-removebg-preview.png"
     },
     {
       "id": "reference-16",
-      "src": "/office-assets/characters/reference-sheets/reference-16.jpg",
-      "source": "assets/branding/Character_sheet_views_6d897683.jpg",
-      "format": "jpg"
+      "src": "/office-assets/characters/v2-transparent/reference-sheets/reference-16.png",
+      "source": "assets/Character_sheet_views_86cfbaa5-removebg-preview.png"
     },
     {
       "id": "reference-17",
-      "src": "/office-assets/characters/reference-sheets/reference-17.jpg",
-      "source": "assets/branding/Character_sheet_views_863e0f4f.jpg",
-      "format": "jpg"
+      "src": "/office-assets/characters/v2-transparent/reference-sheets/reference-17.png",
+      "source": "assets/Character_sheet_views_ae8301d9-removebg-preview.png"
     },
     {
       "id": "reference-18",
-      "src": "/office-assets/characters/reference-sheets/reference-18.jpg",
-      "source": "assets/branding/Character_sheet_views_86cfbaa5.jpg",
-      "format": "jpg"
+      "src": "/office-assets/characters/v2-transparent/reference-sheets/reference-18.png",
+      "source": "assets/Character_sheet_views_e785c3fe-removebg-preview.png"
     },
     {
       "id": "reference-19",
-      "src": "/office-assets/characters/reference-sheets/reference-19.jpg",
-      "source": "assets/branding/Character_sheet_views_ae8301d9.jpg",
-      "format": "jpg"
+      "src": "/office-assets/characters/v2-transparent/reference-sheets/reference-19.png",
+      "source": "assets/Character_sheet_views_rotation_f992677f-removebg-preview.png"
+    }
+  ],
+  "extras": [
+    {
+      "id": "office-boss-alt",
+      "src": "/office-assets/characters/v2-transparent/extras/office-boss-alt.png",
+      "source": "assets/Pixel_art_office_boss_character_e482e397_2K-removebg-preview.png",
+      "usage": "alternative character reference, not enabled in preview"
     },
     {
-      "id": "reference-20",
-      "src": "/office-assets/characters/reference-sheets/reference-20.jpg",
-      "source": "assets/branding/Character_sheet_views_e785c3fe.jpg",
-      "format": "jpg"
-    },
-    {
-      "id": "reference-21",
-      "src": "/office-assets/characters/reference-sheets/reference-21.jpg",
-      "source": "assets/branding/Character_sheet_views_rotation_f992677f.jpg",
-      "format": "jpg"
+      "id": "living-hq-concept",
+      "src": "/office-assets/characters/v2-transparent/extras/living-hq-concept.png",
+      "source": "assets/Redesigning_futuristic_office_he__299d4c7c_2K-removebg-preview.png",
+      "usage": "office visual reference, not used as runtime character"
     }
   ]
 }
