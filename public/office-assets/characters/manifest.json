@@ -1,0 +1,309 @@
+{
+  "version": 1,
+  "title": "MEX-NEX Character Assets",
+  "style": "2D pixel art; Indonesian office characters with varied batik clothing",
+  "notes": [
+    "Files under assets/branding remain as the untouched upload archive.",
+    "JPG preview images may have checkerboard backgrounds baked into the pixels; do not assume they contain alpha transparency.",
+    "Use agents/base for in-office standing sprites. Reference sheets are design references, not runtime sprites.",
+    "Activity sheets are not included in this upload batch yet."
+  ],
+  "personalAvatar": {
+    "id": "owner-avatar",
+    "label": "Avatar Pemilik MEX-NEX",
+    "src": "/office-assets/characters/personal/avatar-owner.jpg",
+    "source": "assets/branding/Male_pixel_art_avatar_character_e9294e43_2K.jpg",
+    "format": "jpg",
+    "background": "review-needed"
+  },
+  "agents": [
+    {
+      "id": "agent-01-analyst",
+      "label": "analyst",
+      "src": "/office-assets/characters/agents/base/agent-01-analyst.jpg",
+      "source": "assets/branding/Analyst_character_pixel_art_stan…_7ec0673e.jpg",
+      "format": "jpg",
+      "background": "review-needed"
+    },
+    {
+      "id": "agent-02-office-admin",
+      "label": "office admin",
+      "src": "/office-assets/characters/agents/base/agent-02-office-admin.jpg",
+      "source": "assets/branding/Character_standing_in_virtual_of…_0763bfc9_2K.jpg",
+      "format": "jpg",
+      "background": "review-needed"
+    },
+    {
+      "id": "agent-03-designer",
+      "label": "designer",
+      "src": "/office-assets/characters/agents/base/agent-03-designer.jpg",
+      "source": "assets/branding/Designer_character_standing_neut…_a8d7c842_2K.jpg",
+      "format": "jpg",
+      "background": "review-needed"
+    },
+    {
+      "id": "agent-04-it-support",
+      "label": "it support",
+      "src": "/office-assets/characters/agents/base/agent-04-it-support.jpg",
+      "source": "assets/branding/IT_support_employee_character_de…_dd60fc86_2K.jpg",
+      "format": "jpg",
+      "background": "review-needed"
+    },
+    {
+      "id": "agent-05-general-staff",
+      "label": "general staff",
+      "src": "/office-assets/characters/agents/base/agent-05-general-staff.jpg",
+      "source": "assets/branding/Male_office_employee_pixel_chara…_18602d36.jpg",
+      "format": "jpg",
+      "background": "review-needed"
+    },
+    {
+      "id": "agent-06-technical-specialist",
+      "label": "technical specialist",
+      "src": "/office-assets/characters/agents/base/agent-06-technical-specialist.jpg",
+      "source": "assets/branding/Man_creating_game_character_design_8610232c_2K.jpg",
+      "format": "jpg",
+      "background": "review-needed"
+    },
+    {
+      "id": "agent-07-engineering",
+      "label": "engineering",
+      "src": "/office-assets/characters/agents/base/agent-07-engineering.jpg",
+      "source": "assets/branding/Man_designing_virtual_character_b770566d_2K.jpg",
+      "format": "jpg",
+      "background": "review-needed"
+    },
+    {
+      "id": "agent-08-operations",
+      "label": "operations",
+      "src": "/office-assets/characters/agents/base/agent-08-operations.jpg",
+      "source": "assets/branding/Man_in_batik_shirt_standing_e6e94d26.jpg",
+      "format": "jpg",
+      "background": "review-needed"
+    },
+    {
+      "id": "agent-09-engineering-assistant",
+      "label": "engineering assistant",
+      "src": "/office-assets/characters/agents/base/agent-09-engineering-assistant.jpg",
+      "source": "assets/branding/Man_standing_in_batik_shirt_bda47860.jpg",
+      "format": "jpg",
+      "background": "review-needed"
+    },
+    {
+      "id": "agent-10-finance",
+      "label": "finance",
+      "src": "/office-assets/characters/agents/base/agent-10-finance.jpg",
+      "source": "assets/branding/Man_wearing_batik_shirt_standing_6f119ac7_2K.jpg",
+      "format": "jpg",
+      "background": "review-needed"
+    },
+    {
+      "id": "agent-11-compliance",
+      "label": "compliance",
+      "src": "/office-assets/characters/agents/base/agent-11-compliance.jpg",
+      "source": "assets/branding/Man_wearing_batik_shirt_standing_e6cd0770.jpg",
+      "format": "jpg",
+      "background": "review-needed"
+    },
+    {
+      "id": "agent-12-office-worker",
+      "label": "office worker",
+      "src": "/office-assets/characters/agents/base/agent-12-office-worker.jpg",
+      "source": "assets/branding/Office_worker_character_design_f5896400.jpg",
+      "format": "jpg",
+      "background": "review-needed"
+    },
+    {
+      "id": "agent-13-compliance-specialist",
+      "label": "compliance specialist",
+      "src": "/office-assets/characters/agents/base/agent-13-compliance-specialist.jpg",
+      "source": "assets/branding/Pixel_art_compliance_employee_ch…_049caa92_2K.jpg",
+      "format": "jpg",
+      "background": "review-needed"
+    },
+    {
+      "id": "agent-14-employee",
+      "label": "employee",
+      "src": "/office-assets/characters/agents/base/agent-14-employee.jpg",
+      "source": "assets/branding/Pixel_art_employee_character_design_ab3c6c34_2K.jpg",
+      "format": "jpg",
+      "background": "review-needed"
+    },
+    {
+      "id": "agent-15-marketing",
+      "label": "marketing",
+      "src": "/office-assets/characters/agents/base/agent-15-marketing.jpg",
+      "source": "assets/branding/Pixel_art_marketing_employee_131f1675_2K.jpg",
+      "format": "jpg",
+      "background": "review-needed"
+    },
+    {
+      "id": "agent-16-manager",
+      "label": "manager",
+      "src": "/office-assets/characters/agents/base/agent-16-manager.jpg",
+      "source": "assets/branding/Pixel_art_office_manager_character_735d4a9b.jpg",
+      "format": "jpg",
+      "background": "review-needed"
+    },
+    {
+      "id": "agent-17-receptionist",
+      "label": "receptionist",
+      "src": "/office-assets/characters/agents/base/agent-17-receptionist.jpg",
+      "source": "assets/branding/Pixel_receptionist_character_sta…_14dae9a4_2K.jpg",
+      "format": "jpg",
+      "background": "review-needed"
+    },
+    {
+      "id": "agent-18-documentation",
+      "label": "documentation",
+      "src": "/office-assets/characters/agents/base/agent-18-documentation.jpg",
+      "source": "assets/branding/Woman_creating_documentation_pix…_89e6ade0_2K.jpg",
+      "format": "jpg",
+      "background": "review-needed"
+    },
+    {
+      "id": "agent-19-creative",
+      "label": "creative",
+      "src": "/office-assets/characters/agents/base/agent-19-creative.jpg",
+      "source": "assets/branding/Woman_creating_pixel_art_character_0f9a041a.jpg",
+      "format": "jpg",
+      "background": "review-needed"
+    },
+    {
+      "id": "agent-20-product-design",
+      "label": "product design",
+      "src": "/office-assets/characters/agents/base/agent-20-product-design.jpg",
+      "source": "assets/branding/Woman_designing_pixel_art_character_efa0da5b_2K.jpg",
+      "format": "jpg",
+      "background": "review-needed"
+    }
+  ],
+  "referenceSheets": [
+    {
+      "id": "reference-01",
+      "src": "/office-assets/characters/reference-sheets/reference-01.jpg",
+      "source": "assets/branding/Character_sheet_front_and_back_d2aed19a.jpg",
+      "format": "jpg"
+    },
+    {
+      "id": "reference-02",
+      "src": "/office-assets/characters/reference-sheets/reference-02.jpg",
+      "source": "assets/branding/Character_sheet_front_views_26ac5b93.jpg",
+      "format": "jpg"
+    },
+    {
+      "id": "reference-03",
+      "src": "/office-assets/characters/reference-sheets/reference-03.jpg",
+      "source": "assets/branding/Character_sheet_front_views_f188399a.jpg",
+      "format": "jpg"
+    },
+    {
+      "id": "reference-04",
+      "src": "/office-assets/characters/reference-sheets/reference-04.jpg",
+      "source": "assets/branding/Character_sheet_multi-angle_views_85f2041b.jpg",
+      "format": "jpg"
+    },
+    {
+      "id": "reference-05",
+      "src": "/office-assets/characters/reference-sheets/reference-05.jpg",
+      "source": "assets/branding/Character_sheet_multiple_angles_05d681b9.jpg",
+      "format": "jpg"
+    },
+    {
+      "id": "reference-06",
+      "src": "/office-assets/characters/reference-sheets/reference-06.jpg",
+      "source": "assets/branding/Character_sheet_multiple_angles_2b13dee5.jpg",
+      "format": "jpg"
+    },
+    {
+      "id": "reference-07",
+      "src": "/office-assets/characters/reference-sheets/reference-07.jpg",
+      "source": "assets/branding/Character_sheet_multiple_angles_3ff74b0c.jpg",
+      "format": "jpg"
+    },
+    {
+      "id": "reference-08",
+      "src": "/office-assets/characters/reference-sheets/reference-08.jpg",
+      "source": "assets/branding/Character_sheet_multiple_angles_98d7f730.jpg",
+      "format": "jpg"
+    },
+    {
+      "id": "reference-09",
+      "src": "/office-assets/characters/reference-sheets/reference-09.jpg",
+      "source": "assets/branding/Character_sheet_multiple_views_1922a30d_2K.jpg",
+      "format": "jpg"
+    },
+    {
+      "id": "reference-10",
+      "src": "/office-assets/characters/reference-sheets/reference-10.jpg",
+      "source": "assets/branding/Character_sheet_multiple_views_4a783b37.jpg",
+      "format": "jpg"
+    },
+    {
+      "id": "reference-11",
+      "src": "/office-assets/characters/reference-sheets/reference-11.jpg",
+      "source": "assets/branding/Character_sheet_multiple_views_72160146.jpg",
+      "format": "jpg"
+    },
+    {
+      "id": "reference-12",
+      "src": "/office-assets/characters/reference-sheets/reference-12.jpg",
+      "source": "assets/branding/Character_sheet_multiple_views_e259a6de.jpg",
+      "format": "jpg"
+    },
+    {
+      "id": "reference-13",
+      "src": "/office-assets/characters/reference-sheets/reference-13.jpg",
+      "source": "assets/branding/Character_sheet_views_16f25a10.jpg",
+      "format": "jpg"
+    },
+    {
+      "id": "reference-14",
+      "src": "/office-assets/characters/reference-sheets/reference-14.jpg",
+      "source": "assets/branding/Character_sheet_views_2b775ce1.jpg",
+      "format": "jpg"
+    },
+    {
+      "id": "reference-15",
+      "src": "/office-assets/characters/reference-sheets/reference-15.jpg",
+      "source": "assets/branding/Character_sheet_views_50a4cd72.jpg",
+      "format": "jpg"
+    },
+    {
+      "id": "reference-16",
+      "src": "/office-assets/characters/reference-sheets/reference-16.jpg",
+      "source": "assets/branding/Character_sheet_views_6d897683.jpg",
+      "format": "jpg"
+    },
+    {
+      "id": "reference-17",
+      "src": "/office-assets/characters/reference-sheets/reference-17.jpg",
+      "source": "assets/branding/Character_sheet_views_863e0f4f.jpg",
+      "format": "jpg"
+    },
+    {
+      "id": "reference-18",
+      "src": "/office-assets/characters/reference-sheets/reference-18.jpg",
+      "source": "assets/branding/Character_sheet_views_86cfbaa5.jpg",
+      "format": "jpg"
+    },
+    {
+      "id": "reference-19",
+      "src": "/office-assets/characters/reference-sheets/reference-19.jpg",
+      "source": "assets/branding/Character_sheet_views_ae8301d9.jpg",
+      "format": "jpg"
+    },
+    {
+      "id": "reference-20",
+      "src": "/office-assets/characters/reference-sheets/reference-20.jpg",
+      "source": "assets/branding/Character_sheet_views_e785c3fe.jpg",
+      "format": "jpg"
+    },
+    {
+      "id": "reference-21",
+      "src": "/office-assets/characters/reference-sheets/reference-21.jpg",
+      "source": "assets/branding/Character_sheet_views_rotation_f992677f.jpg",
+      "format": "jpg"
+    }
+  ]
+}
