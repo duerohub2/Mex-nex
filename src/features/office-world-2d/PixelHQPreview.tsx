@@ -193,7 +193,7 @@ export function PixelHQPreview() {
         }
 
         create() {
-          this.cameras.main.setBackgroundColor("#182b2c");
+          this.cameras.main.setBackgroundColor("rgba(0,0,0,0)");
 
           // The uploaded office artwork is the complete environment layer.
           const office = this.add.image(OFFICE.centerX, OFFICE.centerY, "mex-nex-office");
@@ -378,7 +378,8 @@ export function PixelHQPreview() {
       game = new Phaser.Game({
         type: Phaser.AUTO,
         parent: host.current,
-        backgroundColor: "#182b2c",
+        backgroundColor: "rgba(0,0,0,0)",
+        transparent: true,
         scale: {
           mode: Phaser.Scale.RESIZE,
           width: "100%",
@@ -400,7 +401,13 @@ export function PixelHQPreview() {
     <div
       ref={host}
       className="h-full min-h-[520px] w-full overflow-hidden rounded-2xl"
-      aria-label="Uji gerak enam karakter MEX-NEX dengan jalur per ruangan yang sudah ditentukan"
+      style={{
+        backgroundColor: "#e9e2d4",
+        backgroundImage:
+          "linear-gradient(30deg, rgba(105, 124, 105, 0.055) 1px, transparent 1px), linear-gradient(150deg, rgba(105, 124, 105, 0.055) 1px, transparent 1px), radial-gradient(ellipse at 50% 42%, #fbf5e9 0%, #e9e2d4 58%, #c8d3c8 100%)",
+        backgroundSize: "44px 25px, 44px 25px, 100% 100%",
+      }}
+      aria-label="Uji gerak enam karakter MEX-NEX pada artwork kantor dengan latar krem lembut"
     />
   );
 }
