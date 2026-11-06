@@ -331,5 +331,11 @@
       "source": "assets/Redesigning_futuristic_office_he__299d4c7c_2K-removebg-preview.png",
       "usage": "office visual reference, not used as runtime character"
     }
-  ]
+  ],
+  "mainOfficeBackground": {
+    "id": "mex-nex-office-main",
+    "src": "/office-assets/backgrounds/mex-nex-office-main.png",
+    "source": "assets/Redesigning_futuristic_office_he__299d4c7c_2K-removebg-preview.png",
+    "note": "Uploaded Flow office artwork; used as the background in the pixel character preview."
+  }
 }
