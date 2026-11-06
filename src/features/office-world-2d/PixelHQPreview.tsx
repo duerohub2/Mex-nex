@@ -8,99 +8,122 @@ import {
 } from "@/features/office-world-2d/characterAssets";
 
 const OFFICE_BACKGROUND = "/office-assets/backgrounds/mex-nex-office-main.png";
-const ACTIVE_AGENT_IDS = [
-  "agent-01-analyst",
-  "agent-07-engineering",
-  "agent-10-finance",
-  "agent-16-manager",
-  "agent-17-receptionist",
-] as const;
+const OFFICE = {
+  centerX: 800,
+  centerY: 510,
+  sourceWidth: 669,
+  sourceHeight: 373,
+  displayWidth: 1450,
+};
+const OFFICE_SCALE = OFFICE.displayWidth / OFFICE.sourceWidth;
+const OFFICE_DISPLAY_HEIGHT = OFFICE.sourceHeight * OFFICE_SCALE;
 
-type WalkPoint = { x: number; y: number };
-type MovingCharacter = {
-  asset: OfficeCharacterAsset;
-  route: readonly WalkPoint[];
-  startDelay: number;
+// Routes are authored in the source artwork's 669x373 coordinate space.
+// Every route stays inside one room/zone; no random destination is generated.
+type ArtPoint = { x: number; y: number };
+type CharacterRoute = {
+  id: string;
+  route: readonly ArtPoint[];
+  delay: number;
   isOwner?: boolean;
 };
 
-const WALK_ROUTES: Record<string, readonly WalkPoint[]> = {
-  "agent-01-analyst": [
-    { x: 405, y: 425 },
-    { x: 455, y: 450 },
-    { x: 475, y: 425 },
-    { x: 425, y: 402 },
-  ],
-  "agent-07-engineering": [
-    { x: 690, y: 330 },
-    { x: 742, y: 355 },
-    { x: 782, y: 332 },
-    { x: 730, y: 307 },
-  ],
-  "agent-10-finance": [
-    { x: 1155, y: 445 },
-    { x: 1210, y: 470 },
-    { x: 1255, y: 442 },
-    { x: 1200, y: 418 },
-  ],
-  "agent-16-manager": [
-    { x: 835, y: 565 },
-    { x: 890, y: 590 },
-    { x: 935, y: 563 },
-    { x: 885, y: 538 },
-  ],
-  "agent-17-receptionist": [
-    { x: 385, y: 675 },
-    { x: 438, y: 703 },
-    { x: 485, y: 675 },
-    { x: 432, y: 648 },
-  ],
-  "owner-avatar": [
-    { x: 805, y: 795 },
-    { x: 858, y: 818 },
-    { x: 910, y: 790 },
-    { x: 855, y: 765 },
-  ],
-};
-
-const MOVING_CHARACTERS: readonly MovingCharacter[] = [
-  ...MEX_NEX_AGENT_ASSETS
-    .filter((asset) => ACTIVE_AGENT_IDS.includes(asset.id as (typeof ACTIVE_AGENT_IDS)[number]))
-    .map((asset, index) => ({
-      asset,
-      route: WALK_ROUTES[asset.id] ?? [{ x: asset.x, y: asset.y }],
-      startDelay: index * 420,
-    })),
+const ACTIVE_ROUTES: readonly CharacterRoute[] = [
   {
-    asset: MEX_NEX_OWNER_AVATAR,
-    route: WALK_ROUTES["owner-avatar"],
-    startDelay: 5 * 420,
+    id: "agent-01-analyst",
+    delay: 0,
+    route: [
+      { x: 96, y: 184 },
+      { x: 111, y: 176 },
+      { x: 130, y: 184 },
+      { x: 123, y: 194 },
+      { x: 105, y: 192 },
+    ],
+  },
+  {
+    id: "agent-07-engineering",
+    delay: 650,
+    route: [
+      { x: 226, y: 111 },
+      { x: 239, y: 103 },
+      { x: 256, y: 112 },
+      { x: 250, y: 125 },
+      { x: 231, y: 122 },
+    ],
+  },
+  {
+    id: "agent-10-finance",
+    delay: 1300,
+    route: [
+      { x: 520, y: 145 },
+      { x: 536, y: 136 },
+      { x: 554, y: 143 },
+      { x: 548, y: 156 },
+      { x: 529, y: 155 },
+    ],
+  },
+  {
+    id: "agent-16-manager",
+    delay: 1950,
+    route: [
+      { x: 315, y: 59 },
+      { x: 331, y: 51 },
+      { x: 350, y: 59 },
+      { x: 341, y: 72 },
+      { x: 322, y: 68 },
+    ],
+  },
+  {
+    id: "agent-17-receptionist",
+    delay: 2600,
+    route: [
+      { x: 211, y: 270 },
+      { x: 227, y: 260 },
+      { x: 244, y: 270 },
+      { x: 235, y: 283 },
+      { x: 216, y: 281 },
+    ],
+  },
+  {
+    id: "owner-avatar",
+    delay: 3250,
     isOwner: true,
+    route: [
+      { x: 358, y: 230 },
+      { x: 374, y: 221 },
+      { x: 392, y: 231 },
+      { x: 384, y: 246 },
+      { x: 365, y: 244 },
+    ],
   },
 ];
 
-function trimTransparentSprite(source: HTMLImageElement | HTMLCanvasElement) {
-  const sourceWidth =
-    source instanceof HTMLImageElement ? source.naturalWidth : source.width;
-  const sourceHeight =
-    source instanceof HTMLImageElement ? source.naturalHeight : source.height;
-  const sourceCanvas = document.createElement("canvas");
-  sourceCanvas.width = sourceWidth;
-  sourceCanvas.height = sourceHeight;
-  const sourceContext = sourceCanvas.getContext("2d", { willReadFrequently: true });
-  if (!sourceContext || sourceWidth === 0 || sourceHeight === 0) return sourceCanvas;
+function toWorld(point: ArtPoint) {
+  return {
+    x: OFFICE.centerX + (point.x - OFFICE.sourceWidth / 2) * OFFICE_SCALE,
+    y: OFFICE.centerY + (point.y - OFFICE.sourceHeight / 2) * OFFICE_SCALE,
+  };
+}
 
-  sourceContext.drawImage(source, 0, 0, sourceWidth, sourceHeight);
-  const pixels = sourceContext.getImageData(0, 0, sourceWidth, sourceHeight).data;
-  let left = sourceWidth;
-  let top = sourceHeight;
+function trimTransparentSprite(source: HTMLImageElement | HTMLCanvasElement) {
+  const width = source instanceof HTMLImageElement ? source.naturalWidth : source.width;
+  const height = source instanceof HTMLImageElement ? source.naturalHeight : source.height;
+  const sourceCanvas = document.createElement("canvas");
+  sourceCanvas.width = width;
+  sourceCanvas.height = height;
+  const sourceContext = sourceCanvas.getContext("2d", { willReadFrequently: true });
+  if (!sourceContext || width === 0 || height === 0) return sourceCanvas;
+
+  sourceContext.drawImage(source, 0, 0, width, height);
+  const pixels = sourceContext.getImageData(0, 0, width, height).data;
+  let left = width;
+  let top = height;
   let right = -1;
   let bottom = -1;
 
-  for (let y = 0; y < sourceHeight; y += 1) {
-    for (let x = 0; x < sourceWidth; x += 1) {
-      const alpha = pixels[(y * sourceWidth + x) * 4 + 3];
-      if (alpha > 12) {
+  for (let y = 0; y < height; y += 1) {
+    for (let x = 0; x < width; x += 1) {
+      if (pixels[(y * width + x) * 4 + 3] > 12) {
         left = Math.min(left, x);
         top = Math.min(top, y);
         right = Math.max(right, x);
@@ -110,22 +133,29 @@ function trimTransparentSprite(source: HTMLImageElement | HTMLCanvasElement) {
   }
 
   if (right < left || bottom < top) return sourceCanvas;
+  const pad = 8;
+  left = Math.max(0, left - pad);
+  top = Math.max(0, top - pad);
+  right = Math.min(width - 1, right + pad);
+  bottom = Math.min(height - 1, bottom + pad);
 
-  const padding = 8;
-  left = Math.max(0, left - padding);
-  top = Math.max(0, top - padding);
-  right = Math.min(sourceWidth - 1, right + padding);
-  bottom = Math.min(sourceHeight - 1, bottom + padding);
-
-  const width = right - left + 1;
-  const height = bottom - top + 1;
   const trimmed = document.createElement("canvas");
-  trimmed.width = width;
-  trimmed.height = height;
+  trimmed.width = right - left + 1;
+  trimmed.height = bottom - top + 1;
   const context = trimmed.getContext("2d");
   if (!context) return sourceCanvas;
   context.imageSmoothingEnabled = false;
-  context.drawImage(sourceCanvas, left, top, width, height, 0, 0, width, height);
+  context.drawImage(
+    sourceCanvas,
+    left,
+    top,
+    trimmed.width,
+    trimmed.height,
+    0,
+    0,
+    trimmed.width,
+    trimmed.height,
+  );
   return trimmed;
 }
 
@@ -139,70 +169,80 @@ export function PixelHQPreview() {
     void import("phaser").then((Phaser) => {
       if (disposed || !host.current) return;
 
+      const selectedAssets = ACTIVE_ROUTES.map((entry) => {
+        const asset =
+          entry.id === MEX_NEX_OWNER_AVATAR.id
+            ? MEX_NEX_OWNER_AVATAR
+            : MEX_NEX_AGENT_ASSETS.find((candidate) => candidate.id === entry.id);
+        return asset ? { ...entry, asset } : null;
+      }).filter((entry): entry is CharacterRoute & { asset: OfficeCharacterAsset } => Boolean(entry));
+
       class PixelOfficeScene extends Phaser.Scene {
         private dragPoint?: { x: number; y: number };
         private selectedLabel?: import("phaser").GameObjects.Text;
 
         constructor() {
-          super("mex-nex-six-moving-characters");
+          super("mex-nex-six-zone-based-characters");
         }
 
         preload() {
           this.load.image("mex-nex-office", OFFICE_BACKGROUND);
-          for (const item of MOVING_CHARACTERS) {
-            this.load.image(item.asset.id, item.asset.src);
+          for (const entry of selectedAssets) {
+            this.load.image(entry.asset.id, entry.asset.src);
           }
         }
 
         create() {
           this.cameras.main.setBackgroundColor("#182b2c");
 
-          // Keep the uploaded office artwork as the only environment layer.
-          const office = this.add.image(800, 510, "mex-nex-office");
-          office.setDisplaySize(1450, 810);
+          // The uploaded office artwork is the complete environment layer.
+          const office = this.add.image(OFFICE.centerX, OFFICE.centerY, "mex-nex-office");
+          office.setDisplaySize(OFFICE.displayWidth, OFFICE_DISPLAY_HEIGHT);
           office.setDepth(0);
 
-          const addMovingCharacter = (item: MovingCharacter) => {
-            const { asset, route, isOwner = false } = item;
-            if (!this.textures.exists(asset.id)) return;
+          const addMovingCharacter = (
+            entry: CharacterRoute & { asset: OfficeCharacterAsset },
+          ) => {
+            const { asset, route, isOwner = false, delay } = entry;
+            if (!this.textures.exists(asset.id) || route.length < 2) return;
 
             const original = this.textures.get(asset.id).getSourceImage() as
               | HTMLImageElement
               | HTMLCanvasElement;
             const trimmed = trimTransparentSprite(original);
-            const trimmedKey = `${asset.id}-trimmed`;
-            this.textures.addCanvas(trimmedKey, trimmed);
+            const textureKey = `${asset.id}-trimmed`;
+            this.textures.addCanvas(textureKey, trimmed);
 
-            const firstPoint = route[0] ?? { x: asset.x, y: asset.y };
-            const group = this.add.container(firstPoint.x, firstPoint.y);
-            group.setDepth(firstPoint.y + 20);
+            const start = toWorld(route[0]);
+            const group = this.add.container(start.x, start.y);
+            group.setDepth(start.y + 10);
 
             const shadow = this.add.ellipse(
               0,
-              3,
-              isOwner ? 27 : 24,
-              isOwner ? 9 : 8,
-              0x101719,
-              0.38,
+              2,
+              isOwner ? 25 : 22,
+              isOwner ? 8 : 7,
+              0x111719,
+              0.42,
             );
             const sprite = this.add
-              .image(0, 0, trimmedKey)
-              .setScale(isOwner ? 0.31 : 0.29)
-              .setOrigin(0.5, 0.92);
+              .image(0, 0, textureKey)
+              .setScale(isOwner ? 0.29 : 0.27)
+              .setOrigin(0.5, 0.98);
             const name = this.add
-              .text(0, isOwner ? -117 : -105, isOwner ? "DUERO · PEMILIK" : asset.name, {
+              .text(0, isOwner ? -111 : -102, isOwner ? "DUERO · PEMILIK" : asset.name, {
                 fontFamily: "Arial",
-                fontSize: isOwner ? "12px" : "10px",
+                fontSize: isOwner ? "11px" : "9px",
                 color: isOwner ? "#fff0b7" : "#fff8e9",
                 fontStyle: "bold",
                 backgroundColor: isOwner ? "#68482c" : "#243b3c",
-                padding: { x: 6, y: 3 },
+                padding: { x: 5, y: 3 },
                 stroke: "#101b1c",
                 strokeThickness: 2,
               })
               .setOrigin(0.5);
             const role = this.add
-              .text(0, isOwner ? -96 : -86, asset.role, {
+              .text(0, isOwner ? -91 : -84, asset.role, {
                 fontFamily: "Arial",
                 fontSize: "8px",
                 color: "#fff4df",
@@ -212,77 +252,78 @@ export function PixelHQPreview() {
               .setOrigin(0.5);
 
             group.add([shadow, sprite, name, role]);
-            group.setSize(68, 120);
+            group.setSize(64, 116);
             group.setInteractive(
-              new Phaser.Geom.Rectangle(-34, -120, 68, 123),
+              new Phaser.Geom.Rectangle(-32, -116, 64, 118),
               Phaser.Geom.Rectangle.Contains,
             );
             group.on("pointerdown", () => {
               this.selectedLabel?.destroy();
               this.selectedLabel = this.add
-                .text(group.x + 40, group.y - 28, `${asset.name} · ${asset.role}`, {
+                .text(group.x + 34, group.y - 24, `${asset.name} · ${asset.role}`, {
                   fontFamily: "Arial",
-                  fontSize: "12px",
+                  fontSize: "11px",
                   color: "#fff8e9",
                   backgroundColor: "#203c38",
-                  padding: { x: 8, y: 6 },
+                  padding: { x: 7, y: 5 },
                   stroke: "#101b1c",
                   strokeThickness: 2,
                 })
                 .setDepth(2000);
             });
 
-            // A subtle step bounce and a breathing shadow make the single
-            // walking illustration read as movement while the character travels.
-            this.tweens.add({
-              targets: sprite,
-              y: -2.5,
-              duration: 180,
-              yoyo: true,
-              repeat: -1,
-              ease: "Sine.easeInOut",
-            });
-            this.tweens.add({
-              targets: shadow,
-              scaleX: 0.82,
-              alpha: 0.25,
-              duration: 180,
-              yoyo: true,
-              repeat: -1,
-              ease: "Sine.easeInOut",
-            });
+            let stepTween: import("phaser").Tweens.Tween | undefined;
+            const moveSegment = (index: number) => {
+              if (disposed || !this.sys.isActive()) return;
+              const nextIndex = (index + 1) % route.length;
+              const destination = toWorld(route[nextIndex]);
+              const distance = Phaser.Math.Distance.Between(
+                group.x,
+                group.y,
+                destination.x,
+                destination.y,
+              );
+              const duration = Phaser.Math.Clamp(distance * 42, 900, 1750);
 
-            const moveToNextPoint = (pointIndex: number) => {
-              if (disposed || !this.sys.isActive() || route.length < 2) return;
-              const nextIndex = (pointIndex + 1) % route.length;
-              const target = route[nextIndex];
-              const distance = Phaser.Math.Distance.Between(group.x, group.y, target.x, target.y);
-              sprite.setFlipX(target.x < group.x);
-              group.setDepth(group.y + 20);
+              sprite.setFlipX(destination.x < group.x);
+              stepTween?.stop();
+              stepTween = this.tweens.add({
+                targets: sprite,
+                y: -2,
+                duration: 150,
+                yoyo: true,
+                repeat: Math.max(2, Math.floor(duration / 300)),
+                ease: "Sine.easeInOut",
+              });
 
               this.tweens.add({
                 targets: group,
-                x: target.x,
-                y: target.y,
-                duration: Phaser.Math.Clamp(distance * 32, 1200, 2300),
+                x: destination.x,
+                y: destination.y,
+                duration,
                 ease: "Sine.easeInOut",
-                onUpdate: () => group.setDepth(group.y + 20),
+                onUpdate: () => group.setDepth(group.y + 10),
                 onComplete: () => {
+                  stepTween?.stop();
+                  sprite.y = 0;
                   if (disposed || !this.sys.isActive()) return;
-                  this.time.delayedCall(380, () => moveToNextPoint(nextIndex));
+                  // Pause at the room waypoint before taking the next step.
+                  this.time.delayedCall(900, () => moveSegment(nextIndex));
                 },
               });
             };
 
-            this.time.delayedCall(item.startDelay, () => moveToNextPoint(0));
+            // A short idle pause before movement makes the six routes feel
+            // like office staff walking independently, not all moving at once.
+            this.time.delayedCall(delay, () => moveSegment(0));
           };
 
-          MOVING_CHARACTERS.forEach(addMovingCharacter);
+          selectedAssets.forEach(addMovingCharacter);
 
           this.add
-            .text(800, 74, "MEX-NEX · UJI GERAK 6 KARAKTER", {
+            .text(800, 76, "MEX-NEX · UJI GERAK TERARAH", {
               fontFamily: "Arial",
-              fontSize: "21px",
+              fontSize: "20px",
               color: "#fff3dc",
               fontStyle: "bold",
               letterSpacing: 2,
@@ -293,13 +334,13 @@ export function PixelHQPreview() {
             .setDepth(1500);
 
           this.add
-            .text(800, 940, "5 AGENT + 1 AVATAR PEMILIK · PATROLI OTOMATIS", {
+            .text(800, 940, "5 AGENT + 1 AVATAR · JALUR TERBATAS PER RUANGAN", {
               fontFamily: "Arial",
-              fontSize: "12px",
+              fontSize: "11px",
               color: "#fff0d7",
               fontStyle: "bold",
               backgroundColor: "#203c38",
-              padding: { x: 10, y: 6 },
+              padding: { x: 9, y: 5 },
               stroke: "#152322",
               strokeThickness: 2,
             })
@@ -309,7 +350,9 @@ export function PixelHQPreview() {
           const camera = this.cameras.main;
           camera.setBounds(0, 0, 1600, 1000);
           const fit = () =>
-            camera.setZoom(Math.min(this.scale.width / 1600, this.scale.height / 1000) * 1.08);
+            camera.setZoom(
+              Math.min(this.scale.width / 1600, this.scale.height / 1000) * 1.08,
+            );
           fit();
           this.scale.on("resize", fit);
 
@@ -336,7 +379,11 @@ export function PixelHQPreview() {
         type: Phaser.AUTO,
         parent: host.current,
         backgroundColor: "#182b2c",
-        scale: { mode: Phaser.Scale.RESIZE, width: "100%", height: "100%" },
+        scale: {
+          mode: Phaser.Scale.RESIZE,
+          width: "100%",
+          height: "100%",
+        },
         render: { antialias: false, pixelArt: true, roundPixels: true },
         scene: [PixelOfficeScene],
         banner: false,
@@ -353,7 +400,7 @@ export function PixelHQPreview() {
     <div
       ref={host}
       className="h-full min-h-[520px] w-full overflow-hidden rounded-2xl"
-      aria-label="Uji gerak enam karakter di atas artwork kantor MEX-NEX"
+      aria-label="Uji gerak enam karakter MEX-NEX dengan jalur per ruangan yang sudah ditentukan"
     />
   );
 }
