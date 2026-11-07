@@ -7,18 +7,18 @@ import {
   type OfficeCharacterAsset,
 } from "@/features/office-world-2d/characterAssets";
 
-const OFFICE_BACKGROUND = "/office-assets/backgrounds/mex-nex-master-office-removebg-preview.png";
+const OFFICE_BACKGROUND = "/office-assets/backgrounds/mex-nex-office-main.png";
 const OFFICE = {
   centerX: 800,
   centerY: 510,
-  sourceWidth: 666,
-  sourceHeight: 375,
+  sourceWidth: 669,
+  sourceHeight: 373,
   displayWidth: 1450,
 };
 const OFFICE_SCALE = OFFICE.displayWidth / OFFICE.sourceWidth;
 const OFFICE_DISPLAY_HEIGHT = OFFICE.sourceHeight * OFFICE_SCALE;
 
-// Routes are authored in the source artwork's 669x373 coordinate space.
+// Routes are authored in the selected office-main artwork's 669x373 coordinate space.
 // Every route stays inside one room/zone; no random destination is generated.
 type ArtPoint = { x: number; y: number };
 type CharacterRoute = {
