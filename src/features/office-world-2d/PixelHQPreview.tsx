@@ -21,81 +21,24 @@ const OFFICE_DISPLAY_HEIGHT = OFFICE.sourceHeight * OFFICE_SCALE;
 // Routes are authored in the uploaded MEX-NEX master office artwork's 666x375 coordinate space.
 // Every route stays inside one room/zone; no random destination is generated.
 type ArtPoint = { x: number; y: number };
+type ArtPoint = { x: number; y: number };
 type CharacterRoute = {
   id: string;
   route: readonly ArtPoint[];
   delay: number;
+  task: string;
   isOwner?: boolean;
 };
 
+// Task routes use coordinates from the uploaded MEX-NEX master artwork.
+// Each character reaches its assigned work location and stops; no endless patrol.
 const ACTIVE_ROUTES: readonly CharacterRoute[] = [
-  {
-    id: "agent-01-analyst",
-    delay: 0,
-    // Research desks / left-side lower work area.
-    route: [
-      { x: 104, y: 151 },
-      { x: 117, y: 145 },
-      { x: 131, y: 153 },
-      { x: 119, y: 160 },
-    ],
-  },
-  {
-    id: "agent-07-engineering",
-    delay: 650,
-    // Engineering workstations in the upper-left wing.
-    route: [
-      { x: 191, y: 96 },
-      { x: 205, y: 91 },
-      { x: 218, y: 99 },
-      { x: 204, y: 105 },
-    ],
-  },
-  {
-    id: "agent-10-finance",
-    delay: 1300,
-    // Finance desks in the upper central office.
-    route: [
-      { x: 326, y: 57 },
-      { x: 340, y: 52 },
-      { x: 353, y: 60 },
-      { x: 340, y: 66 },
-    ],
-  },
-  {
-    id: "agent-16-manager",
-    delay: 1950,
-    // Meeting/collaboration space along the lower-right interior.
-    route: [
-      { x: 437, y: 229 },
-      { x: 451, y: 222 },
-      { x: 466, y: 230 },
-      { x: 452, y: 238 },
-    ],
-  },
-  {
-    id: "agent-17-receptionist",
-    delay: 2600,
-    // Reception / lounge zone on the front-left side.
-    route: [
-      { x: 128, y: 246 },
-      { x: 141, y: 239 },
-      { x: 155, y: 247 },
-      { x: 142, y: 254 },
-    ],
-  },
-  {
-    id: "owner-avatar",
-    delay: 3250,
-    isOwner: true,
-    // Main atrium circulation, clear of the central fountain.
-    route: [
-      { x: 328, y: 194 },
-      { x: 343, y: 186 },
-      { x: 359, y: 195 },
-      { x: 345, y: 203 },
-    ],
-  },
+  { id: "agent-01-analyst", delay: 0, task: "Menganalisis data", route: [{ x: 86, y: 157 }, { x: 112, y: 144 }] },
+  { id: "agent-07-engineering", delay: 700, task: "Memeriksa prototipe", route: [{ x: 176, y: 78 }, { x: 205, y: 91 }] },
+  { id: "agent-10-finance", delay: 1400, task: "Menyusun laporan keuangan", route: [{ x: 373, y: 301 }, { x: 397, y: 287 }] },
+  { id: "agent-16-manager", delay: 2100, task: "Mengikuti rapat", route: [{ x: 321, y: 67 }, { x: 344, y: 53 }] },
+  { id: "agent-17-receptionist", delay: 2800, task: "Menjaga meja resepsionis", route: [{ x: 322, y: 184 }, { x: 335, y: 171 }] },
+  { id: "owner-avatar", delay: 3500, isOwner: true, task: "Meninjau dashboard", route: [{ x: 472, y: 252 }, { x: 493, y: 239 }] },
 ];
 
 function toWorld(point: ArtPoint) {
@@ -203,7 +146,7 @@ export function PixelHQPreview() {
           const addMovingCharacter = (
             entry: CharacterRoute & { asset: OfficeCharacterAsset },
           ) => {
-            const { asset, route, isOwner = false, delay } = entry;
+            const { asset, route, isOwner = false, delay, task } = entry;
             if (!this.textures.exists(asset.id) || route.length < 2) return;
 
             const original = this.textures.get(asset.id).getSourceImage() as
@@ -275,7 +218,8 @@ export function PixelHQPreview() {
             let stepTween: import("phaser").Tweens.Tween | undefined;
             const moveSegment = (index: number) => {
               if (disposed || !this.sys.isActive()) return;
-              const nextIndex = (index + 1) % route.length;
+              if (index >= route.length - 1) return;
+              const nextIndex = index + 1;
               const destination = toWorld(route[nextIndex]);
               const distance = Phaser.Math.Distance.Between(
                 group.x,
@@ -313,8 +257,7 @@ export function PixelHQPreview() {
               });
             };
 
-            // A short idle pause before movement makes the six routes feel
-            // like office staff walking independently, not all moving at once.
+            // Each character moves to its assigned workplace and remains there.
             this.time.delayedCall(delay, () => moveSegment(0));
           };
 
