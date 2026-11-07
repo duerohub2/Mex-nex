@@ -21,23 +21,132 @@ const OFFICE_DISPLAY_HEIGHT = OFFICE.sourceHeight * OFFICE_SCALE;
 // Routes are authored in the uploaded MEX-NEX master office artwork's 666x375 coordinate space.
 // Every route stays inside one room/zone; no random destination is generated.
 type ArtPoint = { x: number; y: number };
+type OfficeNodeId =
+  | "analyst-desk" | "west-corridor" | "lab" | "north-hall"
+  | "meeting-room" | "reception" | "central-hall" | "finance-desk"
+  | "server-room" | "lounge" | "owner-desk";
+type OfficeNode = { point: ArtPoint; label: string };
+type OfficeStop = { node: OfficeNodeId; task: string };
 type CharacterRoute = {
   id: string;
-  route: readonly ArtPoint[];
+  stops: readonly OfficeStop[];
   delay: number;
-  task: string;
   isOwner?: boolean;
 };
 
-// Task routes use coordinates from the uploaded MEX-NEX master artwork.
-// Each character reaches its assigned work location and stops; no endless patrol.
+// Hand-authored walkable navigation graph aligned to the uploaded office illustration.
+// Agents route through shared corridors using BFS, then pause at a purposeful destination.
+const OFFICE_NODES: Record<OfficeNodeId, OfficeNode> = {
+  "analyst-desk": { point: { x: 112, y: 144 }, label: "Meja analis" },
+  "west-corridor": { point: { x: 175, y: 168 }, label: "Koridor barat" },
+  lab: { point: { x: 205, y: 91 }, label: "Laboratorium" },
+  "north-hall": { point: { x: 270, y: 126 }, label: "Koridor utara" },
+  "meeting-room": { point: { x: 344, y: 53 }, label: "Ruang meeting" },
+  reception: { point: { x: 335, y: 171 }, label: "Resepsionis" },
+  "central-hall": { point: { x: 350, y: 205 }, label: "Atrium" },
+  "finance-desk": { point: { x: 397, y: 287 }, label: "Meja finance" },
+  "server-room": { point: { x: 535, y: 159 }, label: "Ruang server" },
+  lounge: { point: { x: 472, y: 252 }, label: "Lounge" },
+  "owner-desk": { point: { x: 493, y: 239 }, label: "Meja pemilik" },
+};
+
+const OFFICE_CONNECTIONS: readonly (readonly [OfficeNodeId, OfficeNodeId])[] = [
+  ["analyst-desk", "west-corridor"],
+  ["west-corridor", "lab"],
+  ["west-corridor", "central-hall"],
+  ["lab", "north-hall"],
+  ["north-hall", "meeting-room"],
+  ["north-hall", "central-hall"],
+  ["central-hall", "reception"],
+  ["central-hall", "finance-desk"],
+  ["central-hall", "lounge"],
+  ["lounge", "owner-desk"],
+  ["lounge", "server-room"],
+];
+
+function findOfficePath(from: OfficeNodeId, to: OfficeNodeId): OfficeNodeId[] {
+  if (from === to) return [from];
+  const queue: OfficeNodeId[] = [from];
+  const previous = new Map<OfficeNodeId, OfficeNodeId>();
+  const visited = new Set<OfficeNodeId>([from]);
+
+  while (queue.length > 0) {
+    const current = queue.shift()!;
+    for (const [a, b] of OFFICE_CONNECTIONS) {
+      const next = a === current ? b : b === current ? a : undefined;
+      if (!next || visited.has(next)) continue;
+      visited.add(next);
+      previous.set(next, current);
+      if (next === to) {
+        const path: OfficeNodeId[] = [to];
+        let cursor = to;
+        while (cursor !== from) {
+          cursor = previous.get(cursor)!;
+          path.unshift(cursor);
+        }
+        return path;
+      }
+      queue.push(next);
+    }
+  }
+  return [from, to];
+}
+
 const ACTIVE_ROUTES: readonly CharacterRoute[] = [
-  { id: "agent-01-analyst", delay: 0, task: "Menganalisis data", route: [{ x: 86, y: 157 }, { x: 112, y: 144 }] },
-  { id: "agent-07-engineering", delay: 700, task: "Memeriksa prototipe", route: [{ x: 176, y: 78 }, { x: 205, y: 91 }] },
-  { id: "agent-10-finance", delay: 1400, task: "Menyusun laporan keuangan", route: [{ x: 373, y: 301 }, { x: 397, y: 287 }] },
-  { id: "agent-16-manager", delay: 2100, task: "Mengikuti rapat", route: [{ x: 321, y: 67 }, { x: 344, y: 53 }] },
-  { id: "agent-17-receptionist", delay: 2800, task: "Menjaga meja resepsionis", route: [{ x: 322, y: 184 }, { x: 335, y: 171 }] },
-  { id: "owner-avatar", delay: 3500, isOwner: true, task: "Meninjau dashboard", route: [{ x: 472, y: 252 }, { x: 493, y: 239 }] },
+  {
+    id: "agent-01-analyst", delay: 0,
+    stops: [
+      { node: "analyst-desk", task: "Menganalisis data" },
+      { node: "meeting-room", task: "Menyampaikan temuan" },
+      { node: "analyst-desk", task: "Memperbarui laporan" },
+      { node: "lounge", task: "Istirahat singkat" },
+    ],
+  },
+  {
+    id: "agent-07-engineering", delay: 700,
+    stops: [
+      { node: "lab", task: "Menguji prototipe" },
+      { node: "server-room", task: "Memeriksa sistem" },
+      { node: "lab", task: "Mencatat hasil pengujian" },
+      { node: "lounge", task: "Rehat setelah pengujian" },
+    ],
+  },
+  {
+    id: "agent-10-finance", delay: 1400,
+    stops: [
+      { node: "finance-desk", task: "Menyusun laporan" },
+      { node: "reception", task: "Mengantar dokumen" },
+      { node: "finance-desk", task: "Memeriksa anggaran" },
+      { node: "lounge", task: "Istirahat singkat" },
+    ],
+  },
+  {
+    id: "agent-16-manager", delay: 2100,
+    stops: [
+      { node: "meeting-room", task: "Memimpin rapat" },
+      { node: "lab", task: "Meninjau progres engineering" },
+      { node: "analyst-desk", task: "Membahas temuan dengan analis" },
+      { node: "meeting-room", task: "Kembali ke ruang rapat" },
+    ],
+  },
+  {
+    id: "agent-17-receptionist", delay: 2800,
+    stops: [
+      { node: "reception", task: "Menyambut tamu" },
+      { node: "central-hall", task: "Mengantar tamu" },
+      { node: "reception", task: "Memperbarui jadwal kunjungan" },
+      { node: "lounge", task: "Istirahat singkat" },
+    ],
+  },
+  {
+    id: "owner-avatar", delay: 3500, isOwner: true,
+    stops: [
+      { node: "owner-desk", task: "Meninjau dashboard" },
+      { node: "meeting-room", task: "Mengikuti rapat tim" },
+      { node: "server-room", task: "Memeriksa operasional" },
+      { node: "owner-desk", task: "Kembali meninjau dashboard" },
+    ],
+  },
 ];
 
 function toWorld(point: ArtPoint) {
@@ -145,8 +254,8 @@ export function PixelHQPreview() {
           const addMovingCharacter = (
             entry: CharacterRoute & { asset: OfficeCharacterAsset },
           ) => {
-            const { asset, route, isOwner = false, delay, task } = entry;
-            if (!this.textures.exists(asset.id) || route.length < 2) return;
+            const { asset, stops, isOwner = false, delay } = entry;
+            if (!this.textures.exists(asset.id) || stops.length < 2) return;
 
             const original = this.textures.get(asset.id).getSourceImage() as
               | HTMLImageElement
@@ -155,22 +264,12 @@ export function PixelHQPreview() {
             const textureKey = `${asset.id}-trimmed`;
             this.textures.addCanvas(textureKey, trimmed);
 
-            const start = toWorld(route[0]);
-            const group = this.add.container(start.x, start.y);
-            group.setDepth(start.y + 10);
+            const initial = toWorld(OFFICE_NODES[stops[0].node].point);
+            const group = this.add.container(initial.x, initial.y);
+            group.setDepth(initial.y + 10);
 
-            const shadow = this.add.ellipse(
-              0,
-              2,
-              isOwner ? 25 : 22,
-              isOwner ? 8 : 7,
-              0x111719,
-              0.42,
-            );
-            const sprite = this.add
-              .image(0, 0, textureKey)
-              .setScale(isOwner ? 0.29 : 0.27)
-              .setOrigin(0.5, 0.98);
+            const shadow = this.add.ellipse(0, 2, isOwner ? 25 : 22, isOwner ? 8 : 7, 0x111719, 0.42);
+            const sprite = this.add.image(0, 0, textureKey).setScale(isOwner ? 0.29 : 0.27).setOrigin(0.5, 0.98);
             const name = this.add
               .text(0, isOwner ? -111 : -102, isOwner ? "DUERO · PEMILIK" : asset.name, {
                 fontFamily: "Arial",
@@ -183,26 +282,28 @@ export function PixelHQPreview() {
                 strokeThickness: 2,
               })
               .setOrigin(0.5);
-            const role = this.add
-              .text(0, isOwner ? -91 : -84, asset.role, {
-                fontFamily: "Arial",
-                fontSize: "8px",
-                color: "#fff4df",
-                backgroundColor: "#527e69",
-                padding: { x: 4, y: 2 },
-              })
-              .setOrigin(0.5);
+            const role = this.add.text(0, isOwner ? -91 : -84, asset.role, {
+              fontFamily: "Arial",
+              fontSize: "8px",
+              color: "#fff4df",
+              backgroundColor: "#527e69",
+              padding: { x: 4, y: 2 },
+            }).setOrigin(0.5);
+            const taskLabel = this.add.text(0, isOwner ? -72 : -66, stops[0].task, {
+              fontFamily: "Arial",
+              fontSize: "8px",
+              color: "#f9f2df",
+              backgroundColor: "#3d5960",
+              padding: { x: 4, y: 2 },
+            }).setOrigin(0.5);
 
-            group.add([shadow, sprite, name, role]);
-            group.setSize(64, 116);
-            group.setInteractive(
-              new Phaser.Geom.Rectangle(-32, -116, 64, 118),
-              Phaser.Geom.Rectangle.Contains,
-            );
+            group.add([shadow, sprite, name, role, taskLabel]);
+            group.setSize(64, 128);
+            group.setInteractive(new Phaser.Geom.Rectangle(-32, -128, 64, 130), Phaser.Geom.Rectangle.Contains);
             group.on("pointerdown", () => {
               this.selectedLabel?.destroy();
               this.selectedLabel = this.add
-                .text(group.x + 34, group.y - 24, `${asset.name} · ${asset.role}`, {
+                .text(group.x + 34, group.y - 24, `${asset.name} · ${asset.role} · ${taskLabel.text}`, {
                   fontFamily: "Arial",
                   fontSize: "11px",
                   color: "#fff8e9",
@@ -214,52 +315,76 @@ export function PixelHQPreview() {
                 .setDepth(2000);
             });
 
-            let stepTween: import("phaser").Tweens.Tween | undefined;
-            const moveSegment = (index: number) => {
-              if (disposed || !this.sys.isActive()) return;
-              // Cycle through the assigned room waypoints continuously.
-              // With two points this becomes a purposeful back-and-forth commute,
-              // rather than a one-shot trip or a random patrol.
-              const nextIndex = (index + 1) % route.length;
-              const destination = toWorld(route[nextIndex]);
-              const distance = Phaser.Math.Distance.Between(
-                group.x,
-                group.y,
-                destination.x,
-                destination.y,
-              );
-              const duration = Phaser.Math.Clamp(distance * 42, 900, 1750);
+            let currentNode = stops[0].node;
+            let stopIndex = 0;
+            let movementTween: import("phaser").Tweens.Tween | undefined;
+            let idleTween: import("phaser").Tweens.Tween | undefined;
 
-              sprite.setFlipX(destination.x < group.x);
-              stepTween?.stop();
-              stepTween = this.tweens.add({
+            const startIdleMotion = () => {
+              idleTween?.stop();
+              idleTween = this.tweens.add({
                 targets: sprite,
-                y: -2,
-                duration: 150,
+                y: -1,
+                duration: 500,
                 yoyo: true,
-                repeat: Math.max(2, Math.floor(duration / 300)),
+                repeat: -1,
                 ease: "Sine.easeInOut",
-              });
-
-              this.tweens.add({
-                targets: group,
-                x: destination.x,
-                y: destination.y,
-                duration,
-                ease: "Sine.easeInOut",
-                onUpdate: () => group.setDepth(group.y + 10),
-                onComplete: () => {
-                  stepTween?.stop();
-                  sprite.y = 0;
-                  if (disposed || !this.sys.isActive()) return;
-                  // Pause briefly at the work point, then continue the assigned route.
-                  this.time.delayedCall(1400, () => moveSegment(nextIndex));
-                },
               });
             };
 
-            // Characters repeatedly commute between their assigned work points with an idle pause.
-            this.time.delayedCall(delay, () => moveSegment(0));
+            const goToNextTask = () => {
+              if (disposed || !this.sys.isActive()) return;
+              stopIndex = (stopIndex + 1) % stops.length;
+              const stop = stops[stopIndex];
+              const path = findOfficePath(currentNode, stop.node).slice(1);
+              taskLabel.setText(stop.task);
+              if (path.length === 0) {
+                this.time.delayedCall(2200, goToNextTask);
+                return;
+              }
+
+              idleTween?.stop();
+              const moveNextNode = (pathIndex: number) => {
+                if (disposed || !this.sys.isActive()) return;
+                if (pathIndex >= path.length) {
+                  currentNode = stop.node;
+                  startIdleMotion();
+                  // Work/break/task duration, then pick the next scheduled destination.
+                  this.time.delayedCall(stop.task.includes("Istirahat") || stop.task.includes("Rehat") ? 3600 : 2400, goToNextTask);
+                  return;
+                }
+
+                const nodeId = path[pathIndex];
+                const destination = toWorld(OFFICE_NODES[nodeId].point);
+                const distance = Phaser.Math.Distance.Between(group.x, group.y, destination.x, destination.y);
+                const duration = Phaser.Math.Clamp(distance * 20, 450, 1500);
+                sprite.setFlipX(destination.x < group.x);
+                movementTween?.stop();
+                movementTween = this.tweens.add({
+                  targets: group,
+                  x: destination.x,
+                  y: destination.y,
+                  duration,
+                  ease: "Sine.easeInOut",
+                  onUpdate: () => group.setDepth(group.y + 10),
+                  onComplete: () => moveNextNode(pathIndex + 1),
+                });
+                // Small footstep bob while walking; reset on arrival.
+                this.tweens.add({
+                  targets: sprite,
+                  y: -2,
+                  duration: 130,
+                  yoyo: true,
+                  repeat: Math.max(1, Math.floor(duration / 260)),
+                  ease: "Sine.easeInOut",
+                });
+              };
+              moveNextNode(0);
+            };
+
+            startIdleMotion();
+            // Agents are staggered so the whole office does not move in unison.
+            this.time.delayedCall(delay + 1800, goToNextTask);
           };
 
           selectedAssets.forEach(addMovingCharacter);
@@ -278,7 +403,7 @@ export function PixelHQPreview() {
             .setDepth(1500);
 
           this.add
-            .text(800, 940, "5 AGENT + 1 AVATAR · JALUR TERBATAS PER RUANGAN", {
+            .text(800, 940, "5 AGENT + 1 AVATAR · AKTIVITAS KANTOR BERJADWAL", {
               fontFamily: "Arial",
               fontSize: "11px",
               color: "#fff0d7",
