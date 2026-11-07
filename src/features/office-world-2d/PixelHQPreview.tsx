@@ -21,7 +21,6 @@ const OFFICE_DISPLAY_HEIGHT = OFFICE.sourceHeight * OFFICE_SCALE;
 // Routes are authored in the uploaded MEX-NEX master office artwork's 666x375 coordinate space.
 // Every route stays inside one room/zone; no random destination is generated.
 type ArtPoint = { x: number; y: number };
-type ArtPoint = { x: number; y: number };
 type CharacterRoute = {
   id: string;
   route: readonly ArtPoint[];
