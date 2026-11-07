@@ -217,8 +217,10 @@ export function PixelHQPreview() {
             let stepTween: import("phaser").Tweens.Tween | undefined;
             const moveSegment = (index: number) => {
               if (disposed || !this.sys.isActive()) return;
-              if (index >= route.length - 1) return;
-              const nextIndex = index + 1;
+              // Cycle through the assigned room waypoints continuously.
+              // With two points this becomes a purposeful back-and-forth commute,
+              // rather than a one-shot trip or a random patrol.
+              const nextIndex = (index + 1) % route.length;
               const destination = toWorld(route[nextIndex]);
               const distance = Phaser.Math.Distance.Between(
                 group.x,
@@ -250,13 +252,13 @@ export function PixelHQPreview() {
                   stepTween?.stop();
                   sprite.y = 0;
                   if (disposed || !this.sys.isActive()) return;
-                  // Pause at the room waypoint before taking the next step.
-                  this.time.delayedCall(900, () => moveSegment(nextIndex));
+                  // Pause briefly at the work point, then continue the assigned route.
+                  this.time.delayedCall(1400, () => moveSegment(nextIndex));
                 },
               });
             };
 
-            // Each character moves to its assigned workplace and remains there.
+            // Characters repeatedly commute between their assigned work points with an idle pause.
             this.time.delayedCall(delay, () => moveSegment(0));
           };
 
