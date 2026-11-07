@@ -7,12 +7,12 @@ import {
   type OfficeCharacterAsset,
 } from "@/features/office-world-2d/characterAssets";
 
-const OFFICE_BACKGROUND = "/office-assets/backgrounds/mex-nex-office-main.png";
+const OFFICE_BACKGROUND = "/office-assets/backgrounds/mex-nex-master-office-removebg-preview.png";
 const OFFICE = {
   centerX: 800,
   centerY: 510,
-  sourceWidth: 669,
-  sourceHeight: 373,
+  sourceWidth: 666,
+  sourceHeight: 375,
   displayWidth: 1450,
 };
 const OFFICE_SCALE = OFFICE.displayWidth / OFFICE.sourceWidth;
@@ -32,68 +32,68 @@ const ACTIVE_ROUTES: readonly CharacterRoute[] = [
   {
     id: "agent-01-analyst",
     delay: 0,
+    // Research desks / left-side lower work area.
     route: [
-      { x: 96, y: 184 },
-      { x: 111, y: 176 },
-      { x: 130, y: 184 },
-      { x: 123, y: 194 },
-      { x: 105, y: 192 },
+      { x: 104, y: 151 },
+      { x: 117, y: 145 },
+      { x: 131, y: 153 },
+      { x: 119, y: 160 },
     ],
   },
   {
     id: "agent-07-engineering",
     delay: 650,
+    // Engineering workstations in the upper-left wing.
     route: [
-      { x: 226, y: 111 },
-      { x: 239, y: 103 },
-      { x: 256, y: 112 },
-      { x: 250, y: 125 },
-      { x: 231, y: 122 },
+      { x: 191, y: 96 },
+      { x: 205, y: 91 },
+      { x: 218, y: 99 },
+      { x: 204, y: 105 },
     ],
   },
   {
     id: "agent-10-finance",
     delay: 1300,
+    // Finance desks in the upper central office.
     route: [
-      { x: 520, y: 145 },
-      { x: 536, y: 136 },
-      { x: 554, y: 143 },
-      { x: 548, y: 156 },
-      { x: 529, y: 155 },
+      { x: 326, y: 57 },
+      { x: 340, y: 52 },
+      { x: 353, y: 60 },
+      { x: 340, y: 66 },
     ],
   },
   {
     id: "agent-16-manager",
     delay: 1950,
+    // Meeting/collaboration space along the lower-right interior.
     route: [
-      { x: 315, y: 59 },
-      { x: 331, y: 51 },
-      { x: 350, y: 59 },
-      { x: 341, y: 72 },
-      { x: 322, y: 68 },
+      { x: 437, y: 229 },
+      { x: 451, y: 222 },
+      { x: 466, y: 230 },
+      { x: 452, y: 238 },
     ],
   },
   {
     id: "agent-17-receptionist",
     delay: 2600,
+    // Reception / lounge zone on the front-left side.
     route: [
-      { x: 211, y: 270 },
-      { x: 227, y: 260 },
-      { x: 244, y: 270 },
-      { x: 235, y: 283 },
-      { x: 216, y: 281 },
+      { x: 128, y: 246 },
+      { x: 141, y: 239 },
+      { x: 155, y: 247 },
+      { x: 142, y: 254 },
     ],
   },
   {
     id: "owner-avatar",
     delay: 3250,
     isOwner: true,
+    // Main atrium circulation, clear of the central fountain.
     route: [
-      { x: 358, y: 230 },
-      { x: 374, y: 221 },
-      { x: 392, y: 231 },
-      { x: 384, y: 246 },
-      { x: 365, y: 244 },
+      { x: 328, y: 194 },
+      { x: 343, y: 186 },
+      { x: 359, y: 195 },
+      { x: 345, y: 203 },
     ],
   },
 ];
